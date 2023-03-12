@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
-import 'pages/progress_page.dart';
+import 'pages/calendar_page.dart';
 import 'pages/habits_page.dart';
+import 'pages/profile_page.dart';
+import 'services.dart/chartsBuilder.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,18 +27,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class NavigationScreen extends StatefulWidget {
-  NavigationScreen({required this.currentIndex});
+  NavigationScreen({super.key, required this.currentIndex});
   int currentIndex;
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
 }
 
 List<Widget> screens = [
-  HomePage(),
-  ProgressPage(),
+  const HomePage(),
+  const CalendarPage(),
   HabitsPage(),
-  //ProfilePage(),
+  chartBuilder(),
+  const ProfilePage(),
 ];
 
 class _NavigationScreenState extends State<NavigationScreen> {
@@ -60,8 +64,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: "Progress"),
-          BottomNavigationBarItem(icon: Icon(Icons.timeline), label: "Habits"),
+              icon: Icon(Icons.calendar_today), label: "Calendar"),
+          BottomNavigationBarItem(icon: Icon(Icons.timeline), label: "Streaks"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.pie_chart), label: "Progress"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
