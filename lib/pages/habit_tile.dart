@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test1/services.dart/lists.dart';
+import 'package:HabitTracker/services.dart/lists.dart';
 
 class HabitTile extends StatelessWidget {
   final Habit habit;
