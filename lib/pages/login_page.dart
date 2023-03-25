@@ -42,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             padding: const EdgeInsets.all(10),
             child: TextField(
+              // creates the text box for entering a username
               controller: userNameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -52,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: TextField(
+              //creates the text box for entering a password
               obscureText: true,
               controller: passwordController,
               decoration: const InputDecoration(
@@ -62,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextButton(
             onPressed: () {
-              //forgot password
+              //forgot password button
             },
             child: const Text(
               'Forgot Password',
@@ -73,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 50,
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: ElevatedButton(
+              //creates a login button
               child: const Text(
                 'Login',
                 style: TextStyle(color: Colors.black),
@@ -90,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Does Not Have Account?',
               ),
               TextButton(
+                //creates a sign up button
                 child: const Text(
                   'Sign Up',
                   style: TextStyle(fontSize: 20, color: Colors.black),
