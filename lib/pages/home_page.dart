@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:HabitTracker/services.dart/lists.dart';
+import 'package:habit_tracker/services.dart/lists.dart';
 import 'habit_tile.dart';
 
 class HomePage extends StatefulWidget {

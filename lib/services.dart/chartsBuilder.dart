@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:HabitTracker/services.dart/lists.dart';
+import 'package:habit_tracker/services.dart/lists.dart';
 
 class chartBuilder extends StatelessWidget {
   final habitsList = Habit.habitList();

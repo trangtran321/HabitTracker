@@ -4,6 +4,7 @@ import 'pages/calendar_page.dart';
 import 'pages/habits_page.dart';
 import 'pages/profile_page.dart';
 import 'services.dart/chartsBuilder.dart';
+import 'pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,6 +42,7 @@ List<Widget> screens = [
   HabitsPage(),
   chartBuilder(),
   const ProfilePage(),
+  const LoginPage(),
 ];
 
 class _NavigationScreenState extends State<NavigationScreen> {
@@ -69,6 +71,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.pie_chart), label: "Progress"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.login), label: "Login"),
         ],
       ),
     );
