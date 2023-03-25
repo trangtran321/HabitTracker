@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:HabitTracker/services.dart/lists.dart';
-import 'package:HabitTracker/services.dart/chartsBuilder.dart';
+import 'package:habit_tracker/services.dart/lists.dart';
+import 'package:habit_tracker/services.dart/chartsBuilder.dart';
 
 class HabitsPage extends StatelessWidget {
   final habitsList = Habit.habitList();
