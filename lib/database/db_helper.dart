@@ -72,7 +72,6 @@ class DatabaseHelper {
     print(res);
     for (var row in res)
     {
-
       return new Future<User>.value(User.map(row));
     }
     return new Future<User>.error("Unable to find User");

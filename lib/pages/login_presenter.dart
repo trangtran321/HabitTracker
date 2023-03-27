@@ -1,4 +1,4 @@
-import 'package:habit_tracker/database/rest_data.dart';
+//import 'package:habit_tracker/database/rest_data.dart';
 import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 abstract class LoginPageContract {
@@ -8,7 +8,8 @@ abstract class LoginPageContract {
 
 class LoginPagePresenter {
   LoginPageContract _view;
-  RestData api = new RestData();
+  //Not using RestData Currently - 3/27
+  //RestData api = new RestData();
   LoginPagePresenter(this._view);
 
   doLogin(String username, String password) {
