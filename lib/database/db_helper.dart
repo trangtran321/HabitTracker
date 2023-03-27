@@ -55,23 +55,24 @@ class DatabaseHelper {
   }
 
   Future<User> getUser(int id) async {
-   var dbClient = await db;
+    var dbClient = await db;
 
-   List<Map<String,dynamic>> res = await dbClient.query("User",where:'"id" = ?',whereArgs: [id]);
-   for(var row in res)
-   {
-     //print(row['id']);
-     return new Future<User>.value(User.map(row));
-   }
-   throw 'Something went wrong in getUser() in db_helper.';
+    List<Map<String, dynamic>> res =
+        await dbClient.query("User", where: '"id" = ?', whereArgs: [id]);
+    for (var row in res) {
+      //print(row['id']);
+      return new Future<User>.value(User.map(row));
+    }
+    throw 'Something went wrong in getUser() in db_helper.';
   }
 
-  Future<User> checkUser(User user) async{
+  Future<User> checkUser(User user) async {
     var dbClient = await db;
-    List<Map<String,dynamic>> res = await dbClient.query("User",where:'"username" = ? and "password"=?',whereArgs: [user.username,user.password]);
+    List<Map<String, dynamic>> res = await dbClient.query("User",
+        where: '"username" = ? and "password"=?',
+        whereArgs: [user.username, user.password]);
     print(res);
-    for (var row in res)
-    {
+    for (var row in res) {
       return new Future<User>.value(User.map(row));
     }
     return new Future<User>.error("Unable to find User");
@@ -79,18 +80,19 @@ class DatabaseHelper {
 
   Future<List<User>> getAllUser() async {
     var dbClient = await db;
-    List<User> users=[];
-    List<Map<String,dynamic>> res = await dbClient.query("User");
-    for(var row in res)
-    {
+    List<User> users = [];
+    List<Map<String, dynamic>> res = await dbClient.query("User");
+    for (var row in res) {
       //print(row['id']);
       users.add(User.map(row));
     }
     return new Future<List<User>>.value(users);
   }
+
   Future<int> deleteSingleUser(int id) async {
-    var dbClient  = await db;
-    Future<int> res = dbClient.delete("User",where:'"id" = ?',whereArgs: [id]);
+    var dbClient = await db;
+    Future<int> res =
+        dbClient.delete("User", where: '"id" = ?', whereArgs: [id]);
     return res;
   }
 }

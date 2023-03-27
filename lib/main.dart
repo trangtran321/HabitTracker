@@ -3,13 +3,18 @@ import 'pages/home_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/habits_page.dart';
 import 'pages/profile_page.dart';
+import 'pages/registration/registration_page.dart';
 import 'services.dart/chartsBuilder.dart';
 import 'pages/login_page.dart';
-
 
 void main() {
   runApp(const MyApp());
 }
+
+final routes = {
+  '/login': (BuildContext context) => const LoginPage(),
+  '/register': (BuildContext context) => RegisterPage(),
+};
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -25,6 +30,7 @@ class MyApp extends StatelessWidget {
       home: NavigationScreen(
         currentIndex: 0,
       ),
+      routes: routes,
     );
   }
 }

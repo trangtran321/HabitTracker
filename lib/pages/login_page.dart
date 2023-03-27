@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/pages/login_presenter.dart';
+import 'package:habit_tracker/pages/registration/registration_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -55,7 +56,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     var registerBtn = new CupertinoButton(
         child: new Text("Register"),
         onPressed: () {
-          Navigator.of(context).pushNamed("habit_tracker/pages/register/registration_page");
+          Navigator.of(context).pushNamed('/register');
         });
     var loginForm = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
