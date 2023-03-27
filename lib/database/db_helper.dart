@@ -9,8 +9,10 @@ class DatabaseHelper {
   static final DatabaseHelper _instance = new DatabaseHelper.internal();
   factory DatabaseHelper() => _instance;
 
-  static Database _db;
+  static late Database _db;
 
+  //checks if you have created the database or not, if not, it will initialize
+  //a new database
   Future<Database> get db async {
     if (_db != null) {
       return _db;
@@ -21,6 +23,7 @@ class DatabaseHelper {
 
   DatabaseHelper.internal();
 
+  //creates database
   initDb() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, "main.db");
@@ -28,13 +31,14 @@ class DatabaseHelper {
     return ourDb;
   }
 
+  //creates database with a User table
   void _onCreate(Database db, int version) async {
     await db.execute(
         "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT, password TEXT)");
     print("Table is created");
   }
 
-//insertion
+  //insertion into database
   Future<int> saveUser(User user) async {
     var dbClient = await db;
 
@@ -43,12 +47,13 @@ class DatabaseHelper {
     return res;
   }
 
-  //deletion
+  //deletion from database
   Future<int> deleteUser(User user) async {
     var dbClient = await db;
     int res = await dbClient.delete("User");
     return res;
   }
+
   Future<User> getUser(int id) async {
    var dbClient = await db;
 
@@ -58,6 +63,7 @@ class DatabaseHelper {
      //print(row['id']);
      return new Future<User>.value(User.map(row));
    }
+   throw 'Something went wrong in getUser() in db_helper.';
   }
 
   Future<User> checkUser(User user) async{

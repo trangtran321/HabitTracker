@@ -1,5 +1,6 @@
 import 'dart:async';
 
+//this wraps get & post requests 
 class NetworkUtil {
 
   static NetworkUtil _instance = new NetworkUtil.internal();

@@ -6,6 +6,7 @@ import 'pages/profile_page.dart';
 import 'services.dart/chartsBuilder.dart';
 import 'pages/login_page.dart';
 
+
 void main() {
   runApp(const MyApp());
 }

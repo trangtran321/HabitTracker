@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/pages/login_presenter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -7,9 +8,21 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {//implements LoginPageContract {
+
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  // BuildContext _ctx;
+  // bool _isLoading;
+  // final formKey = new GlobalKey<FormState>();
+  // final scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  // final _username, _password;
+  // LoginPagePresenter _presenter;
+
+  // _LoginPageState(){
+  //   _presenter = new LoginPagePresenter(this);
+  // }
 
   @override
   Widget build(BuildContext context) {
