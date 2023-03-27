@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     var registerBtn = new CupertinoButton(
         child: new Text("Register"),
         onPressed: () {
-          Navigator.of(context).pushNamed("/register");
+          Navigator.of(context).pushNamed("habit_tracker/pages/register/registration_page");
         });
     var loginForm = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
