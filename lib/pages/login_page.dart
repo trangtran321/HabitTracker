@@ -1,4 +1,8 @@
+// ignore_for_file: unnecessary_new
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/pages/login_presenter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -8,117 +12,113 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {//implements LoginPageContract {
+class _LoginPageState extends State<LoginPage> implements LoginPageContract {
+  late BuildContext _ctx;
 
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  // BuildContext _ctx;
-  // bool _isLoading;
-  // final formKey = new GlobalKey<FormState>();
-  // final scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool _isLoading = false;
+  final formKey = new GlobalKey<FormState>();
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  // final _username, _password;
-  // LoginPagePresenter _presenter;
+  late String _username, _password;
 
-  // _LoginPageState(){
-  //   _presenter = new LoginPagePresenter(this);
+  late LoginPagePresenter _presenter;
+
+  _LoginPageState() {
+    _presenter = new LoginPagePresenter(this);
+  }
+
+  void _submit() {
+    final form = formKey.currentState;
+
+    if (form!.validate()) {
+      setState(() {
+        _isLoading = true;
+        form.save();
+        _presenter.doLogin(_username, _password);
+      });
+    }
+  }
+
+  // void _showSnackBar(String text) {
+  //   scaffoldKey.currentState?.showSnackBar(new SnackBar(
+  //     content: new Text(text),
+  //   ));
   // }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber[200],
-      padding: const EdgeInsets.all(10),
-      child: ListView(
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(10),
-            child: const Text(
-              'Cultivate',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 30),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(10),
-            child: const Text(
-              'Sign in',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              // creates the text box for entering a username
-              controller: userNameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'User Name',
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: TextField(
-              //creates the text box for entering a password
-              obscureText: true,
-              controller: passwordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Password',
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              //forgot password button
-            },
-            child: const Text(
-              'Forgot Password',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          Container(
-            height: 50,
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: ElevatedButton(
-              //creates a login button
-              child: const Text(
-                'Login',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () {
-                print(userNameController.text);
-                print(passwordController.text);
-              },
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    _ctx = context;
+    var loginBtn = new CupertinoButton(
+        child: new Text("Login"),
+        onPressed: _submit,
+        color: Color.fromRGBO(0, 122, 253, 1));
+    var registerBtn = new CupertinoButton(
+        child: new Text("Register"),
+        onPressed: () {
+          Navigator.of(context).pushNamed("/register");
+        });
+    var loginForm = Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        new Text(
+          "If you don't know your username and password you can always register",
+          textScaleFactor: 1.0,
+        ),
+        new Form(
+          key: formKey,
+          child: new Column(
             children: <Widget>[
-              const Text(
-                'Does Not Have Account?',
-              ),
-              TextButton(
-                //creates a sign up button
-                child: const Text(
-                  'Sign Up',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
+              new Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: new TextFormField(
+                  onSaved: (val) => _username = val!,
+                  decoration: new InputDecoration(labelText: "Username"),
                 ),
-                onPressed: () {
-                  //signup screen
-                },
               ),
+              new Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: new TextFormField(
+                  onSaved: (val) => _password = val!,
+                  decoration: new InputDecoration(labelText: "Password"),
+                ),
+              )
             ],
           ),
-        ],
+        ),
+        loginBtn,
+        registerBtn
+      ],
+    );
+
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Login Page"),
+      ),
+      key: scaffoldKey,
+      body: new Container(
+        child: new Center(
+          child: loginForm,
+        ),
       ),
     );
+  }
+
+  @override
+  void onLoginError(String error) {
+    // TODO: implement onLoginError
+    //_showSnackBar(error);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void onLoginSuccess(User user) async {
+    // TODO: implement onLoginSuccess
+    //_showSnackBar(user.toString());
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pushNamed("/home");
   }
 }
