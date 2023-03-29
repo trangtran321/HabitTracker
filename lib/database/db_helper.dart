@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/user.dart';
 import 'package:path/path.dart';
 import 'dart:async';
@@ -9,16 +10,16 @@ class DatabaseHelper {
   static final DatabaseHelper _instance = new DatabaseHelper.internal();
   factory DatabaseHelper() => _instance;
 
-  static late Database _db;
+  static Database? _db;
 
   //checks if you have created the database or not, if not, it will initialize
   //a new database
   Future<Database> get db async {
     if (_db != null) {
-      return _db;
+      return _db!;
     }
     _db = await initDb();
-    return _db;
+    return _db!;
   }
 
   DatabaseHelper.internal();
@@ -27,6 +28,7 @@ class DatabaseHelper {
   initDb() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, "main.db");
+    print("db_location: " + path);
     var ourDb = await openDatabase(path, version: 1, onCreate: _onCreate);
     return ourDb;
   }
@@ -34,17 +36,22 @@ class DatabaseHelper {
   //creates database with a User table
   void _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT, password TEXT)");
+        "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT)");
     print("Table is created");
   }
 
   //insertion into database
   Future<int> saveUser(User user) async {
     var dbClient = await db;
-
-    int res = await dbClient.insert("User", user.toMap());
-    print(res);
-    return res;
+    if (userExists(user) == true) {
+      Navigator.of(context as BuildContext).pushNamed("/register");
+      print(-1);
+      return -1;
+    } else {
+      int res = await dbClient.insert("User", user.toMap());
+      print(res);
+      return res;
+    }
   }
 
   //deletion from database
@@ -94,5 +101,17 @@ class DatabaseHelper {
     Future<int> res =
         dbClient.delete("User", where: '"id" = ?', whereArgs: [id]);
     return res;
+  }
+
+  Future<bool> userExists(User user) async {
+    var dbClient = await db;
+    List<Map<String, dynamic>> res = await dbClient.query("User",
+        where: '"username" = ? and "password"=?',
+        whereArgs: [user.username, user.password]);
+    print(res);
+    for (var row in res) {
+      return true;
+    }
+    return false;
   }
 }

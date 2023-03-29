@@ -11,7 +11,8 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => new _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> implements RegisterPageContract {
+class _RegisterPageState extends State<RegisterPage>
+    implements RegisterPageContract {
   late BuildContext _ctx;
   bool _isLoading = false;
   final formKey = new GlobalKey<FormState>();
@@ -49,11 +50,12 @@ class _RegisterPageState extends State<RegisterPage> implements RegisterPageCont
     var registerBtn = new CupertinoButton(
         child: new Text("Register"),
         onPressed: _submit,
-        color: Color.fromRGBO(0, 122, 253, 1)
-    );
-    var loginBtn = new CupertinoButton(child: new Text("Login"), onPressed: (){
-      Navigator.of(context).pushNamed("/login");
-    });
+        color: Color.fromRGBO(0, 122, 253, 1));
+    var loginBtn = new CupertinoButton(
+        child: new Text("Login"),
+        onPressed: () {
+          Navigator.of(context).pushNamed("/login");
+        });
     // ignore: unnecessary_new
     var loginForm = new Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> implements RegisterPageCont
   @override
   void onRegisterError(String error) {
     // TODO: implement onLoginError
-   // _showSnackBar(error);
+    // _showSnackBar(error);
     setState(() {
       _isLoading = false;
     });
@@ -117,12 +119,12 @@ class _RegisterPageState extends State<RegisterPage> implements RegisterPageCont
   @override
   void onRegisterSuccess(User user) async {
     // TODO: implement onLoginSuccess
-   // _showSnackBar(user.toString());
+    // _showSnackBar(user.toString());
     setState(() {
       _isLoading = false;
     });
     var db = new DatabaseHelper();
     await db.saveUser(user);
-    Navigator.of(context).pushNamed("/home");
+    Navigator.of(context).pushNamed("/login");
   }
 }

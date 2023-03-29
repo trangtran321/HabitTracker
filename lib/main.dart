@@ -12,6 +12,7 @@ void main() {
 }
 
 final routes = {
+  '/home': (BuildContext context) => const HomePage(),
   '/login': (BuildContext context) => const LoginPage(),
   '/register': (BuildContext context) => RegisterPage(),
 };

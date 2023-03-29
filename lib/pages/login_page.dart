@@ -51,7 +51,10 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     _ctx = context;
     var loginBtn = new CupertinoButton(
         child: new Text("Login"),
-        onPressed: _submit,
+        onPressed: () {
+          _submit;
+          Navigator.of(context).pushNamed('/main');
+        },
         color: Color.fromRGBO(0, 122, 253, 1));
     var registerBtn = new CupertinoButton(
         child: new Text("Register"),
