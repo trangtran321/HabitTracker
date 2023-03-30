@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
   bool _isLoading = false;
   final formKey = new GlobalKey<FormState>();
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   late String _username, _password;
 
@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
   void _submit() {
     final form = formKey.currentState;
-
+    print('inside _submit');
     if (form!.validate()) {
       setState(() {
         _isLoading = true;
@@ -41,8 +41,8 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
   }
 
   // void _showSnackBar(String text) {
-  //   scaffoldKey.currentState?.showSnackBar(new SnackBar(
-  //     content: new Text(text),
+  //   scaffoldKey.currentState?.showSnackBar(SnackBar(
+  //     content: Text(text),
   //   ));
   // }
 
@@ -52,8 +52,8 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     var loginBtn = new CupertinoButton(
         child: new Text("Login"),
         onPressed: () {
-          _submit;
-          Navigator.of(context).pushNamed('/main');
+          _submit();
+          print('login button pressed');
         },
         color: Color.fromRGBO(0, 122, 253, 1));
     var registerBtn = new CupertinoButton(
@@ -96,11 +96,11 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Login Page"),
+        title: const Text("Login Page"),
       ),
       key: scaffoldKey,
-      body: new Container(
-        child: new Center(
+      body: Container(
+        child: Center(
           child: loginForm,
         ),
       ),

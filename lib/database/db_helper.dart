@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/user.dart';
 import 'package:path/path.dart';
 import 'dart:async';
@@ -7,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  static final DatabaseHelper _instance = new DatabaseHelper.internal();
+  static final DatabaseHelper _instance = DatabaseHelper.internal();
   factory DatabaseHelper() => _instance;
 
   static Database? _db;
@@ -43,8 +42,9 @@ class DatabaseHelper {
   //insertion into database
   Future<int> saveUser(User user) async {
     var dbClient = await db;
-    if (userExists(user) == true) {
-      Navigator.of(context as BuildContext).pushNamed("/register");
+    if (await userExists(user)) {
+      print('Username Already Exists!');
+      //Navigator.of(context).pushNamed("/register");
       print(-1);
       return -1;
     } else {
@@ -68,7 +68,7 @@ class DatabaseHelper {
         await dbClient.query("User", where: '"id" = ?', whereArgs: [id]);
     for (var row in res) {
       //print(row['id']);
-      return new Future<User>.value(User.map(row));
+      return Future<User>.value(User.map(row));
     }
     throw 'Something went wrong in getUser() in db_helper.';
   }
@@ -80,9 +80,9 @@ class DatabaseHelper {
         whereArgs: [user.username, user.password]);
     print(res);
     for (var row in res) {
-      return new Future<User>.value(User.map(row));
+      return Future<User>.value(User.map(row));
     }
-    return new Future<User>.error("Unable to find User");
+    return Future<User>.error("Unable to find User");
   }
 
   Future<List<User>> getAllUser() async {
@@ -93,7 +93,7 @@ class DatabaseHelper {
       //print(row['id']);
       users.add(User.map(row));
     }
-    return new Future<List<User>>.value(users);
+    return Future<List<User>>.value(users);
   }
 
   Future<int> deleteSingleUser(int id) async {
@@ -105,13 +105,8 @@ class DatabaseHelper {
 
   Future<bool> userExists(User user) async {
     var dbClient = await db;
-    List<Map<String, dynamic>> res = await dbClient.query("User",
-        where: '"username" = ? and "password"=?',
-        whereArgs: [user.username, user.password]);
-    print(res);
-    for (var row in res) {
-      return true;
-    }
-    return false;
+    List<Map<String, dynamic>> res = await dbClient
+        .query("User", where: '"username" = ?', whereArgs: [user.username]);
+    return res.isNotEmpty;
   }
 }
