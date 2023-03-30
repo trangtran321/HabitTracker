@@ -13,7 +13,6 @@ class RegisterPagePresenter {
   RegisterPagePresenter(this._view);
 
   doRegister(String username, String password) {
-    //print("HI");
     api
         .login(username, password)
         .then((user) => _view.onRegisterSuccess(user))
