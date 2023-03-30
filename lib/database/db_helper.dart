@@ -42,13 +42,15 @@ class DatabaseHelper {
 
   //insertion into database
   Future<int> saveUser(User user) async {
-    var dbClient = await db;
-    if (userExists(user) == true) {
-      Navigator.of(context as BuildContext).pushNamed("/register");
+
+    if (await userExists(user) == true) {
+      //Navigator.of(context as BuildContext).pushNamed("/register");
       print(-1);
       return -1;
     } else {
+      var dbClient = await db;
       int res = await dbClient.insert("User", user.toMap());
+      print("ADDED TO DB");
       print(res);
       return res;
     }
@@ -106,12 +108,17 @@ class DatabaseHelper {
   Future<bool> userExists(User user) async {
     var dbClient = await db;
     List<Map<String, dynamic>> res = await dbClient.query("User",
-        where: '"username" = ? and "password"=?',
-        whereArgs: [user.username, user.password]);
-    print(res);
-    for (var row in res) {
+        where: '"username" = ?',
+        whereArgs: [user.username]);
+    print("Res: " + res.toString());
+    if (res.length > 0){
+      print("--------------");
+      print("GOES INTO IF STATEMENT OF RES.CONTAINS");
       return true;
     }
+    //for (var row in res) {
+      //  return true;
+    //}
     return false;
   }
 }

@@ -109,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage>
 
   @override
   void onRegisterError(String error) {
-    // TODO: implement onLoginError
+    // TODO: implement onRegisterError
     // _showSnackBar(error);
     setState(() {
       _isLoading = false;
