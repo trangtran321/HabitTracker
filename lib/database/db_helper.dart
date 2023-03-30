@@ -48,7 +48,9 @@ class DatabaseHelper {
       print(-1);
       return -1;
     } else {
+      var dbClient = await db;
       int res = await dbClient.insert("User", user.toMap());
+      print("ADDED TO DB");
       print(res);
       return res;
     }
