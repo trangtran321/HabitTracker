@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:habit_tracker/models/user.dart';
+import 'package:habit_tracker/models/habit.dart';
 import 'package:path/path.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
@@ -36,7 +37,9 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     await db.execute(
         "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT)");
-    print("Table is created");
+    await db.execute(
+        "CREATE TABLE Habit(id INTEGER PRIMARY KEY, habit TEXT, doneToday INTEGER, completed INTEGER, streakCount INTEGER, milestones INTEGER)");
+    print("User Table is created");
   }
 
   //insertion into database
@@ -55,6 +58,13 @@ class DatabaseHelper {
       return res;
     }
   }
+
+  Future<int> saveHabit(Habit habit) async{
+      var dbClient = await db;
+      int res = await dbClient.insert("Habit", habit.toMap());
+      return res;
+  }
+
 
   //deletion from database
   Future<int> deleteUser(User user) async {
@@ -92,7 +102,6 @@ class DatabaseHelper {
     List<User> users = [];
     List<Map<String, dynamic>> res = await dbClient.query("User");
     for (var row in res) {
-      //print(row['id']);
       users.add(User.map(row));
     }
     return Future<List<User>>.value(users);

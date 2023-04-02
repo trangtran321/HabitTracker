@@ -1,15 +1,13 @@
-
-
 // ignore: must_be_immutable
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/pages/profile_page.dart';
 
 import '../services.dart/chartsBuilder.dart';
-import 'calendar_page.dart';
-import 'habits_page.dart';
+import 'calendar/calendar_page.dart';
+import 'habit/habits_page.dart';
 import 'home_page.dart';
-import 'login_page.dart';
+import 'login/login_page.dart';
 
 class NavigationScreen extends StatefulWidget {
   NavigationScreen({super.key, required this.currentIndex});

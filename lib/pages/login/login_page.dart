@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/user.dart';
-import 'package:habit_tracker/pages/login_presenter.dart';
+import 'package:habit_tracker/pages/login/login_presenter.dart';
 import 'package:habit_tracker/pages/registration/registration_page.dart';
 
 class LoginPage extends StatefulWidget {

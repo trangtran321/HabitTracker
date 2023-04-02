@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
-import 'pages/calendar_page.dart';
-import 'pages/habits_page.dart';
+import 'pages/calendar/calendar_page.dart';
+import 'pages/habit/habits_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/registration/registration_page.dart';
 import 'services.dart/chartsBuilder.dart';
-import 'pages/login_page.dart';
+import 'pages/login/login_page.dart';
 
 void main() {
   runApp(const MyApp());
