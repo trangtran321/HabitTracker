@@ -1,6 +1,6 @@
 class Habit {
   String _habit = "";
-  bool _doneToday = false;
+  int _doneToday = 0;
   int _completed = 0;
   int _streakCount = 0;
   int _milestones = 0;
@@ -18,7 +18,7 @@ class Habit {
   }
 
   String get habit => _habit;
-  bool get doneToday => _doneToday;
+  int get doneToday => _doneToday;
   int get streakCount => _streakCount;
   int get completed => _completed;
   int get milestones => _milestones;

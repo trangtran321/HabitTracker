@@ -5,7 +5,7 @@ import 'package:habit_tracker/pages/profile_page.dart';
 
 import '../services.dart/chartsBuilder.dart';
 import 'calendar/calendar_page.dart';
-import 'habit/habits_page.dart';
+import 'habit/progress_page.dart';
 import 'home_page.dart';
 import 'login/login_page.dart';
 
@@ -19,7 +19,7 @@ class NavigationScreen extends StatefulWidget {
 List<Widget> screens = [
   const HomePage(),
   const CalendarPage(),
-  HabitsPage(),
+  ProgressPage(),
   //chartBuilder(),
   const ProfilePage(),
   const LoginPage(),

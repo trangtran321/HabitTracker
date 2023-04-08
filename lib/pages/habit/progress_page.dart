@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:habit_tracker/pages/habit/habit_tile.dart';
-//import 'package:habit_tracker/services.dart/lists.dart';
 import 'package:habit_tracker/services.dart/chartsBuilder.dart';
 
-class HabitsPage extends StatelessWidget {
-  //final habitsList = Habit.habitList();
-
-  HabitsPage({super.key});
+class ProgressPage extends StatelessWidget {
+  ProgressPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +32,7 @@ class HabitsPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: ListView(
-                    children: [
-                      // const Text(
-                      //   'Habit Streaks: \n',
-                      //   style: TextStyle(fontSize: 32, color: Colors.black),
-                      // ),
-                      // for (Habit habit in habitsList)
-                      //   Text(
-                      //     '${habit.habitText}: ${habit.habitCount}\n',
-                      //     style: const TextStyle(
-                      //         fontSize: 24, color: Colors.black),
-                      //   ),
-                      //HabitTile(habit: habit),
-                    ],
+                    children: [],
                   ),
                 ),
               ],

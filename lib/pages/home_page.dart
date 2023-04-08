@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/services.dart/lists.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'habit/habit_tile.dart';
-//import 'package:habit_tracker/models/habit.dart';
+import 'package:habit_tracker/models/habit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,10 +11,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final habitsList = Habit.habitList();
+  var db = DatabaseHelper();
+  List<Habit> _habits = [];
   final _habitController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _loadHabits();
+  }
+
+  void _loadHabits() async {
+    List<Habit> habits = await db.getAllHabits();
+    setState(() {
+      _habits = habits;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.amber[100],
@@ -30,16 +42,12 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Expanded(
-                  child: ListView(
-                    children: [
-                      for (Habit habit in habitsList)
-                        HabitTile(
-                          habit: habit,
-                          onHabitChanged: _handleHabitChange,
-                          onDeleteHabit: _deleteHabit,
-                        ),
-                    ],
-                  ),
+                  child: ListView.builder(
+                      //creates a list of HabitTiles for each habit in the Habit table
+                      itemCount: _habits.length,
+                      itemBuilder: (context, index) {
+                        return HabitTile(habit: _habits[index]);
+                      }),
                 ),
               ],
             ),
@@ -83,8 +91,12 @@ class _HomePageState extends State<HomePage> {
                   right: 20,
                 ),
                 child: ElevatedButton(
-                  onPressed: () {
-                    _updateHabitList(_habitController.text);
+                  onPressed: () async {
+                    Habit habit = Habit(_habitController.text, 0);
+                    await db.saveHabit(habit);
+                    setState(() {
+                      _habits.add(habit);
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple[300],
@@ -105,35 +117,6 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-
-  void _handleHabitChange(Habit habit) {
-    setState(() {
-      habit.isDone = !habit.isDone;
-      if (habit.isDone == true) {
-        habit.habitCount++;
-        //print('count incremented');
-      } else {
-        habit.habitCount--;
-        //print('count decremented');
-      }
-    });
-  }
-
-  void _deleteHabit(String id) {
-    setState(() {
-      habitsList.removeWhere((habit) => habit.id == id);
-    });
-  }
-
-  void _updateHabitList(String habit) {
-    setState(() {
-      habitsList.add(Habit(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        habitText: habit,
-      ));
-    });
-    _habitController.clear();
   }
 
   AppBar _buildHeader() {

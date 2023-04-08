@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/pages/habit/habit_list.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar/calendar_page.dart';
-import 'pages/habit/habits_page.dart';
+import 'pages/habit/progress_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/registration/registration_page.dart';
 import 'services.dart/chartsBuilder.dart';
@@ -16,7 +15,7 @@ final routes = {
   '/home': (BuildContext context) => const HomePage(),
   '/login': (BuildContext context) => const LoginPage(),
   '/register': (BuildContext context) => RegisterPage(),
-  '/habits': (BuildContext context) => HabitsPage(),
+  '/progress': (BuildContext context) => ProgressPage(),
 };
 
 class MyApp extends StatelessWidget {
@@ -48,9 +47,8 @@ class NavigationScreen extends StatefulWidget {
 
 List<Widget> screens = [
   const HomePage(),
-  //HabitList(),
   const CalendarPage(),
-  HabitsPage(),
+  ProgressPage(),
   chartBuilder(),
   const ProfilePage(),
   const LoginPage(),
@@ -78,9 +76,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today), label: "Calendar"),
-          BottomNavigationBarItem(icon: Icon(Icons.timeline), label: "Streaks"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.pie_chart), label: "Progress"),
+              icon: Icon(Icons.timeline), label: "Progress"),
+          BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: "Charts"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           BottomNavigationBarItem(icon: Icon(Icons.login), label: "Login"),
         ],

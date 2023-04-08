@@ -2,23 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
-//import 'package:habit_tracker/models/habit.dart';
-import 'package:habit_tracker/services.dart/lists.dart';
+import 'package:habit_tracker/models/habit.dart';
 
 class HabitTile extends StatefulWidget {
   final Habit habit;
-  final onHabitChanged;
-  final onDeleteHabit;
-
-  const HabitTile(
-      {Key? key, required this.habit, this.onHabitChanged, this.onDeleteHabit})
-      : super(key: key);
+  const HabitTile({Key? key, required this.habit}) : super(key: key);
 
   @override
   State<HabitTile> createState() => _HabitTileState();
 }
 
 class _HabitTileState extends State<HabitTile> {
+  //sets initial states for fields in the HabitTile
   final _habitTitleController = TextEditingController();
   final _habitDescriptionController = TextEditingController();
   bool _isDone = false;
@@ -27,6 +22,7 @@ class _HabitTileState extends State<HabitTile> {
   int _dropDownValue = 1;
 
   void _showOverlay() {
+    //creates the overlay that comes up when a habit tile is tapped
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -43,7 +39,7 @@ class _HabitTileState extends State<HabitTile> {
                         _testHabit = value;
                       });
                     },
-                    controller: _habitTitleController,
+                    controller: _habitTitleController, //saves user text input
                     decoration: InputDecoration(
                       labelText: 'Enter Habit',
                     ),
@@ -89,11 +85,10 @@ class _HabitTileState extends State<HabitTile> {
                           minimumSize:
                               MaterialStateProperty.all(Size(100, 30))),
                       onPressed: () {
-                        //add insertion to database here!!
+                        //insertion to database here!!
                         var db = new DatabaseHelper();
-                        String _habit = _habitTitleController.text;
-                        bool _doneToday = false;
-                        //db.saveHabit(Habit(_habit, _doneToday));
+                        Habit habit = Habit(_habitTitleController.text, 0);
+                        db.saveHabit(habit);
                       },
                       child: Text(
                         "Submit",
@@ -143,52 +138,4 @@ class _HabitTileState extends State<HabitTile> {
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Container(
-  //     //Creates the box for the habit
-  //     height: 60,
-  //     margin: const EdgeInsets.only(
-  //       top: 8,
-  //       bottom: 8,
-  //     ),
-  //     child: ListTile(
-  //       onTap: () {
-  //         //  changes the value of isDone from false to true or vice versa
-  //         widget.onHabitChanged(widget.habit);
-  //       },
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-  //       tileColor: Colors.amber[300],
-  //       leading: Icon(
-  //         widget.habit.isDone ? Icons.check_box : Icons.check_box_outline_blank,
-  //         color: Colors.grey[700],
-  //       ),
-  //       title: Text(
-  //         //prints the habit text to the box followed by its streak
-  //         '${widget.habit.habitText!}: ${widget.habit.habitCount}',
-  //         style: TextStyle(
-  //           fontSize: 18,
-  //           color: Colors.black,
-  //           decoration: widget.habit.isDone ? TextDecoration.lineThrough : null,
-  //         ),
-  //       ),
-  //       trailing: Container(
-  //         height: 35,
-  //         width: 35,
-  //         decoration: BoxDecoration(
-  //             color: Colors.red[400], borderRadius: BorderRadius.circular(5)),
-  //         child: IconButton(
-  //           color: Colors.white,
-  //           iconSize: 15,
-  //           icon: const Icon(Icons.delete),
-  //           onPressed: () {
-  //             //print('Clicked on Delete item');
-  //             widget.onDeleteHabit(widget.habit.id);
-  //           },
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }

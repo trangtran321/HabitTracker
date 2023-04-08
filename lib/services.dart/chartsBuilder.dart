@@ -1,18 +1,17 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:habit_tracker/services.dart/lists.dart';
 
 class chartBuilder extends StatelessWidget {
-  final habitsList = Habit.habitList();
+  //final habitsList = Habit.habitList();
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      for (Habit habit in habitsList)
-        ChartData(habit.habitText, habit.habitCount)
-      // ChartData('Habit 1', 5, Colors.green),
-      // ChartData('Habit 2', 20, Colors.amber),
-      // ChartData('Habit 3', 12, Colors.teal),
+      // for (Habit habit in habitsList)
+      //   ChartData(habit.habitText, habit.habitCount)
+      // // ChartData('Habit 1', 5, Colors.green),
+      // // ChartData('Habit 2', 20, Colors.amber),
+      // // ChartData('Habit 3', 12, Colors.teal),
     ];
     return Scaffold(
       backgroundColor: Colors.amber[100],

@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/models/habit.dart';
-//import 'package:habit_tracker/services.dart/lists.dart';
 import 'package:path/path.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
@@ -85,6 +84,17 @@ class DatabaseHelper {
     throw 'Something went wrong in getUser() in db_helper.';
   }
 
+  Future<int> getUserId(String username) async {
+    var dbClient = await db;
+    List<Map<String, dynamic>> res = await dbClient.query(
+      "User",
+      columns: ["id"],
+      where: '"username" = ?',
+      whereArgs: [username],
+    );
+    return res[0]['id'];
+  }
+
   Future<User> checkUser(User user) async {
     var dbClient = await db;
     List<Map<String, dynamic>> res = await dbClient.query("User",
@@ -135,7 +145,7 @@ class DatabaseHelper {
   Future<int> updateHabit(Habit habit) async {
     var dbClient = await db;
     int res = await dbClient.update(
-      "Habit",
+      "habit",
       habit.toMap(),
       where: '"id" = ?',
       whereArgs: [habit.id],
@@ -153,7 +163,7 @@ class DatabaseHelper {
     return res;
   }
 
-  Future<Habit> getHabit(int id) async {
+  Future<Habit> getHabit(Future<int> id) async {
     var dbClient = await db;
     List<Map<String, dynamic>> res = await dbClient.query(
       "Habit",
@@ -166,7 +176,7 @@ class DatabaseHelper {
     throw 'Something went wrong in getHabit() in db_helper.';
   }
 
-  Future<List<Habit>> getAllHabitsForUser(int userId) async {
+  Future<List<Habit>> getAllHabitsForUser(Future<int> userId) async {
     var dbClient = await db;
     List<Habit> habits = [];
     List<Map<String, dynamic>> res = await dbClient.query(
