@@ -15,7 +15,7 @@ class chartBuilder extends StatelessWidget {
       // ChartData('Habit 3', 12, Colors.teal),
     ];
     return Scaffold(
-      backgroundColor: Colors.amber[200],
+      backgroundColor: Colors.amber[100],
       body: Center(
         child: Container(
           child: SfCircularChart(
