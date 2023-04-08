@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/user_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar/calendar_page.dart';
 import 'pages/habit/progress_page.dart';
@@ -6,9 +7,14 @@ import 'pages/profile_page.dart';
 import 'pages/registration/registration_page.dart';
 import 'services.dart/chartsBuilder.dart';
 import 'pages/login/login_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: const MyApp()),
+  );
 }
 
 final routes = {
@@ -29,9 +35,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: NavigationScreen(
+      home:  NavigationScreen(
         currentIndex: 0,
-      ),
+      ),//const LoginPage(),
       routes: routes,
     );
   }

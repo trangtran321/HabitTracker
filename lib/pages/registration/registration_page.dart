@@ -1,5 +1,7 @@
 //ignore_for_file: unnecessary_new
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:habit_tracker/database/db_helper.dart';
@@ -28,12 +30,13 @@ class _RegisterPageState extends State<RegisterPage>
 
   void _submit() {
     final form = formKey.currentState;
+    var userId = Random().nextInt(1000);
 
     if (form!.validate()) {
       setState(() {
         _isLoading = true;
         form.save();
-        _presenter.doRegister(_username, _password);
+        _presenter.doRegister(_username, _password, userId);
       });
     }
   }

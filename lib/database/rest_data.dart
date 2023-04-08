@@ -12,12 +12,12 @@ class RestData{
   static final LOGIN_URL = BASE_URL + "/";
   //You can use this to login into a web service We are still working on it
 
-  Future<User> login(String username, String password) {
+  Future<User> login(String username, String password, int userId) {
     //expected success from web service
-    return new Future.value(new User(username, password));
+    return new Future.value(new User(username, password, userId));
   }
-  Future<User> register(String username, String password) {
+  Future<User> register(String username, String password, int userId) {
     //expected success from web service
-    return new Future.value(new User(username, password));
+    return new Future.value(new User(username, password, userId));
   }
 }

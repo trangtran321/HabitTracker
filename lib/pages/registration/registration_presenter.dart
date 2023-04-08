@@ -12,9 +12,9 @@ class RegisterPagePresenter {
   RestData api = new RestData();
   RegisterPagePresenter(this._view);
 
-  doRegister(String username, String password) {
+  doRegister(String username, String password, int userId) {
     api
-        .login(username, password)
+        .login(username, password, userId)
         .then((user) => _view.onRegisterSuccess(user))
         .catchError((onError) {
           //print("Trying to Catch"+onError.toString());

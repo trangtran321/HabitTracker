@@ -13,11 +13,11 @@ class LoginPagePresenter {
   //RestData api = new RestData();
   LoginPagePresenter(this._view);
 
-  doLogin(String username, String password) {
+  doLogin(String username, String password, int userId) {
     //print("HI");
     var db = new DatabaseHelper();
     db
-        .checkUser(User(username, password))
+        .checkUser(User(username, password, userId))
         .then((user) => _view.onLoginSuccess(user))
         .catchError((onError) {
       //print("Trying to Catch"+onError.toString());

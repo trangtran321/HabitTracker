@@ -3,6 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:habit_tracker/models/habit.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/user.dart';
+import '../../user_provider.dart';
 
 class HabitTile extends StatefulWidget {
   final Habit habit;
@@ -26,6 +30,11 @@ class _HabitTileState extends State<HabitTile> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
+          //get this.currentUser ID number to input into newly created habit
+          UserProvider userProvider = Provider.of<UserProvider>(context);
+          User? currentUser = userProvider.currentUser;
+          int currentUserId = currentUser?.id?? 0; //defaults to zero, if user is not logged in
+
           return SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.only(
@@ -87,7 +96,7 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         //insertion to database here!!
                         var db = new DatabaseHelper();
-                        Habit habit = Habit(_habitTitleController.text, 0);
+                        Habit habit = Habit(_habitTitleController.text, 0, currentUserId);
                         db.saveHabit(habit);
                       },
                       child: Text(

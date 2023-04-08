@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/pages/login/login_presenter.dart';
 import 'package:habit_tracker/pages/registration/registration_page.dart';
+import 'package:provider/provider.dart';
+
+import '../../user_provider.dart';
+import '../navigation_bar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +18,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> implements LoginPageContract {
+  //NavBarIndex is page index for navigation bar to find page
+  int _navBarIndex = 1;
+  //onNavTapped will navigate back to current page if tapped from another page
+  void _onNavTapped(int index){
+    setState((){
+      _navBarIndex = index;});
+  }
+
   late BuildContext _ctx;
 
   bool _isLoading = false;
@@ -35,7 +47,8 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
       setState(() {
         _isLoading = true;
         form.save();
-        _presenter.doLogin(_username, _password);
+        int userId = 0;
+        _presenter.doLogin(_username, _password, userId);
       });
     }
   }
@@ -49,6 +62,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
   @override
   Widget build(BuildContext context) {
     _ctx = context;
+
     var loginBtn = new CupertinoButton(
         child: new Text("Login"),
         onPressed: () {
@@ -104,6 +118,9 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
           child: loginForm,
         ),
       ),
+      // bottomNavigationBar: AppNavigationBar(
+      //   currentIndex: _navBarIndex,
+      // ),
     );
   }
 
@@ -122,6 +139,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     //_showSnackBar(user.toString());
     setState(() {
       _isLoading = false;
+      Provider.of<UserProvider>(_ctx, listen:false).setCurrentUser(user);
     });
     Navigator.of(context).pushNamed("/home");
   }

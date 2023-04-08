@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
+import 'package:provider/provider.dart';
+import '../models/user.dart';
+import '../user_provider.dart';
 import 'habit/habit_tile.dart';
 import 'package:habit_tracker/models/habit.dart';
 
@@ -29,6 +32,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget build(BuildContext context) {
+    //get this.currentUser ID number to input into newly created habit
+      UserProvider userProvider = Provider.of<UserProvider>(context);
+      User? currentUser = userProvider.currentUser;
+      int currentUserId = currentUser?.id?? 0; //defaults to zero, if user is not logged in
+
     return Scaffold(
       backgroundColor: Colors.amber[100],
       appBar: _buildHeader(),
@@ -92,7 +100,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: ElevatedButton(
                   onPressed: () async {
-                    Habit habit = Habit(_habitController.text, 0);
+                    print("Current UserName: " + currentUserId.toString());
+                    Habit habit = Habit(_habitController.text, 0, currentUserId);
                     await db.saveHabit(habit);
                     setState(() {
                       _habits.add(habit);

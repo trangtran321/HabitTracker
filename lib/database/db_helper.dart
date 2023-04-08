@@ -36,13 +36,40 @@ class DatabaseHelper {
   //creates database with a User table
   void _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE User(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT)");
-    await db.execute(
-        "CREATE TABLE Habit(id INTEGER PRIMARY KEY, habit TEXT, doneToday INTEGER, completed INTEGER, streakCount INTEGER, milestones INTEGER)");
+        '''CREATE TABLE User(
+          id INTEGER PRIMARY KEY,
+          username TEXT NOT NULL UNIQUE,
+          password TEXT)
+        ''');
+
+   await db.execute(
+        '''CREATE TABLE Habit(
+          id INTEGER PRIMARY KEY,
+          habitName TEXT,
+          doneToday INTEGER,
+          completed INTEGER,
+          streakCount INTEGER,
+          milestones INTEGER,
+          userId INTEGER,
+          FOREIGN KEY(userId) REFERENCES User(id))
+        ''');
+
     print("User Table is created");
   }
 
-  //insertion into database
+  //joining User and Habit table via the userID
+  //This will link the habits created in the app to the currently logged in User
+  Future<List<Map<String, dynamic>>> performQueryJoin() async{
+      Database? dbClient = await db;
+      return await dbClient.rawQuery('''
+        SELECT  User.id, Habit.userId, Habit.id, Habit.habitName
+        FROM    Habit
+        JOIN    User ON Habit.userId = User.id
+        ''');
+  }
+
+
+  //insertion of User into database
   Future<int> saveUser(User user) async {
     var dbClient = await db;
     if (await userExists(user)) {
@@ -59,6 +86,7 @@ class DatabaseHelper {
     }
   }
 
+  //insertion of Habit to User database
   Future<int> saveHabit(Habit habit) async {
     var dbClient = await db;
     int res = await dbClient.insert("Habit", habit.toMap());
@@ -134,7 +162,7 @@ class DatabaseHelper {
   Future<Habit> checkHabit(Habit habit) async {
     var dbClient = await db;
     List<Map<String, dynamic>> res = await dbClient
-        .query("Habit", where: '"habit" = ?', whereArgs: [habit.habit]);
+        .query("Habit", where: '"habit" = ?', whereArgs: [habit.habitName]);
     print(res);
     for (var row in res) {
       return Future<Habit>.value(Habit.map(row));
