@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/pages/habit/habit_list.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar/calendar_page.dart';
 import 'pages/habit/habits_page.dart';
@@ -15,6 +16,7 @@ final routes = {
   '/home': (BuildContext context) => const HomePage(),
   '/login': (BuildContext context) => const LoginPage(),
   '/register': (BuildContext context) => RegisterPage(),
+  '/habits': (BuildContext context) => HabitsPage(),
 };
 
 class MyApp extends StatelessWidget {
@@ -46,6 +48,7 @@ class NavigationScreen extends StatefulWidget {
 
 List<Widget> screens = [
   const HomePage(),
+  //HabitList(),
   const CalendarPage(),
   HabitsPage(),
   chartBuilder(),

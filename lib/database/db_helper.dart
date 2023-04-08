@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/models/habit.dart';
+//import 'package:habit_tracker/services.dart/lists.dart';
 import 'package:path/path.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
@@ -59,12 +60,11 @@ class DatabaseHelper {
     }
   }
 
-  Future<int> saveHabit(Habit habit) async{
-      var dbClient = await db;
-      int res = await dbClient.insert("Habit", habit.toMap());
-      return res;
+  Future<int> saveHabit(Habit habit) async {
+    var dbClient = await db;
+    int res = await dbClient.insert("Habit", habit.toMap());
+    return res;
   }
-
 
   //deletion from database
   Future<int> deleteUser(User user) async {
@@ -119,5 +119,74 @@ class DatabaseHelper {
     List<Map<String, dynamic>> res = await dbClient
         .query("User", where: '"username" = ?', whereArgs: [user.username]);
     return res.isNotEmpty;
+  }
+
+  Future<Habit> checkHabit(Habit habit) async {
+    var dbClient = await db;
+    List<Map<String, dynamic>> res = await dbClient
+        .query("Habit", where: '"habit" = ?', whereArgs: [habit.habit]);
+    print(res);
+    for (var row in res) {
+      return Future<Habit>.value(Habit.map(row));
+    }
+    return Future<Habit>.error("Unable to find Habit");
+  }
+
+  Future<int> updateHabit(Habit habit) async {
+    var dbClient = await db;
+    int res = await dbClient.update(
+      "Habit",
+      habit.toMap(),
+      where: '"id" = ?',
+      whereArgs: [habit.id],
+    );
+    return res;
+  }
+
+  Future<int> deleteHabit(int id) async {
+    var dbClient = await db;
+    int res = await dbClient.delete(
+      "Habit",
+      where: '"id" = ?',
+      whereArgs: [id],
+    );
+    return res;
+  }
+
+  Future<Habit> getHabit(int id) async {
+    var dbClient = await db;
+    List<Map<String, dynamic>> res = await dbClient.query(
+      "Habit",
+      where: '"id" = ?',
+      whereArgs: [id],
+    );
+    for (var row in res) {
+      return Future<Habit>.value(Habit.map(row));
+    }
+    throw 'Something went wrong in getHabit() in db_helper.';
+  }
+
+  Future<List<Habit>> getAllHabitsForUser(int userId) async {
+    var dbClient = await db;
+    List<Habit> habits = [];
+    List<Map<String, dynamic>> res = await dbClient.query(
+      "Habit",
+      where: '"userId" = ?',
+      whereArgs: [userId],
+    );
+    for (var row in res) {
+      habits.add(Habit.map(row));
+    }
+    return Future<List<Habit>>.value(habits);
+  }
+
+  Future<List<Habit>> getAllHabits() async {
+    var dbClient = await db;
+    List<Habit> habits = [];
+    List<Map<String, dynamic>> res = await dbClient.query("Habit");
+    for (var row in res) {
+      habits.add(Habit.map(row));
+    }
+    return Future<List<Habit>>.value(habits);
   }
 }
