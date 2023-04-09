@@ -35,15 +35,13 @@ class DatabaseHelper {
 
   //creates database with a User table
   void _onCreate(Database db, int version) async {
-    await db.execute(
-        '''CREATE TABLE User(
+    await db.execute('''CREATE TABLE User(
           id INTEGER PRIMARY KEY,
           username TEXT NOT NULL UNIQUE,
           password TEXT)
         ''');
 
-   await db.execute(
-        '''CREATE TABLE Habit(
+    await db.execute('''CREATE TABLE Habit(
           id INTEGER PRIMARY KEY,
           habitName TEXT,
           doneToday INTEGER,
@@ -59,15 +57,14 @@ class DatabaseHelper {
 
   //joining User and Habit table via the userID
   //This will link the habits created in the app to the currently logged in User
-  Future<List<Map<String, dynamic>>> performQueryJoin() async{
-      Database? dbClient = await db;
-      return await dbClient.rawQuery('''
+  Future<List<Map<String, dynamic>>> performQueryJoin() async {
+    Database? dbClient = await db;
+    return await dbClient.rawQuery('''
         SELECT  User.id, Habit.userId, Habit.id, Habit.habitName
         FROM    Habit
         JOIN    User ON Habit.userId = User.id
         ''');
   }
-
 
   //insertion of User into database
   Future<int> saveUser(User user) async {
@@ -204,7 +201,7 @@ class DatabaseHelper {
     throw 'Something went wrong in getHabit() in db_helper.';
   }
 
-  Future<List<Habit>> getAllHabitsForUser(Future<int> userId) async {
+  Future<List<Habit>> getAllHabitsForUser(int userId) async {
     var dbClient = await db;
     List<Habit> habits = [];
     List<Map<String, dynamic>> res = await dbClient.query(

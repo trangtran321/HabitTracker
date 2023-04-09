@@ -25,6 +25,8 @@ class _HabitTileState extends State<HabitTile> {
   String _habitDescription = '';
   int _dropDownValue = 1;
 
+  var db = new DatabaseHelper();
+
   void _showOverlay() {
     //creates the overlay that comes up when a habit tile is tapped
     showModalBottomSheet(
@@ -33,7 +35,8 @@ class _HabitTileState extends State<HabitTile> {
           //get this.currentUser ID number to input into newly created habit
           UserProvider userProvider = Provider.of<UserProvider>(context);
           User? currentUser = userProvider.currentUser;
-          int currentUserId = currentUser?.id?? 0; //defaults to zero, if user is not logged in
+          int currentUserId =
+              currentUser?.id ?? 0; //defaults to zero, if user is not logged in
 
           return SingleChildScrollView(
             child: Container(
@@ -96,8 +99,17 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         //insertion to database here!!
                         var db = new DatabaseHelper();
-                        Habit habit = Habit(_habitTitleController.text, 0, currentUserId);
-                        db.saveHabit(habit);
+                        //Habit habit =
+                        //Habit(_habitTitleController.text, 0, currentUserId);
+                        widget.habit.habitName = _habitTitleController.text;
+
+                        ///changes the name/title of the habit
+                        widget.habit.streakCount =
+                            0; //resets streak to 0 since you are changing the habit
+                        db.updateHabit(widget
+                            .habit); //updates habit in the habit table with the new name and resets the streakCount
+                        _habitTitleController
+                            .clear(); // clears the text field for entering a habit name
                       },
                       child: Text(
                         "Submit",
@@ -129,8 +141,8 @@ class _HabitTileState extends State<HabitTile> {
                 BorderRadius.circular(35)), //rounds the border of the tile
         tileColor: Colors.amber[300],
         title: Text(
-          _habitTitleController
-              .text, //allows the text being input by the user to be saved and used
+          widget.habit
+              .habitName, //allows the text being input by the user to be saved and used
         ),
         subtitle: Text('Tap to Edit'),
         onTap:
@@ -141,10 +153,30 @@ class _HabitTileState extends State<HabitTile> {
           onChanged: (value) {
             setState(() {
               _isDone = value!;
+              if (_isDone == true) {
+                widget.habit.streakCount++;
+                db.updateHabit(widget.habit);
+              }
+              if (_isDone == false) {
+                widget.habit.streakCount--;
+                db.updateHabit(widget.habit);
+              }
+              // if ((isMidnight(DateTime.now())) && (_isDone == true)) {
+              //   widget.habit.streakCount++;
+              //   db.updateHabit(widget.habit);
+              // }
+              // if (isMidnight(DateTime.now()) && (_isDone == false)) {
+              //   widget.habit.streakCount = 0;
+              //   db.updateHabit(widget.habit);
+              // }
             });
           },
         ),
       ),
     );
   }
+}
+
+bool isMidnight(DateTime dateTime) {
+  return dateTime.hour == 0 && dateTime.minute == 0 && dateTime.second == 0;
 }

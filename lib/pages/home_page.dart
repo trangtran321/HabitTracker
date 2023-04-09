@@ -17,15 +17,16 @@ class _HomePageState extends State<HomePage> {
   var db = DatabaseHelper();
   List<Habit> _habits = [];
   final _habitController = TextEditingController();
+  late int currentUserId = 0;
 
   @override
   void initState() {
     super.initState();
-    _loadHabits();
+    _loadHabits(currentUserId);
   }
 
-  void _loadHabits() async {
-    List<Habit> habits = await db.getAllHabits();
+  void _loadHabits(int currentUserId) async {
+    List<Habit> habits = await db.getAllHabitsForUser(currentUserId);
     setState(() {
       _habits = habits;
     });
@@ -33,9 +34,12 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     //get this.currentUser ID number to input into newly created habit
-      UserProvider userProvider = Provider.of<UserProvider>(context);
-      User? currentUser = userProvider.currentUser;
-      int currentUserId = currentUser?.id?? 0; //defaults to zero, if user is not logged in
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    User? currentUser = userProvider.currentUser;
+    int currentUserId =
+        currentUser?.id ?? 0; //defaults to zero, if user is not logged in
+    _loadHabits(
+        currentUserId); //once logged in, this will load the list of habits specific to the current user logged in
 
     return Scaffold(
       backgroundColor: Colors.amber[100],
@@ -101,11 +105,13 @@ class _HomePageState extends State<HomePage> {
                 child: ElevatedButton(
                   onPressed: () async {
                     print("Current UserName: " + currentUserId.toString());
-                    Habit habit = Habit(_habitController.text, 0, currentUserId);
+                    Habit habit =
+                        Habit(_habitController.text, 0, currentUserId);
                     await db.saveHabit(habit);
                     setState(() {
                       _habits.add(habit);
                     });
+                    _habitController.clear();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple[300],

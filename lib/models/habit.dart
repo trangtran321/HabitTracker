@@ -7,7 +7,12 @@ class Habit {
   int _id = 0;
   int _userId = 0; //need to change to current userID
 
-  Habit(this._habitName, this._doneToday, this._userId);
+  Habit(this._habitName, this._doneToday, this._userId,
+      {int id = 0, int streakCount = 0, int completed = 0, int milestones = 0})
+      : _id = id,
+        _streakCount = streakCount,
+        _completed = completed,
+        _milestones = milestones;
 
   Habit.map(dynamic obj) {
     this._habitName = obj['habitName'];
@@ -26,6 +31,16 @@ class Habit {
   int get milestones => _milestones;
   int get id => _id;
   int get userId => _userId;
+
+  set habitName(String name) {
+    //sets a new name for a habit
+    _habitName = name;
+  }
+
+  set streakCount(int streak) {
+    // allows us to increment or decrement or set a streak value
+    _streakCount = streak;
+  }
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
