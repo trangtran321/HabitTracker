@@ -23,7 +23,9 @@ class _HabitTileState extends State<HabitTile> {
   bool _isDone = false;
   String _testHabit = '';
   String _habitDescription = '';
-  int _dropDownValue = 1;
+  int _dropDownValue1 = 3;
+  int _dropDownValue2 = 2;
+  int _dropDownValue3 = 2;
 
   var db = new DatabaseHelper();
 
@@ -52,7 +54,7 @@ class _HabitTileState extends State<HabitTile> {
                       });
                     },
                     controller: _habitTitleController, //saves user text input
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Enter Habit',
                     ),
                   ),
@@ -65,40 +67,105 @@ class _HabitTileState extends State<HabitTile> {
                       });
                     },
                     controller: _habitDescriptionController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsetsDirectional.only(bottom: 100),
                       labelText: 'Describe Your Habit',
                     ),
                   ),
-                  Text("How Often Do You Want A Milestone?"),
-                  SizedBox(height: 32),
-                  DropdownButton<int>(
-                    key: UniqueKey(),
-                    value: _dropDownValue,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _dropDownValue = newValue ?? 1;
-                      });
-                    },
-                    items:
-                        <int>[1, 2, 3].map<DropdownMenuItem<int>>((int value) {
-                      return DropdownMenuItem<int>(
-                        value: value,
-                        child: Text(value.toString()),
-                      );
-                    }).toList(),
+                  const Text("How Often Do You Want A Milestone?"),
+                  const SizedBox(height: 32),
+                  Row(
+                    ///Creates a row of text boxes with padding
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        child: Text("Milestone 1: Days"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        child: Text("Milestone 2: Weeks"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        child: Text("Milestone 3: Months"),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    //Creates a row of dropdown boxes to choose milestone times
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(50, 0, 25, 0),
+                        child: DropdownButton<int>(
+                          key: UniqueKey(),
+                          value: _dropDownValue1,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _dropDownValue1 = newValue ?? 3;
+                            });
+                          },
+                          items: <int>[3, 5]
+                              .map<DropdownMenuItem<int>>((int value) {
+                            return DropdownMenuItem<int>(
+                              key: UniqueKey(),
+                              value: value,
+                              child: Text(value.toString()),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(75, 8, 25, 0),
+                        child: DropdownButton<int>(
+                          key: UniqueKey(),
+                          value: _dropDownValue2,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _dropDownValue2 = newValue ?? 2;
+                            });
+                          },
+                          items: <int>[2, 3]
+                              .map<DropdownMenuItem<int>>((int value) {
+                            return DropdownMenuItem<int>(
+                              value: value,
+                              child: Text(value.toString()),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(75, 8, 25, 0),
+                        child: DropdownButton<int>(
+                          key: UniqueKey(),
+                          value: _dropDownValue3,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _dropDownValue3 = newValue ?? 2;
+                            });
+                          },
+                          items: <int>[2, 3, 6]
+                              .map<DropdownMenuItem<int>>((int value) {
+                            return DropdownMenuItem<int>(
+                              value: value,
+                              child: Text(value.toString()),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton(
                       style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(
-                              Colors.blueAccent),
+                          backgroundColor:
+                              const MaterialStatePropertyAll<Color>(
+                                  Colors.blueAccent),
                           minimumSize:
                               MaterialStateProperty.all(Size(100, 30))),
                       onPressed: () {
                         //insertion to database here!!
-                        var db = new DatabaseHelper();
+                        var db = DatabaseHelper();
                         //Habit habit =
                         //Habit(_habitTitleController.text, 0, currentUserId);
                         widget.habit.habitName = _habitTitleController.text;
@@ -111,7 +178,7 @@ class _HabitTileState extends State<HabitTile> {
                         _habitTitleController
                             .clear(); // clears the text field for entering a habit name
                       },
-                      child: Text(
+                      child: const Text(
                         "Submit",
                         style: TextStyle(color: Colors.white),
                       ),
@@ -132,7 +199,7 @@ class _HabitTileState extends State<HabitTile> {
       margin: const EdgeInsets.only(
           top: 8, bottom: 8), //adds padding to the top and bottom
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical:
                 35), //adds padding horizontally and vertically to align things inside the tile
@@ -144,7 +211,7 @@ class _HabitTileState extends State<HabitTile> {
           widget.habit
               .habitName, //allows the text being input by the user to be saved and used
         ),
-        subtitle: Text('Tap to Edit'),
+        subtitle: const Text('Tap to Edit'),
         onTap:
             _showOverlay, //opens the overlay box to input the new habit tite, description, etc..
         trailing: Checkbox(
