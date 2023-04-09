@@ -13,19 +13,32 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => UserProvider(),
-      child: const MyApp()),
+      child: const MainApp(),
+    ),
   );
 }
 
 final routes = {
-  '/home': (BuildContext context) => const HomePage(),
-  '/login': (BuildContext context) => const LoginPage(),
+  '/home': (BuildContext context) => NavigationScreen(currentIndex: 0),
   '/register': (BuildContext context) => RegisterPage(),
-  '/progress': (BuildContext context) => ProgressPage(),
 };
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MainApp extends StatefulWidget {
+  const MainApp({Key? key}) : super(key: key);
+
+  @override
+  _MainAppState createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  bool isLoggedIn = false;
+  int currentIndex = 0;
+
+  void login() {
+    setState(() {
+      isLoggedIn = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +48,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home:  NavigationScreen(
-        currentIndex: 0,
-      ),//const LoginPage(),
+      home: isLoggedIn
+          ? NavigationScreen(currentIndex: currentIndex)
+          : const LoginPage(),
       routes: routes,
     );
   }
 }
 
-// ignore: must_be_immutable
 class NavigationScreen extends StatefulWidget {
-  NavigationScreen({super.key, required this.currentIndex});
+  NavigationScreen({Key? key, required this.currentIndex}) : super(key: key);
   int currentIndex;
+
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
 }
@@ -57,7 +70,6 @@ List<Widget> screens = [
   ProgressPage(),
   chartBuilder(),
   const ProfilePage(),
-  const LoginPage(),
 ];
 
 class _NavigationScreenState extends State<NavigationScreen> {
@@ -86,7 +98,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
               icon: Icon(Icons.timeline), label: "Progress"),
           BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: "Charts"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.login), label: "Login"),
         ],
       ),
     );

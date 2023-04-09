@@ -21,9 +21,10 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
   //NavBarIndex is page index for navigation bar to find page
   int _navBarIndex = 1;
   //onNavTapped will navigate back to current page if tapped from another page
-  void _onNavTapped(int index){
-    setState((){
-      _navBarIndex = index;});
+  void _onNavTapped(int index) {
+    setState(() {
+      _navBarIndex = index;
+    });
   }
 
   late BuildContext _ctx;
@@ -139,8 +140,9 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     //_showSnackBar(user.toString());
     setState(() {
       _isLoading = false;
-      Provider.of<UserProvider>(_ctx, listen:false).setCurrentUser(user);
+      Provider.of<UserProvider>(_ctx, listen: false).setCurrentUser(user);
     });
-    Navigator.of(context).pushNamed("/home");
+    //Navigator.of(context).pushNamed("/home");
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   }
 }

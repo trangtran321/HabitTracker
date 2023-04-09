@@ -1,5 +1,3 @@
-//import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:habit_tracker/models/habit.dart';
@@ -53,7 +51,8 @@ class _HabitTileState extends State<HabitTile> {
                         _testHabit = value;
                       });
                     },
-                    controller: _habitTitleController, //saves user text input
+                    controller:
+                        _habitTitleController, //allows use of user text input
                     decoration: const InputDecoration(
                       labelText: 'Enter Habit',
                     ),
@@ -166,17 +165,15 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         //insertion to database here!!
                         var db = DatabaseHelper();
-                        //Habit habit =
-                        //Habit(_habitTitleController.text, 0, currentUserId);
-                        widget.habit.habitName = _habitTitleController.text;
 
                         ///changes the name/title of the habit
-                        widget.habit.streakCount =
-                            0; //resets streak to 0 since you are changing the habit
-                        db.updateHabit(widget
-                            .habit); //updates habit in the habit table with the new name and resets the streakCount
-                        _habitTitleController
-                            .clear(); // clears the text field for entering a habit name
+                        widget.habit.habitName = _habitTitleController.text;
+                        //resets streak to 0 since you are changing the habit
+                        widget.habit.streakCount = 0;
+                        //updates habit in the habit table with the new name and resets the streakCount
+                        db.updateHabit(widget.habit);
+                        // clears the text field for entering a habit name
+                        _habitTitleController.clear();
                       },
                       child: const Text(
                         "Submit",
