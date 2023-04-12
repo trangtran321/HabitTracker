@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/user_provider.dart';
+import 'package:habit_tracker/services.dart/user_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar/calendar_page.dart';
 import 'pages/habit/progress_page.dart';

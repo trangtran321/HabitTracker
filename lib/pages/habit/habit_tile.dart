@@ -4,7 +4,8 @@ import 'package:habit_tracker/models/habit.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/user.dart';
-import '../../user_provider.dart';
+import '../../services.dart/habit_provider.dart';
+import '../../services.dart/user_provider.dart';
 
 class HabitTile extends StatefulWidget {
   final Habit habit;
@@ -28,6 +29,9 @@ class _HabitTileState extends State<HabitTile> {
   var db = new DatabaseHelper();
 
   void _showOverlay() {
+    ChangeNotifierProvider(
+      create: (context) => HabitProvider());
+
     //creates the overlay that comes up when a habit tile is tapped
     showModalBottomSheet(
         context: context,
@@ -159,15 +163,17 @@ class _HabitTileState extends State<HabitTile> {
                       style: ButtonStyle(
                           backgroundColor:
                               const MaterialStatePropertyAll<Color>(
-                                  Colors.blueAccent),
+                                  Color.fromARGB(255, 255, 174, 60)),
                           minimumSize:
                               MaterialStateProperty.all(Size(100, 30))),
                       onPressed: () {
                         //insertion to database here!!
                         var db = DatabaseHelper();
 
-                        ///changes the name/title of the habit
-                        widget.habit.habitName = _habitTitleController.text;
+                        ///changes the name/title of the habit only if User has updated value
+                        if (widget.habit.habitName != _habitTitleController.text){
+                          widget.habit.habitName = _habitTitleController.text;
+                        }
                         //resets streak to 0 since you are changing the habit
                         widget.habit.streakCount = 0;
                         //updates habit in the habit table with the new name and resets the streakCount
@@ -177,7 +183,7 @@ class _HabitTileState extends State<HabitTile> {
                       },
                       child: const Text(
                         "Submit",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                       ),
                     ),
                   )
@@ -187,6 +193,8 @@ class _HabitTileState extends State<HabitTile> {
           );
         });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -244,3 +252,4 @@ class _HabitTileState extends State<HabitTile> {
 bool isMidnight(DateTime dateTime) {
   return dateTime.hour == 0 && dateTime.minute == 0 && dateTime.second == 0;
 }
+

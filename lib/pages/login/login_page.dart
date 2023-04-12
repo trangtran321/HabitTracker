@@ -7,8 +7,8 @@ import 'package:habit_tracker/pages/login/login_presenter.dart';
 import 'package:habit_tracker/pages/registration/registration_page.dart';
 import 'package:provider/provider.dart';
 
-import '../../user_provider.dart';
-import '../navigation_bar.dart';
+import '../../services.dart/user_provider.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,14 +18,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> implements LoginPageContract {
-  //NavBarIndex is page index for navigation bar to find page
-  int _navBarIndex = 1;
-  //onNavTapped will navigate back to current page if tapped from another page
-  void _onNavTapped(int index) {
-    setState(() {
-      _navBarIndex = index;
-    });
-  }
 
   late BuildContext _ctx;
 
@@ -54,78 +46,63 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     }
   }
 
-  // void _showSnackBar(String text) {
-  //   scaffoldKey.currentState?.showSnackBar(SnackBar(
-  //     content: Text(text),
-  //   ));
-  // }
-
   @override
   Widget build(BuildContext context) {
-    _ctx = context;
-
-    var loginBtn = new CupertinoButton(
-        child: new Text("Login"),
-        onPressed: () {
-          _submit();
-          print('login button pressed');
-        },
-        color: Color.fromRGBO(0, 122, 253, 1));
-    var registerBtn = new CupertinoButton(
-        child: new Text("Register"),
-        onPressed: () {
-          Navigator.of(context).pushNamed('/register');
-        });
-    var loginForm = Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        new Text(
-          "If you don't know your username and password you can always register",
-          textScaleFactor: 1.0,
-        ),
-        new Form(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login Page'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Form(
           key: formKey,
-          child: new Column(
-            children: <Widget>[
-              new Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: new TextFormField(
-                  onSaved: (val) => _username = val!,
-                  decoration: new InputDecoration(labelText: "Username"),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Email',
                 ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _username = value!,
               ),
-              new Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: new TextFormField(
-                  obscureText: true,
-                  onSaved: (val) => _password = val!,
-                  decoration: new InputDecoration(labelText: "Password"),
+              const SizedBox(height: 16),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Password',
                 ),
-              )
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _password = value!,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _isLoading ? null : _submit,
+                child: const Text('Login'),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                 Navigator.of(context).pushNamed('/register');
+                },
+                child: const Text('Don\'t have an account? Register here.'),
+              ),
             ],
           ),
         ),
-        loginBtn,
-        registerBtn
-      ],
-    );
-
-    return new Scaffold(
-      appBar: new AppBar(
-        title: const Text("Login Page"),
       ),
-      key: scaffoldKey,
-      body: Container(
-        child: Center(
-          child: loginForm,
-        ),
-      ),
-      // bottomNavigationBar: AppNavigationBar(
-      //   currentIndex: _navBarIndex,
-      // ),
     );
   }
-
   @override
   void onLoginError(String error) {
     // TODO: implement onLoginError
@@ -133,7 +110,23 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     setState(() {
       _isLoading = false;
     });
-  }
+    //need an if statement to check if user exists, if not show this message:
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Invalid email or password. Please try again.'),
+        backgroundColor: Colors.red,
+      ),
+    //else show::
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(
+    //         content: Text(
+    //             'An error occurred while logging in. Please try again later.'),
+    //         backgroundColor: Colors.red,
+    //       ),
+    //     );
+  );
+  }//end onLoginError
+
 
   @override
   void onLoginSuccess(User user) async {
@@ -145,5 +138,107 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     });
     //Navigator.of(context).pushNamed("/home");
     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-  }
+  }//end onLoginSuccess
 }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     _ctx = context;
+
+//     var loginBtn = new CupertinoButton(
+//         child: new Text("Login"),
+//         onPressed: () {
+//           _submit();
+//           print('login button pressed');
+//         },
+//         color: Color.fromRGBO(0, 122, 253, 1));
+//     var registerBtn = new CupertinoButton(
+//         child: new Text("Register"),
+//         onPressed: () {
+//           Navigator.of(context).pushNamed('/register');
+//         });
+//     var loginForm = Column(
+//       crossAxisAlignment: CrossAxisAlignment.center,
+//       children: <Widget>[
+//         new Text(
+//           "If you don't know your username and password you can always register",
+//           textScaleFactor: 1.0,
+//         ),
+//         new Form(
+//           key: formKey,
+//           child: new Column(
+//             children: <Widget>[
+//               new Padding(
+//                 padding: const EdgeInsets.all(10.0),
+//                 child: new TextFormField(
+//                   onSaved: (val) => _username = val!,
+//                   decoration: new InputDecoration(labelText: "Username"),
+//                 ),
+//               ),
+//               new Padding(
+//                 padding: const EdgeInsets.all(10.0),
+//                 child: new TextFormField(
+//                   onSaved: (val) => _password = val!,
+//                   decoration: new InputDecoration(labelText: "Password"),
+//                 ),
+//               )
+//             ],
+//           ),
+//         ),
+//         loginBtn,
+//         registerBtn
+//       ],
+//     );
+
+//     return new Scaffold(
+//       appBar: new AppBar(
+//         title: const Text("Login Page"),
+//       ),
+//       key: scaffoldKey,
+//       body: Container(
+//         child: Center(
+//           child: loginForm,
+//         ),
+//       ),
+//       // bottomNavigationBar: AppNavigationBar(
+//       //   currentIndex: _navBarIndex,
+//       // ),
+//     );
+//   }
+
+//   @override
+//   void onLoginError(String error) {
+//     // TODO: implement onLoginError
+//     //_showSnackBar(error);
+//     setState(() {
+//       _isLoading = false;
+//     });
+//     //need an if statement to check if user exists, if not show this message:
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(
+//         content: Text('Invalid email or password. Please try again.'),
+//         backgroundColor: Colors.red,
+//       ),
+//     //else show::
+//     // ScaffoldMessenger.of(context).showSnackBar(
+//     //       const SnackBar(
+//     //         content: Text(
+//     //             'An error occurred while logging in. Please try again later.'),
+//     //         backgroundColor: Colors.red,
+//     //       ),
+//     //     );
+//   );
+//   }
+
+//   @override
+//   void onLoginSuccess(User user) async {
+//     // TODO: implement onLoginSuccess
+//     //_showSnackBar(user.toString());
+//     setState(() {
+//       _isLoading = false;
+//       Provider.of<UserProvider>(_ctx, listen: false).setCurrentUser(user);
+//     });
+//     //Navigator.of(context).pushNamed("/home");
+//     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+//   }
+// }

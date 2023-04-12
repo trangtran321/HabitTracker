@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
-import '../user_provider.dart';
+import '../services.dart/user_provider.dart';
 import 'habit/habit_tile.dart';
 import 'package:habit_tracker/models/habit.dart';
-import 'navigation_bar.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
