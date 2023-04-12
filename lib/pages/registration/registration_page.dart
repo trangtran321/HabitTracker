@@ -85,6 +85,7 @@ class _RegisterPageState extends State<RegisterPage>
               new Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: new TextFormField(
+                  obscureText: true,
                   onSaved: (val) => _password = val!,
                   decoration: new InputDecoration(labelText: "Any Password"),
                 ),

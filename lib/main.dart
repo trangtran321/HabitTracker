@@ -21,6 +21,7 @@ void main() {
 final routes = {
   '/home': (BuildContext context) => NavigationScreen(currentIndex: 0),
   '/register': (BuildContext context) => RegisterPage(),
+  '/login': (BuildContext context) => const LoginPage(),
 };
 
 class MainApp extends StatefulWidget {
