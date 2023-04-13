@@ -6,7 +6,6 @@ import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/pages/login/login_presenter.dart';
 import 'package:habit_tracker/pages/registration/registration_page.dart';
 import 'package:provider/provider.dart';
-
 import '../../services.dart/user_provider.dart';
 
 
@@ -14,13 +13,12 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPage> createState() => new _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
   late BuildContext _ctx;
-
   bool _isLoading = false;
   final formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -48,9 +46,18 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
   @override
   Widget build(BuildContext context) {
+    _ctx = context;
     return Scaffold(
+      backgroundColor: Colors.amber[100],
       appBar: AppBar(
-        title: const Text('Login Page'),
+        backgroundColor: Colors.grey[900],
+        centerTitle: true,
+        title: const Text(
+          'Login Page',
+          style: TextStyle(
+            color: Colors.amber,
+            fontSize: 25,
+          )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -87,7 +94,8 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: _isLoading ? null : _submit,
+                onPressed: () {
+                  _submit();},
                 child: const Text('Login'),
               ),
               const SizedBox(height: 16),
@@ -103,6 +111,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
       ),
     );
   }
+
   @override
   void onLoginError(String error) {
     // TODO: implement onLoginError
@@ -139,6 +148,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     //Navigator.of(context).pushNamed("/home");
     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   }//end onLoginSuccess
+
 }
 
 //   @override
@@ -200,9 +210,6 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 //           child: loginForm,
 //         ),
 //       ),
-//       // bottomNavigationBar: AppNavigationBar(
-//       //   currentIndex: _navBarIndex,
-//       // ),
 //     );
 //   }
 

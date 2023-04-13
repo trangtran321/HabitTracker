@@ -46,8 +46,15 @@ class _RegisterPageState extends State<RegisterPage>
   Widget build(BuildContext context) {
     _ctx = context;
     return Scaffold(
+      backgroundColor: Colors.amber[100],
       appBar: AppBar(
-        title: const Text('Registration Page'),
+        backgroundColor: Colors.grey[900],
+        title: const Text(
+          'Registration Page',
+          style: TextStyle(
+            color: Colors.amber,
+            fontSize: 25,
+          )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
