@@ -25,12 +25,12 @@ class _HabitTileState extends State<HabitTile> {
   int _dropDownValue1 = 3;
   int _dropDownValue2 = 2;
   int _dropDownValue3 = 2;
+  String streakImage = 'images/fire.png';
 
   var db = new DatabaseHelper();
 
   void _showOverlay() {
-    ChangeNotifierProvider(
-      create: (context) => HabitProvider());
+    ChangeNotifierProvider(create: (context) => HabitProvider());
 
     //creates the overlay that comes up when a habit tile is tapped
     showModalBottomSheet(
@@ -171,7 +171,8 @@ class _HabitTileState extends State<HabitTile> {
                         var db = DatabaseHelper();
 
                         ///changes the name/title of the habit only if User has updated value
-                        if (widget.habit.habitName != _habitTitleController.text){
+                        if (widget.habit.habitName !=
+                            _habitTitleController.text) {
                           widget.habit.habitName = _habitTitleController.text;
                         }
                         //resets streak to 0 since you are changing the habit
@@ -194,8 +195,6 @@ class _HabitTileState extends State<HabitTile> {
         });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     //Creates the box for the individual Habit
@@ -212,9 +211,24 @@ class _HabitTileState extends State<HabitTile> {
             borderRadius:
                 BorderRadius.circular(35)), //rounds the border of the tile
         tileColor: Colors.amber[300],
-        title: Text(
-          widget.habit
-              .habitName, //allows the text being input by the user to be saved and used
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                widget.habit
+                    .habitName, //allows the text being input by the user to be saved and used
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 15, 8, 15),
+              child: Image.asset(
+                streakImage,
+                height: 30,
+              ),
+            ),
+            Text(widget.habit.streakCount.toString()),
+          ],
         ),
         subtitle: const Text('Tap to Edit'),
         onTap:
@@ -252,4 +266,3 @@ class _HabitTileState extends State<HabitTile> {
 bool isMidnight(DateTime dateTime) {
   return dateTime.hour == 0 && dateTime.minute == 0 && dateTime.second == 0;
 }
-

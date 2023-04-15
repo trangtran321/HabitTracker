@@ -19,10 +19,11 @@ class _HabitListState extends State<HabitList> {
 
   @override
   Widget build(BuildContext context) {
-      //get this.currentUser ID number to input into newly created habit
-      UserProvider userProvider = Provider.of<UserProvider>(context);
-      User? currentUser = userProvider.currentUser;
-      int currentUserId = currentUser?.id ?? 0; //defaults to zero, if user is not logged in
+    //get this.currentUser ID number to input into newly created habit
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    User? currentUser = userProvider.currentUser;
+    int currentUserId =
+        currentUser?.id ?? 0; //defaults to zero, if user is not logged in
 
     return Scaffold(
       backgroundColor: Colors.amber[100],
@@ -67,7 +68,8 @@ class _HabitListState extends State<HabitList> {
             ),
             child: ElevatedButton(
               onPressed: () {
-                Habit habit = new Habit(_habitController.text, 0, currentUserId);
+                Habit habit =
+                    new Habit(_habitController.text, 0, currentUserId);
                 print("Current UserName::" + currentUserId.toString());
                 db.saveHabit(habit);
                 _habitController.clear();

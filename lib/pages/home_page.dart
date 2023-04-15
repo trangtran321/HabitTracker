@@ -6,7 +6,6 @@ import '../services.dart/user_provider.dart';
 import 'habit/habit_tile.dart';
 import 'package:habit_tracker/models/habit.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
