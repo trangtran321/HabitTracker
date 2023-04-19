@@ -1,4 +1,3 @@
-
 import 'package:habit_tracker/database/rest_data.dart';
 import 'package:habit_tracker/models/user.dart';
 
@@ -8,8 +7,8 @@ abstract class RegisterPageContract {
 }
 
 class RegisterPagePresenter {
-  RegisterPageContract _view;
-  RestData api = new RestData();
+  final RegisterPageContract _view;
+  RestData api = RestData();
   RegisterPagePresenter(this._view);
 
   doRegister(String username, String password, int userId) {
@@ -17,8 +16,8 @@ class RegisterPagePresenter {
         .login(username, password, userId)
         .then((user) => _view.onRegisterSuccess(user))
         .catchError((onError) {
-          //print("Trying to Catch"+onError.toString());
-          return _view.onRegisterError(onError.toString());
+      //print("Trying to Catch"+onError.toString());
+      return _view.onRegisterError(onError.toString());
     });
   }
 }

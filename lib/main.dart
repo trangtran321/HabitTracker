@@ -69,7 +69,7 @@ List<Widget> screens = [
   const HomePage(),
   const CalendarPage(),
   ProgressPage(),
-  chartBuilder(),
+  ChartBuilder(),
   const ProfilePage(),
 ];
 

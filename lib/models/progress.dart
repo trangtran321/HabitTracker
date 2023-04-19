@@ -1,5 +1,5 @@
 class Progress {
-  String  _habitName = "";
+  String _habitName = "";
   int _id = 0;
   int _totalMilestones = 0;
   int _ms1 = 0;
@@ -10,10 +10,14 @@ class Progress {
 
   //Initializer for the habit that maps to the milestones
   //each potential milestone's day-timeline is defaulted to 0 until user chooses
-  //otherwise 
+  //otherwise
   Progress(this._habitName, this._totalMilestones,
-      {int id = 0, int ms1 = 0, int ms2 = 0, int ms3 = 0,
-      int ms4 = 0, int ms5 = 0})
+      {int id = 0,
+      int ms1 = 0,
+      int ms2 = 0,
+      int ms3 = 0,
+      int ms4 = 0,
+      int ms5 = 0})
       : _id = id,
         _ms1 = ms1,
         _ms2 = ms2,
@@ -22,15 +26,14 @@ class Progress {
         _ms5 = ms5;
 
   Progress.map(dynamic obj) {
-    this._habitName = obj['habitName'];
-    this._id = obj['id'];
-    this._totalMilestones = obj['totalMilestones'];
-    this._ms1 = obj['ms1'];
-    this._ms2 = obj['ms2'];
-    this._ms3 = obj['ms3'];
-    this._ms4 = obj['ms4'];
-    this._ms5 = obj['ms5'];
-
+    _habitName = obj['habitName'];
+    _id = obj['id'];
+    _totalMilestones = obj['totalMilestones'];
+    _ms1 = obj['ms1'];
+    _ms2 = obj['ms2'];
+    _ms3 = obj['ms3'];
+    _ms4 = obj['ms4'];
+    _ms5 = obj['ms5'];
   }
 
   String get habitName => _habitName;
@@ -42,12 +45,12 @@ class Progress {
   int get ms4 => _ms4;
   int get ms5 => _ms5;
 
-  set totalMilestones(int totalMS){
+  set totalMilestones(int totalMS) {
     totalMilestones = totalMS;
   }
 
   Map<String, dynamic> toMap() {
-    var map = new Map<String, dynamic>();
+    var map = Map<String, dynamic>();
     map["habitName"] = _habitName;
     map["totalMilestones"] = _totalMilestones;
     map["ms1"] = _ms1;

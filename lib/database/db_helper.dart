@@ -58,7 +58,7 @@ class DatabaseHelper {
           FOREIGN KEY(habit) REFERENCES Habit(habitName),
           totalMilestones INTEGER,
           ms1 INTEGER,
-          ms2 INTEGER
+          ms2 INTEGER,
           ms3 INTEGER,
           ms4 INTEGER,
           ms5 INTEGER)

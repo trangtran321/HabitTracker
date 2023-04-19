@@ -8,14 +8,14 @@ abstract class LoginPageContract {
 }
 
 class LoginPagePresenter {
-  LoginPageContract _view;
+  final LoginPageContract _view;
   //Not using RestData Currently - 3/27
   //RestData api = new RestData();
   LoginPagePresenter(this._view);
 
   doLogin(String username, String password, int userId) {
     //print("HI");
-    var db = new DatabaseHelper();
+    var db = DatabaseHelper();
     db
         .checkUser(User(username, password, userId))
         .then((user) => _view.onLoginSuccess(user))

@@ -27,7 +27,7 @@ class _HabitTileState extends State<HabitTile> {
   int _dropDownValue3 = 2;
   String streakImage = 'images/fire.png';
 
-  var db = new DatabaseHelper();
+  var db = DatabaseHelper();
 
   void _showOverlay() {
     ChangeNotifierProvider(create: (context) => HabitProvider());
@@ -165,7 +165,7 @@ class _HabitTileState extends State<HabitTile> {
                               const MaterialStatePropertyAll<Color>(
                                   Color.fromARGB(255, 255, 174, 60)),
                           minimumSize:
-                              MaterialStateProperty.all(Size(100, 30))),
+                              MaterialStateProperty.all(const Size(100, 30))),
                       onPressed: () {
                         //insertion to database here!!
                         var db = DatabaseHelper();
@@ -224,7 +224,7 @@ class _HabitTileState extends State<HabitTile> {
               padding: const EdgeInsets.fromLTRB(15, 15, 8, 15),
               child: Image.asset(
                 streakImage,
-                height: 30,
+                height: 50,
               ),
             ),
             Text(widget.habit.streakCount.toString()),

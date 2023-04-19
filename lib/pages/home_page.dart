@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     //get this.currentUser ID number to input into newly created habit
     UserProvider userProvider = Provider.of<UserProvider>(context);

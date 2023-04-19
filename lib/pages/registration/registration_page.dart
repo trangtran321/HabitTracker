@@ -3,18 +3,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/pages/registration/registration_presenter.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
   @override
   _RegisterPageState createState() => new _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage>
-  implements RegisterPageContract {
+    implements RegisterPageContract {
   late BuildContext _ctx;
   bool _isLoading = false;
   final formKey = new GlobalKey<FormState>();
@@ -41,7 +41,6 @@ class _RegisterPageState extends State<RegisterPage>
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     _ctx = context;
@@ -49,12 +48,11 @@ class _RegisterPageState extends State<RegisterPage>
       backgroundColor: Colors.amber[100],
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
-        title: const Text(
-          'Registration Page',
-          style: TextStyle(
-            color: Colors.amber,
-            fontSize: 25,
-          )),
+        title: const Text('Registration Page',
+            style: TextStyle(
+              color: Colors.amber,
+              fontSize: 25,
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -104,7 +102,8 @@ class _RegisterPageState extends State<RegisterPage>
       ),
     );
   }
-    @override
+
+  @override
   void onRegisterError(String error) {
     // TODO: implement onRegisterError
     // _showSnackBar(error);
@@ -112,10 +111,11 @@ class _RegisterPageState extends State<RegisterPage>
       _isLoading = false;
     });
     ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('An error occurred. Please try again later.'),
-            backgroundColor: Colors.red,
-    ),);
+      const SnackBar(
+        content: Text('An error occurred. Please try again later.'),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   @override

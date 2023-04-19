@@ -14,7 +14,7 @@ class HabitList extends StatefulWidget {
 }
 
 class _HabitListState extends State<HabitList> {
-  var db = new DatabaseHelper();
+  var db = DatabaseHelper();
   final _habitController = TextEditingController();
 
   @override
@@ -68,12 +68,10 @@ class _HabitListState extends State<HabitList> {
             ),
             child: ElevatedButton(
               onPressed: () {
-                Habit habit =
-                    new Habit(_habitController.text, 0, currentUserId);
+                Habit habit = Habit(_habitController.text, 0, currentUserId);
                 print("Current UserName::" + currentUserId.toString());
                 db.saveHabit(habit);
                 _habitController.clear();
-                //HabitTile();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurple[300],

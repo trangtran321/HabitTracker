@@ -15,13 +15,13 @@ class Habit {
         _milestones = milestones;
 
   Habit.map(dynamic obj) {
-    this._habitName = obj['habitName'];
-    this._doneToday = obj['doneToday'];
-    this._streakCount = obj['streakCount'];
-    this._completed = obj['completed'];
-    this._milestones = obj['milestones'];
-    this._id = obj['id'];
-    this._userId = obj['userId'];
+    _habitName = obj['habitName'];
+    _doneToday = obj['doneToday'];
+    _streakCount = obj['streakCount'];
+    _completed = obj['completed'];
+    _milestones = obj['milestones'];
+    _id = obj['id'];
+    _userId = obj['userId'];
   }
 
   String get habitName => _habitName;
@@ -43,7 +43,7 @@ class Habit {
   }
 
   Map<String, dynamic> toMap() {
-    var map = new Map<String, dynamic>();
+    var map = Map<String, dynamic>();
     map["habitName"] = _habitName;
     map["doneToday"] = _doneToday;
     map["streakCount"] = _streakCount;

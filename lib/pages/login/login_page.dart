@@ -1,13 +1,11 @@
 // ignore_for_file: unnecessary_new
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/pages/login/login_presenter.dart';
 import 'package:habit_tracker/pages/registration/registration_page.dart';
 import 'package:provider/provider.dart';
 import '../../services.dart/user_provider.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,7 +15,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> implements LoginPageContract {
-
   late BuildContext _ctx;
   bool _isLoading = false;
   final formKey = new GlobalKey<FormState>();
@@ -52,12 +49,11 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         centerTitle: true,
-        title: const Text(
-          'Login Page',
-          style: TextStyle(
-            color: Colors.amber,
-            fontSize: 25,
-          )),
+        title: const Text('Login Page',
+            style: TextStyle(
+              color: Colors.amber,
+              fontSize: 25,
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -95,13 +91,14 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  _submit();},
+                  _submit();
+                },
                 child: const Text('Login'),
               ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
-                 Navigator.of(context).pushNamed('/register');
+                  Navigator.of(context).pushNamed('/register');
                 },
                 child: const Text('Don\'t have an account? Register here.'),
               ),
@@ -114,7 +111,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
   @override
   void onLoginError(String error) {
-    // TODO: implement onLoginError
+    //TODO implement onLoginError
     //_showSnackBar(error);
     setState(() {
       _isLoading = false;
@@ -125,21 +122,20 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
         content: Text('Invalid email or password. Please try again.'),
         backgroundColor: Colors.red,
       ),
-    //else show::
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //       const SnackBar(
-    //         content: Text(
-    //             'An error occurred while logging in. Please try again later.'),
-    //         backgroundColor: Colors.red,
-    //       ),
-    //     );
-  );
-  }//end onLoginError
-
+      //else show::
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //       const SnackBar(
+      //         content: Text(
+      //             'An error occurred while logging in. Please try again later.'),
+      //         backgroundColor: Colors.red,
+      //       ),
+      //     );
+    );
+  } //end onLoginError
 
   @override
   void onLoginSuccess(User user) async {
-    // TODO: implement onLoginSuccess
+    // TODO implement onLoginSuccess
     //_showSnackBar(user.toString());
     setState(() {
       _isLoading = false;
@@ -147,8 +143,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     });
     //Navigator.of(context).pushNamed("/home");
     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-  }//end onLoginSuccess
-
+  } //end onLoginSuccess
 }
 
 //   @override
