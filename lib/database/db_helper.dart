@@ -52,17 +52,17 @@ class DatabaseHelper {
           FOREIGN KEY(userId) REFERENCES User(id))
         ''');
 
-    await db.execute('''CREATE TABLE PROGRESS(
-          id INTEGER PRIMARY KEY,
-          habitName TEXT,
-          FOREIGN KEY(habit) REFERENCES Habit(habitName),
-          totalMilestones INTEGER,
-          ms1 INTEGER,
-          ms2 INTEGER,
-          ms3 INTEGER,
-          ms4 INTEGER,
-          ms5 INTEGER)
-        ''');
+    // await db.execute('''CREATE TABLE PROGRESS(
+    //       id INTEGER PRIMARY KEY,
+    //       habitName TEXT,
+    //       FOREIGN KEY(habit) REFERENCES Habit(habitName),
+    //       totalMilestones INTEGER,
+    //       ms1 INTEGER,
+    //       ms2 INTEGER,
+    //       ms3 INTEGER,
+    //       ms4 INTEGER,
+    //       ms5 INTEGER)
+    //     ''');
 
     print("User Table is created");
   }

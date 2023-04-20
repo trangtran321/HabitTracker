@@ -210,7 +210,7 @@ class _HabitTileState extends State<HabitTile> {
         shape: RoundedRectangleBorder(
             borderRadius:
                 BorderRadius.circular(35)), //rounds the border of the tile
-        tileColor: Colors.amber[300],
+        tileColor: Colors.deepPurple[200],
         title: Row(
           children: [
             Padding(
