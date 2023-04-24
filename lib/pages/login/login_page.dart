@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Invalid email or password. Please try again.'),
-        backgroundColor: Colors.red,
+        backgroundColor: Color.fromARGB(255, 195, 100, 6),
       ),
       //else show::
       // ScaffoldMessenger.of(context).showSnackBar(

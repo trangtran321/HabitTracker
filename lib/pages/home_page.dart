@@ -3,7 +3,7 @@ import 'package:habit_tracker/database/db_helper.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
 import '../services.dart/user_provider.dart';
-import 'habit/habit_tile.dart';
+import 'habit/habit_tile3.dart';
 import 'package:habit_tracker/models/habit.dart';
 
 class HomePage extends StatefulWidget {
