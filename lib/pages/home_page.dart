@@ -2,18 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
-<<<<<<< Updated upstream
 import '../services.dart/user_provider.dart';
 import 'habit/habit_tile.dart';
-=======
-import '../services.dart/user_provider.dart';
-//import 'habit/habit_tile.dart';
->>>>>>> Stashed changes
 import 'package:habit_tracker/models/habit.dart';
-
-
-import 'package:habit_tracker/pages/habit/habit_tile2.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -41,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     //get this.currentUser ID number to input into newly created habit
     UserProvider userProvider = Provider.of<UserProvider>(context);
