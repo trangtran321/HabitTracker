@@ -6,7 +6,7 @@ import 'package:habit_tracker/models/milestones.dart';
 import 'package:provider/provider.dart';
 import '../../models/user.dart';
 <<<<<<< Updated upstream
-import '../../user_provider.dart';
+import '../../services.dart/user_provider.dart';
 =======
 import '../../services.dart/habit_provider.dart';
 import '../../services.dart/user_provider.dart';

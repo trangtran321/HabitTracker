@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'models/user.dart';
+import '../models/user.dart';
 
 class UserProvider with ChangeNotifier{
    //Store current user data

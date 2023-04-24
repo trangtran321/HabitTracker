@@ -7,7 +7,7 @@ import 'package:habit_tracker/pages/login/login_presenter.dart';
 import 'package:habit_tracker/pages/registration/registration_page.dart';
 import 'package:provider/provider.dart';
 
-import '../../user_provider.dart';
+import '../../services.dart/user_provider.dart';
 import '../navigation_bar.dart';
 
 class LoginPage extends StatefulWidget {
