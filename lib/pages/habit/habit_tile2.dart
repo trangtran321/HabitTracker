@@ -20,9 +20,11 @@ class _HabitTileState extends State<HabitTile> {
   //sets initial states for fields in the HabitTile
   final _habitTitleController = TextEditingController();
   final _habitDescriptionController = TextEditingController();
+  final _totalMilestoneController = TextEditingController();
   bool _isDone = false;
   String _testHabit = '';
   String _habitDescription = '';
+  int _totalMilestones = 0;
 
   var db = new DatabaseHelper();
 
@@ -73,22 +75,18 @@ class _HabitTileState extends State<HabitTile> {
                       labelText: 'Describe Your Habit',
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 10,
-                      right: 20,),
-                    child: ElevatedButton(
-                      onPressed:(){
-                        db.saveMilestone(milestone);
-                        //MilestoneTile(milestone: milestone);
-                       //_getTotalMilestones(milestone, context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber[300],
-                        minimumSize: const Size(20, 20),
-                        elevation: 10,
-                      ),
-                      child: const MilestoneOverlay(),
+                  TextField(
+                    textAlignVertical: TextAlignVertical.top,
+                    maxLines: 1,
+                    onChanged: (value) {
+                      setState(() {
+                        _totalMilestones = value as int;
+                      });
+                    },
+                    controller: _totalMilestoneController,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsetsDirectional.only(bottom: 100),
+                      labelText: 'How Many Total Milestones Would You Like?',
                     ),
                   ),
                   Align(
