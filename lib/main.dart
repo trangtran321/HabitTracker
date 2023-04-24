@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/user_provider.dart';
+import 'package:habit_tracker/services.dart/user_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar/calendar_page.dart';
 import 'pages/habit/progress_page.dart';
@@ -21,6 +21,7 @@ void main() {
 final routes = {
   '/home': (BuildContext context) => NavigationScreen(currentIndex: 0),
   '/register': (BuildContext context) => RegisterPage(),
+  '/login': (BuildContext context) => const LoginPage(),
 };
 
 class MainApp extends StatefulWidget {
@@ -68,7 +69,7 @@ List<Widget> screens = [
   const HomePage(),
   const CalendarPage(),
   ProgressPage(),
-  chartBuilder(),
+  ChartBuilder(),
   const ProfilePage(),
 ];
 
