@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
+<<<<<<< Updated upstream
 import '../user_provider.dart';
 import 'habit/habit_tile.dart';
+=======
+import '../services.dart/user_provider.dart';
+//import 'habit/habit_tile.dart';
+>>>>>>> Stashed changes
 import 'package:habit_tracker/models/habit.dart';
 import 'navigation_bar.dart';
+
+import 'package:habit_tracker/pages/habit/habit_tile2.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

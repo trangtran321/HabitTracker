@@ -6,6 +6,8 @@ import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../models/milestones.dart';
+
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper.internal();
   factory DatabaseHelper() => _instance;
@@ -47,11 +49,25 @@ class DatabaseHelper {
           doneToday INTEGER,
           completed INTEGER,
           streakCount INTEGER,
-          milestones INTEGER,
           userId INTEGER,
           FOREIGN KEY(userId) REFERENCES User(id))
         ''');
 
+<<<<<<< Updated upstream
+=======
+    await db.execute('''CREATE TABLE Milestone(
+          id INTEGER PRIMARY KEY,
+          total INTEGER,
+          ms1 INTEGER,
+          ms2 INTEGER,
+          ms3 INTEGER,
+          ms4 INTEGER,
+          ms5 INTEGER,
+          habitName TEXT,
+          FOREIGN KEY(habitName) REFERENCES Habit(habitName))
+        ''');
+
+>>>>>>> Stashed changes
     print("User Table is created");
   }
 
@@ -81,13 +97,6 @@ class DatabaseHelper {
       print(res);
       return res;
     }
-  }
-
-  //insertion of Habit to User database
-  Future<int> saveHabit(Habit habit) async {
-    var dbClient = await db;
-    int res = await dbClient.insert("Habit", habit.toMap());
-    return res;
   }
 
   //deletion from database
@@ -154,6 +163,15 @@ class DatabaseHelper {
     List<Map<String, dynamic>> res = await dbClient
         .query("User", where: '"username" = ?', whereArgs: [user.username]);
     return res.isNotEmpty;
+  }
+
+//----------------Habit Table Functions-------------------//
+
+    //insertion of Habit to User database
+  Future<int> saveHabit(Habit habit) async {
+    var dbClient = await db;
+    int res = await dbClient.insert("Habit", habit.toMap());
+    return res;
   }
 
   Future<Habit> checkHabit(Habit habit) async {
@@ -224,4 +242,38 @@ class DatabaseHelper {
     }
     return Future<List<Habit>>.value(habits);
   }
+
+
+//-------------Milestone Table Functions-----------------//
+
+
+  //insertion of milestones into db
+  Future<int> saveMilestone(Milestones milestone) async {
+    var dbClient = await db;
+    int res = await dbClient.insert("Milestone", milestone.toMap());
+    return res;
+  }
+
+  //update milestones
+  Future<int> updateMilestone(Milestones milestone) async {
+    var dbClient = await db;
+    int res = await dbClient.update(
+      "Milestone",
+      milestone.toMap(),
+      where: '"id" = ?',
+      whereArgs: [milestone.id],
+    );
+    return res;
+  }
+
+  //see if milestones exist already
+    Future<bool> milestoneExists(Milestones milestone) async {
+    var dbClient = await db;
+    List<Map<String, dynamic>> res = await dbClient
+        .query("Milestone", where: '"habitName" = ?', whereArgs: [milestone.habitName]);
+    return res.isNotEmpty;
+  }
+
 }
+
+

@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:habit_tracker/models/habit.dart';
+import 'package:habit_tracker/models/milestones.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/user.dart';
+<<<<<<< Updated upstream
 import '../../user_provider.dart';
+=======
+import '../../services.dart/habit_provider.dart';
+import '../../services.dart/user_provider.dart';
+import 'milestone_tile.dart';
+>>>>>>> Stashed changes
 
 class HabitTile extends StatefulWidget {
   final Habit habit;
   const HabitTile({Key? key, required this.habit}) : super(key: key);
-
   @override
   State<HabitTile> createState() => _HabitTileState();
 }
@@ -21,9 +27,13 @@ class _HabitTileState extends State<HabitTile> {
   bool _isDone = false;
   String _testHabit = '';
   String _habitDescription = '';
+<<<<<<< Updated upstream
   int _dropDownValue1 = 3;
   int _dropDownValue2 = 2;
   int _dropDownValue3 = 2;
+=======
+  String streakImage = 'images/fire.png';
+>>>>>>> Stashed changes
 
   var db = new DatabaseHelper();
 
@@ -71,88 +81,113 @@ class _HabitTileState extends State<HabitTile> {
                       labelText: 'Describe Your Habit',
                     ),
                   ),
-                  const Text("How Often Do You Want A Milestone?"),
-                  const SizedBox(height: 32),
-                  Row(
-                    ///Creates a row of text boxes with padding
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Text("Milestone 1: Days"),
+                  Container(
+                    margin: const EdgeInsets.only(
+                      bottom: 10,
+                      right: 20,),
+                    child: ElevatedButton(
+                      onPressed:(){
+                        Milestones milestone = Milestones(widget.habit.habitName, 0);
+                        db.saveMilestone(milestone);
+                        //MilestoneTile(milestone: milestone);
+                       _getTotalMilestones(milestone, context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber[300],
+                        minimumSize: const Size(20, 20),
+                        elevation: 10,
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Text("Milestone 2: Weeks"),
+                      child: const Text(
+                        'Milestones',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Text("Milestone 3: Months"),
-                      ),
-                    ],
+                    ),
                   ),
-                  Row(
-                    //Creates a row of dropdown boxes to choose milestone times
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(50, 0, 25, 0),
-                        child: DropdownButton<int>(
-                          key: UniqueKey(),
-                          value: _dropDownValue1,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _dropDownValue1 = newValue ?? 3;
-                            });
-                          },
-                          items: <int>[3, 5]
-                              .map<DropdownMenuItem<int>>((int value) {
-                            return DropdownMenuItem<int>(
-                              key: UniqueKey(),
-                              value: value,
-                              child: Text(value.toString()),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(75, 8, 25, 0),
-                        child: DropdownButton<int>(
-                          key: UniqueKey(),
-                          value: _dropDownValue2,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _dropDownValue2 = newValue ?? 2;
-                            });
-                          },
-                          items: <int>[2, 3]
-                              .map<DropdownMenuItem<int>>((int value) {
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Text(value.toString()),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(75, 8, 25, 0),
-                        child: DropdownButton<int>(
-                          key: UniqueKey(),
-                          value: _dropDownValue3,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _dropDownValue3 = newValue ?? 2;
-                            });
-                          },
-                          items: <int>[2, 3, 6]
-                              .map<DropdownMenuItem<int>>((int value) {
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Text(value.toString()),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // const Text("How Often Do You Want A Milestone?"),
+                  // const SizedBox(height: 32),
+                  // Row(
+                  //   ///Creates a row of text boxes with padding
+                  //   children: const [
+                  //     Padding(
+                  //       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  //       child: Text("Milestone 1: Days"),
+                  //     ),
+                  //     Padding(
+                  //       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  //       child: Text("Milestone 2: Weeks"),
+                  //     ),
+                  //     Padding(
+                  //       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  //       child: Text("Milestone 3: Months"),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Row(
+                  //   //Creates a row of dropdown boxes to choose milestone times
+                  //   children: [
+                  //     Padding(
+                  //       padding: const EdgeInsets.fromLTRB(50, 0, 25, 0),
+                  //       child: DropdownButton<int>(
+                  //         key: UniqueKey(),
+                  //         value: _dropDownValue1,
+                  //         onChanged: (newValue) {
+                  //           setState(() {
+                  //             _dropDownValue1 = newValue ?? 3;
+                  //           });
+                  //         },
+                  //         items: <int>[3, 5]
+                  //             .map<DropdownMenuItem<int>>((int value) {
+                  //           return DropdownMenuItem<int>(
+                  //             key: UniqueKey(),
+                  //             value: value,
+                  //             child: Text(value.toString()),
+                  //           );
+                  //         }).toList(),
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: const EdgeInsets.fromLTRB(75, 8, 25, 0),
+                  //       child: DropdownButton<int>(
+                  //         key: UniqueKey(),
+                  //         value: _dropDownValue2,
+                  //         onChanged: (newValue) {
+                  //           setState(() {
+                  //             _dropDownValue2 = newValue ?? 2;
+                  //           });
+                  //         },
+                  //         items: <int>[2, 3]
+                  //             .map<DropdownMenuItem<int>>((int value) {
+                  //           return DropdownMenuItem<int>(
+                  //             value: value,
+                  //             child: Text(value.toString()),
+                  //           );
+                  //         }).toList(),
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: const EdgeInsets.fromLTRB(75, 8, 25, 0),
+                  //       child: DropdownButton<int>(
+                  //         key: UniqueKey(),
+                  //         value: _dropDownValue3,
+                  //         onChanged: (newValue) {
+                  //           setState(() {
+                  //             _dropDownValue3 = newValue ?? 2;
+                  //           });
+                  //         },
+                  //         items: <int>[2, 3, 6]
+                  //             .map<DropdownMenuItem<int>>((int value) {
+                  //           return DropdownMenuItem<int>(
+                  //             value: value,
+                  //             child: Text(value.toString()),
+                  //           );
+                  //         }).toList(),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton(
@@ -165,9 +200,17 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         //insertion to database here!!
                         var db = DatabaseHelper();
+<<<<<<< Updated upstream
 
                         ///changes the name/title of the habit
                         widget.habit.habitName = _habitTitleController.text;
+=======
+                        ///changes the name/title of the habit only if User has updated value
+                        if (widget.habit.habitName !=
+                            _habitTitleController.text) {
+                          widget.habit.habitName = _habitTitleController.text;
+                        }
+>>>>>>> Stashed changes
                         //resets streak to 0 since you are changing the habit
                         widget.habit.streakCount = 0;
                         //updates habit in the habit table with the new name and resets the streakCount
@@ -187,6 +230,137 @@ class _HabitTileState extends State<HabitTile> {
           );
         });
   }
+  int _totalMilestones = 0;
+  List<String> inputData = [];
+
+
+  void _getTotalMilestones(currentMilestone, context){
+
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context){
+    return Dialog(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("How many milestones would you like to set?"),
+            const SizedBox(height: 50),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(50, 0, 25, 0),
+              child: DropdownButton<int>(
+                key: UniqueKey(),
+                value: _totalMilestones,
+                  //onTap() try to make it so once it is tapped, the focus goes
+                  //back to the parent?
+                items: <int> [0, 1, 2, 3, 4, 5]
+                  .map<DropdownMenuItem<int>>((int value){
+                    return DropdownMenuItem(
+                      //key: UniqueKey(),
+                      value: value,
+                      child: Text(value.toString()),
+                    );
+                  }).toList(),
+                onChanged: (value) =>
+                  setState(() {
+                    _totalMilestones = value ?? 0;
+                  },), //setState end
+                ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                var db = DatabaseHelper();
+                  //if the total milestones inputed does not match what is in db,
+                  //change db totalmilestones
+                  if (currentMilestone.total != _totalMilestones){
+                    currentMilestone.total = _totalMilestones;
+                  }
+                  db.updateMilestone(currentMilestone);
+                  //updates each milestone for # of days p/ milestone
+                  //_individualMilestoneEdit(context, currentMilestone);
+                  //FocusScope.of(context).unfocus();
+                },
+                child: Text('Next'),
+            ),
+          ],)
+    );
+    });
+  }// _editMilestones()
+
+  void _individualMilestoneEdit(BuildContext context, Milestones currentMilestone){
+  showDialog(
+    context: context,
+    builder: (BuildContext context){
+      //Milestones currentMilestone = Milestones(widget.habit.habitName, 0);
+    return Dialog(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("What is the length of time that will determine the completion of this milestone? \n"
+                        "Example: 3 days, 2 weeks, & 6 months or 0 days, 0 weeks, & 6 months"),
+            const SizedBox(height: 50),
+            ConstrainedBox(
+              constraints:const BoxConstraints( maxHeight: 50, maxWidth: 20),
+              child:
+              ListView.builder(
+                itemCount: _totalMilestones,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: TextField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly],
+                      onChanged: (value){
+                        inputData[index] = value;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'consecutive days of completion',
+                      ),
+                    ),
+                    );
+                }, //itemBuilder
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: TextButton(
+                style: ButtonStyle(
+                backgroundColor:
+                  const MaterialStatePropertyAll<Color>(
+                      Color.fromARGB(255, 255, 174, 60)),
+                minimumSize:
+                        MaterialStateProperty.all(Size(100, 30))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  var db = DatabaseHelper();
+                  //if the total milestones inputed does not match what is in db,
+                  //change db totalmilestones
+                  if (currentMilestone.ms1 != int.parse(inputData[0])){
+                    currentMilestone.ms1 = int.parse(inputData[0]);
+                  }
+                  if (currentMilestone.ms2 != int.parse(inputData[1])){
+                    currentMilestone.ms2 = int.parse(inputData[1]);
+                  }
+                  if (currentMilestone.ms3 != int.parse(inputData[2])){
+                    currentMilestone.ms3 = int.parse(inputData[2]);
+                  }
+                  if (currentMilestone.ms4 != int.parse(inputData[3])){
+                    currentMilestone.ms4 = int.parse(inputData[3]);
+                  }
+                  if (currentMilestone.ms5 != int.parse(inputData[4])){
+                    currentMilestone.ms5 = int.parse(inputData[4]);
+                  }
+                  db.updateMilestone(currentMilestone);
+                  FocusScope.of(context).unfocus();
+                },
+                child: const Text('Submit'),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }// _editMilestones()
+
 
   @override
   Widget build(BuildContext context) {

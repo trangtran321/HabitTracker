@@ -100,7 +100,33 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                   onSaved: (val) => _password = val!,
                   decoration: new InputDecoration(labelText: "Password"),
                 ),
+<<<<<<< Updated upstream
               )
+=======
+                obscureText: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _password = value!,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  _submit();
+                },
+                child: const Text('Login'),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/register');
+                },
+                child: const Text('Don\'t have an account? Register here.'),
+              ),
+>>>>>>> Stashed changes
             ],
           ),
         ),
