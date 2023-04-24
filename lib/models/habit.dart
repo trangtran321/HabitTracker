@@ -10,7 +10,8 @@ class Habit {
       {int id = 0, int streakCount = 0, int completed = 0})
       : _id = id,
         _streakCount = streakCount,
-        _completed = completed,
+        _completed = completed;
+
 
   Habit.map(dynamic obj) {
     _habitName = obj['habitName'];

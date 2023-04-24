@@ -1,18 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:habit_tracker/database/db_helper.dart';
-import 'package:habit_tracker/models/habit.dart';
-import 'package:habit_tracker/models/milestones.dart';
-import 'package:provider/provider.dart';
-import '../../models/user.dart';
-import '../../services.dart/user_provider.dart';
-import 'milestone_tile.dart';
+ import 'package:flutter/material.dart';
+ import 'package:habit_tracker/database/db_helper.dart';
+ import 'package:habit_tracker/models/habit.dart';
+ import 'package:habit_tracker/models/milestones.dart';
+ import 'package:provider/provider.dart';
+ import '../../models/user.dart';
+ import '../../services.dart/user_provider.dart';
+ import 'milestone_tile.dart';
 
 class HabitTile extends StatefulWidget {
   final Habit habit;
   const HabitTile({Key? key, required this.habit}) : super(key: key);
   @override
-  State<HabitTile> createState() => _HabitTileState();
-}
+  State<HabitTile> createState() => _HabitTileState();}
 
 class _HabitTileState extends State<HabitTile> {
   //sets initial states for fields in the HabitTile
@@ -51,10 +50,10 @@ class _HabitTileState extends State<HabitTile> {
   } //end initState()
 
   OverlayEntry _showOverlay(){
-    RenderBox renderBox = context.findRenderObject as RenderBox;
-    var size = renderBox.size;
+    //RenderBox renderBox = context.findRenderObject() as RenderBox;
+    //var size = renderBox.size;
 
-    UserProvider userProvider = Provider.of<UserProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     User? currentUser = userProvider.currentUser;
     int currentUserID = currentUser?.id ?? 0;
 
@@ -62,12 +61,12 @@ class _HabitTileState extends State<HabitTile> {
 
     return OverlayEntry(
       builder: (context) => Positioned(
-        width: size.width,
-        height: size.aspectRatio,
+        width: 300,
+        height: 200,
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: Offset(0.0, size.height + 50.0),
+          offset: const Offset(0.0, 50.0),
           child: IndexedStack(
             alignment: Alignment.center,
             index: _currentIndex,
