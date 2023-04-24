@@ -53,8 +53,6 @@ class DatabaseHelper {
           FOREIGN KEY(userId) REFERENCES User(id))
         ''');
 
-<<<<<<< Updated upstream
-=======
     await db.execute('''CREATE TABLE Milestone(
           id INTEGER PRIMARY KEY,
           total INTEGER,
@@ -67,7 +65,6 @@ class DatabaseHelper {
           FOREIGN KEY(habitName) REFERENCES Habit(habitName))
         ''');
 
->>>>>>> Stashed changes
     print("User Table is created");
   }
 
