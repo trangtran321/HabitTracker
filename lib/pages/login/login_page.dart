@@ -6,9 +6,7 @@ import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/pages/login/login_presenter.dart';
 import 'package:habit_tracker/pages/registration/registration_page.dart';
 import 'package:provider/provider.dart';
-
 import '../../services.dart/user_provider.dart';
-import '../navigation_bar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -100,9 +98,6 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                   onSaved: (val) => _password = val!,
                   decoration: new InputDecoration(labelText: "Password"),
                 ),
-<<<<<<< Updated upstream
-              )
-=======
                 obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -126,7 +121,6 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                 },
                 child: const Text('Don\'t have an account? Register here.'),
               ),
->>>>>>> Stashed changes
             ],
           ),
         ),

@@ -5,13 +5,9 @@ import 'package:habit_tracker/models/habit.dart';
 import 'package:habit_tracker/models/milestones.dart';
 import 'package:provider/provider.dart';
 import '../../models/user.dart';
-<<<<<<< Updated upstream
-import '../../services.dart/user_provider.dart';
-=======
 import '../../services.dart/habit_provider.dart';
 import '../../services.dart/user_provider.dart';
 import 'milestone_tile.dart';
->>>>>>> Stashed changes
 
 class HabitTile extends StatefulWidget {
   final Habit habit;
@@ -27,13 +23,7 @@ class _HabitTileState extends State<HabitTile> {
   bool _isDone = false;
   String _testHabit = '';
   String _habitDescription = '';
-<<<<<<< Updated upstream
-  int _dropDownValue1 = 3;
-  int _dropDownValue2 = 2;
-  int _dropDownValue3 = 2;
-=======
   String streakImage = 'images/fire.png';
->>>>>>> Stashed changes
 
   var db = new DatabaseHelper();
 
@@ -200,17 +190,9 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         //insertion to database here!!
                         var db = DatabaseHelper();
-<<<<<<< Updated upstream
 
                         ///changes the name/title of the habit
                         widget.habit.habitName = _habitTitleController.text;
-=======
-                        ///changes the name/title of the habit only if User has updated value
-                        if (widget.habit.habitName !=
-                            _habitTitleController.text) {
-                          widget.habit.habitName = _habitTitleController.text;
-                        }
->>>>>>> Stashed changes
                         //resets streak to 0 since you are changing the habit
                         widget.habit.streakCount = 0;
                         //updates habit in the habit table with the new name and resets the streakCount

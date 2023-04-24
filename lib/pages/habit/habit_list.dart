@@ -5,7 +5,8 @@ import 'package:habit_tracker/pages/habit/habit_tile.dart';
 import 'package:provider/provider.dart';
 import '../../models/habit.dart';
 import '../../models/user.dart';
-import '../../user_provider.dart';
+import '../../services.dart/user_provider.dart';
+
 
 class HabitList extends StatefulWidget {
   const HabitList({super.key});
