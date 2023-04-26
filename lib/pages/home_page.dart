@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
+import '../services.dart/notificationService.dart';
 import '../services.dart/user_provider.dart';
+import '../utils/notification_button.dart';
 import 'habit/habit_tile.dart';
 import 'package:habit_tracker/models/habit.dart';
 
@@ -47,6 +49,20 @@ class _HomePageState extends State<HomePage> {
       appBar: _buildHeader(),
       body: Stack(
         children: [
+          NotificationButton(
+              text: "time notifications",
+              onPressed: () async {
+                await NotificationService.scheduleNotification(
+                  title: "Time notifications!!",
+                  body: "DO THE THING PLEASE",
+                  Day: 26,
+                  Month: 4,
+                  Year: 2023,
+                  Hour: 16,
+                  Minute: 15,
+                );
+              },
+          ),
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 20,
