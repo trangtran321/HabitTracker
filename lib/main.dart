@@ -1,4 +1,6 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/services.dart/notificationService.dart';
 import 'package:habit_tracker/services.dart/user_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar/calendar_page.dart';
@@ -16,6 +18,43 @@ void main() {
       child: const MainApp(),
     ),
   );
+    AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+          channelDescription: 'Notification channel for basic tests',
+          channelGroupKey: 'high_importance_channel',
+          channelKey: 'high_importance_channel',
+          channelName: 'Basic notifications',
+          defaultColor: Color.fromARGB(248, 248, 180, 86),
+          ledColor: const Color.fromARGB(31, 248, 161, 48),
+          importance: NotificationImportance.Max,
+          channelShowBadge: true,
+          onlyAlertOnce: true,
+          playSound: true,
+          criticalAlerts: true,
+        ),
+
+        NotificationChannel(
+          channelGroupKey: 'reminders',
+          channelKey: 'scheduled_notification',
+          channelName: 'Scheduled Notification',
+          channelDescription: 'Notification channel that triggers notification based on predefined time.',
+          defaultColor: Color.fromARGB(255, 255, 152, 92),
+          ledColor: Colors.black87,
+        ),// NotificationChannel scheduled notification
+      ],
+      channelGroups: [
+        NotificationChannelGroup(
+          channelGroupKey: 'high_importance_channel_group',
+          channelGroupName: 'Group 1',
+        ),
+        NotificationChannelGroup(
+          channelGroupKey: 'reminders',
+          channelGroupName: 'Group 2',),
+      ],
+      debug: true,
+    ); //awesomeNotifications() end
 }
 
 final routes = {
@@ -26,7 +65,7 @@ final routes = {
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
-
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   @override
   _MainAppState createState() => _MainAppState();
 }
@@ -35,15 +74,27 @@ class _MainAppState extends State<MainApp> {
   bool isLoggedIn = false;
   int currentIndex = 0;
 
+
   void login() {
     setState(() {
       isLoggedIn = true;
     });
   }
 
+  void initState() {
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationService.onActionReceivedMethod,
+      onNotificationCreatedMethod: NotificationService.onNotificationCreatedMethod,
+      onNotificationDisplayedMethod: NotificationService.onNotificationDisplayedMethod,
+      onDismissActionReceivedMethod: NotificationService.onDismissActionReceivedMethod,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: MainApp.navigatorKey,
       title: 'HABIT TRACKER',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

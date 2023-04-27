@@ -47,21 +47,20 @@ class DatabaseHelper {
           doneToday INTEGER,
           completed INTEGER,
           streakCount INTEGER,
-          milestones INTEGER,
           userId INTEGER,
           FOREIGN KEY(userId) REFERENCES User(id))
         ''');
 
     // await db.execute('''CREATE TABLE PROGRESS(
     //       id INTEGER PRIMARY KEY,
-    //       habitName TEXT,
-    //       FOREIGN KEY(habit) REFERENCES Habit(habitName),
-    //       totalMilestones INTEGER,
     //       ms1 INTEGER,
     //       ms2 INTEGER,
     //       ms3 INTEGER,
     //       ms4 INTEGER,
-    //       ms5 INTEGER)
+    //       ms5 INTEGER,
+    //       total INTEGER,
+    //       habitName TEXT,
+    //       FOREIGN KEY(habitName) REFERENCES Habit(habitName))
     //     ''');
 
     print("User Table is created");
