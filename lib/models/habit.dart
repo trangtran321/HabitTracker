@@ -8,8 +8,13 @@ class Habit {
   int _userId = 0; //need to change to current userID
 
   Habit(this._habitName, this._doneToday, this._userId,
-      {int id = 0, int streakCount = 0, int completed = 0, int milestones = 0})
+      {int id = 0,
+      int doneToday = 0,
+      int streakCount = 0,
+      int completed = 0,
+      int milestones = 0})
       : _id = id,
+        //_doneToday = doneToday,
         _streakCount = streakCount,
         _completed = completed,
         _milestones = milestones;
@@ -35,6 +40,10 @@ class Habit {
   set habitName(String name) {
     //sets a new name for a habit
     _habitName = name;
+  }
+
+  set doneToday(int done) {
+    _doneToday = done;
   }
 
   set streakCount(int streak) {

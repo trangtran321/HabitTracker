@@ -43,95 +43,112 @@ class _HomePageState extends State<HomePage> {
         currentUserId); //once logged in, this will load the list of habits specific to the current user logged in
 
     return Scaffold(
-      backgroundColor: Colors.amber[100],
+      backgroundColor: Colors.grey[900],
       appBar: _buildHeader(),
-      body: Stack(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 10,
-            ),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                      //creates a list of HabitTiles for each habit in the Habit table
-                      itemCount: _habits.length,
-                      itemBuilder: (context, index) {
-                        return HabitTile(habit: _habits[index]);
-                      }),
-                ),
-              ],
-            ),
+      floatingActionButton: FloatingActionButton(
+          //creates the button to add a habittile to the list and database
+          backgroundColor: Colors.amber,
+          child: const Text(
+            '+',
+            style: TextStyle(fontSize: 32),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(children: [
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(
-                    bottom: 10,
-                    right: 20,
-                    left: 20,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.amber[100],
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0.0, 0.0),
-                        blurRadius: 10.0,
-                        spreadRadius: 0.0,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                      controller: _habitController,
-                      decoration: const InputDecoration(
-                          hintText: 'Add A New Habit To Track!',
-                          border: InputBorder.none)),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(
-                  bottom: 10,
-                  right: 20,
-                ),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    print("Current UserName: " + currentUserId.toString());
-                    Habit habit =
-                        Habit(_habitController.text, 0, currentUserId);
-                    await db.saveHabit(habit);
-                    setState(() {
-                      _habits.add(habit);
-                    });
-                    _habitController.clear();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple[300],
-                    minimumSize: const Size(60, 60),
-                    elevation: 10,
-                  ),
-                  child: const Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )
-            ]),
-          ),
-        ],
-      ),
+          onPressed: () async {
+            Habit habit = Habit(_habitController.text, 0, currentUserId);
+            await db.saveHabit(habit);
+            setState(() {
+              _habits.add(habit);
+            });
+          }),
+      // body: Stack(
+      //   children: [
+      //     Container(
+      //       padding: const EdgeInsets.symmetric(
+      //         horizontal: 20,
+      //         vertical: 10,
+      //       ),
+      //       child: Column(
+      //         children: [
+      //           Expanded(
+      //             child:
+      body: ListView.builder(
+          //creates a list of HabitTiles for each habit in the Habit table
+          padding: const EdgeInsets.all(16),
+          itemCount: _habits.length,
+          itemBuilder: (context, index) {
+            return HabitTile(habit: _habits[index]);
+          }),
+      //),
+      //],
+      //),
+      //),
+      // Align(
+      //   alignment: Alignment.bottomCenter,
+      //   child: Row(children: [
+      //     Expanded(
+      //       child: Container(
+      //         margin: const EdgeInsets.only(
+      //           bottom: 10,
+      //           right: 20,
+      //           left: 20,
+      //         ),
+      //         padding: const EdgeInsets.symmetric(
+      //           horizontal: 20,
+      //           vertical: 10,
+      //         ),
+      //         decoration: BoxDecoration(
+      //           color: Colors.amber[100],
+      //           boxShadow: const [
+      //             BoxShadow(
+      //               color: Colors.grey,
+      //               offset: Offset(0.0, 0.0),
+      //               blurRadius: 10.0,
+      //               spreadRadius: 0.0,
+      //             ),
+      //           ],
+      //           borderRadius: BorderRadius.circular(10),
+      //         ),
+      //         child: TextField(
+      //             controller: _habitController,
+      //             decoration: const InputDecoration(
+      //                 hintText: 'Add A New Habit To Track!',
+      //                 border: InputBorder.none)),
+      //       ),
+      //     ),
+      //     Container(
+      //       margin: const EdgeInsets.only(
+      //       bottom: 10,
+      //       right: 20,
+      //       ),
+      //       child: ElevatedButton(
+      //         onPressed: () async {
+      //           print("Current UserName: " + currentUserId.toString());
+      //           Habit habit =
+      //               Habit(_habitController.text, 0, currentUserId);
+      //           await db.saveHabit(habit);
+      //           setState(() {
+      //             _habits.add(habit);
+      //           });
+      //           _habitController.clear();
+      //         },
+      //         style: ElevatedButton.styleFrom(
+      //           shape: CircleBorder(),
+      //           backgroundColor: Colors.deepPurple[300],
+      //           minimumSize: const Size(60, 60),
+      //           elevation: 10,
+      //         ),
+      //         child: const Text(
+      //           '+',
+      //           style: TextStyle(
+      //             fontSize: 40,
+      //             color: Colors.white,
+      //           ),
+      //         ),
+      //       ),
+      //     )
+      //   ]),
+      // ),
+      //   ],
+      // ),
     );
   }
 

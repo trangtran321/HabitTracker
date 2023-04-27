@@ -20,7 +20,7 @@ void main() {
 
 final routes = {
   '/home': (BuildContext context) => NavigationScreen(currentIndex: 0),
-  '/register': (BuildContext context) => RegisterPage(),
+  '/register': (BuildContext context) => const RegisterPage(),
   '/login': (BuildContext context) => const LoginPage(),
 };
 
@@ -68,8 +68,8 @@ class NavigationScreen extends StatefulWidget {
 List<Widget> screens = [
   const HomePage(),
   const CalendarPage(),
-  ProgressPage(),
-  ChartBuilder(),
+  const ProgressPage(),
+  const ChartBuilder(),
   const ProfilePage(),
 ];
 
