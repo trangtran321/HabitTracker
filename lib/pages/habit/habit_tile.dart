@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:habit_tracker/models/habit.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/user.dart';
 import '../../services.dart/habit_provider.dart';
@@ -34,6 +35,7 @@ class _HabitTileState extends State<HabitTile> {
 
     //creates the overlay that comes up when a habit tile is tapped
     showModalBottomSheet(
+        backgroundColor: Colors.grey[800],
         context: context,
         builder: (BuildContext context) {
           //get this.currentUser ID number to input into newly created habit
@@ -57,9 +59,10 @@ class _HabitTileState extends State<HabitTile> {
                     },
                     controller:
                         _habitTitleController, //allows use of user text input
+                    style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
-                      labelText: 'Enter Habit',
-                    ),
+                        labelText: 'Enter Habit',
+                        labelStyle: TextStyle(color: Colors.white54)),
                   ),
                   TextField(
                     textAlignVertical: TextAlignVertical.top,
@@ -70,27 +73,40 @@ class _HabitTileState extends State<HabitTile> {
                       });
                     },
                     controller: _habitDescriptionController,
+                    style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
-                      contentPadding: EdgeInsetsDirectional.only(bottom: 100),
-                      labelText: 'Describe Your Habit',
-                    ),
+                        contentPadding: EdgeInsetsDirectional.only(bottom: 100),
+                        labelText: 'Describe Your Habit',
+                        labelStyle: TextStyle(color: Colors.white54)),
                   ),
-                  const Text("How Often Do You Want A Milestone?"),
+                  const Text(
+                    "How Often Do You Want A Milestone?",
+                    style: TextStyle(color: Colors.white54),
+                  ),
                   const SizedBox(height: 32),
                   Row(
                     ///Creates a row of text boxes with padding
                     children: const [
                       Padding(
                         padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Text("Milestone 1: Days"),
+                        child: Text(
+                          "Milestone 1: Days",
+                          style: TextStyle(color: Colors.white54),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Text("Milestone 2: Weeks"),
+                        child: Text(
+                          "Milestone 2: Weeks",
+                          style: TextStyle(color: Colors.white54),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Text("Milestone 3: Months"),
+                        child: Text(
+                          "Milestone 3: Months",
+                          style: TextStyle(color: Colors.white54),
+                        ),
                       ),
                     ],
                   ),
@@ -112,7 +128,10 @@ class _HabitTileState extends State<HabitTile> {
                             return DropdownMenuItem<int>(
                               key: UniqueKey(),
                               value: value,
-                              child: Text(value.toString()),
+                              child: Text(
+                                value.toString(),
+                                style: const TextStyle(color: Colors.white54),
+                              ),
                             );
                           }).toList(),
                         ),
@@ -131,7 +150,10 @@ class _HabitTileState extends State<HabitTile> {
                               .map<DropdownMenuItem<int>>((int value) {
                             return DropdownMenuItem<int>(
                               value: value,
-                              child: Text(value.toString()),
+                              child: Text(
+                                value.toString(),
+                                style: const TextStyle(color: Colors.white54),
+                              ),
                             );
                           }).toList(),
                         ),
@@ -150,43 +172,80 @@ class _HabitTileState extends State<HabitTile> {
                               .map<DropdownMenuItem<int>>((int value) {
                             return DropdownMenuItem<int>(
                               value: value,
-                              child: Text(value.toString()),
+                              child: Text(
+                                value.toString(),
+                                style: const TextStyle(color: Colors.white54),
+                              ),
                             );
                           }).toList(),
                         ),
                       ),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: TextButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              const MaterialStatePropertyAll<Color>(
-                                  Color.fromARGB(255, 255, 174, 60)),
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(100, 30))),
-                      onPressed: () {
-                        //insertion to database here!!
-                        var db = DatabaseHelper();
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8.0, 15.0, 8.0, 8.0),
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: TextButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    const MaterialStatePropertyAll<Color>(
+                                        Color.fromARGB(255, 255, 174, 60)),
+                                minimumSize: MaterialStateProperty.all(
+                                    const Size(100, 30))),
+                            onPressed: () {
+                              //insertion to database here!!
+                              var db = DatabaseHelper();
 
-                        ///changes the name/title of the habit only if User has updated value
-                        if (widget.habit.habitName !=
-                            _habitTitleController.text) {
-                          widget.habit.habitName = _habitTitleController.text;
-                        }
-                        //resets streak to 0 since you are changing the habit
-                        widget.habit.streakCount = 0;
-                        //updates habit in the habit table with the new name and resets the streakCount
-                        db.updateHabit(widget.habit);
-                        // clears the text field for entering a habit name
-                        _habitTitleController.clear();
-                      },
-                      child: const Text(
-                        "Submit",
-                        style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                              ///changes the name/title of the habit only if User has updated value
+                              if (widget.habit.habitName !=
+                                  _habitTitleController.text) {
+                                widget.habit.habitName =
+                                    _habitTitleController.text;
+                              }
+                              //resets streak to 0 since you are changing the habit
+                              widget.habit.streakCount = 0;
+                              //updates habit in the habit table with the new name and resets the streakCount
+                              db.updateHabit(widget.habit);
+                              // clears the text field for entering a habit name
+                              _habitTitleController.clear();
+                            },
+                            child: const Text(
+                              "Submit",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      ////Deletes a habit from the list and database
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(186, 15, 8, 8),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: TextButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    const MaterialStatePropertyAll<Color>(
+                                        Color.fromARGB(255, 255, 174, 60)),
+                                minimumSize: MaterialStateProperty.all(
+                                    const Size(100, 30))),
+                            onPressed: () {
+                              //insertion to database here!!
+                              var db = DatabaseHelper();
+                              db.deleteHabit(widget.habit.id);
+                            },
+                            child: const Text(
+                              "Delete",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
@@ -210,44 +269,57 @@ class _HabitTileState extends State<HabitTile> {
         shape: RoundedRectangleBorder(
             borderRadius:
                 BorderRadius.circular(35)), //rounds the border of the tile
-        tileColor: Colors.deepPurple[200],
+        tileColor: Colors.grey[850],
         title: Row(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                widget.habit
-                    .habitName, //allows the text being input by the user to be saved and used
+                //allows the text being input by the user to be saved and used
+                widget.habit.habitName,
+                style: const TextStyle(color: Colors.white54, fontSize: 18),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 15, 8, 15),
-              child: Image.asset(
-                streakImage,
-                height: 50,
+              child: Center(
+                child: Image.asset(
+                  streakImage,
+                  height: 50,
+                ),
               ),
             ),
-            Text(widget.habit.streakCount.toString()),
+            Text(
+              widget.habit.streakCount.toString(),
+              style: const TextStyle(color: Colors.amberAccent, fontSize: 18),
+            ),
           ],
         ),
-        subtitle: const Text('Tap to Edit'),
+        subtitle: const Text(
+          'Tap to Edit',
+          style: TextStyle(color: Colors.white30),
+        ),
         onTap:
             _showOverlay, //opens the overlay box to input the new habit tite, description, etc..
         trailing: Checkbox(
           /// creates the checkbox on the right side of the tile and flips whatever state it is in.
+          fillColor: const MaterialStatePropertyAll<Color>(Colors.amberAccent),
           value: _isDone,
           onChanged: (value) {
             setState(() {
               _isDone = value!;
               if (_isDone == true) {
+                widget.habit.doneToday = 1;
                 widget.habit.streakCount++;
                 db.updateHabit(widget.habit);
               }
               if (_isDone == false) {
+                widget.habit.doneToday = 0;
                 widget.habit.streakCount--;
                 db.updateHabit(widget.habit);
               }
               // if ((isMidnight(DateTime.now())) && (_isDone == true)) {
+              //  widget.habit.doneToday = 0;
               //   widget.habit.streakCount++;
               //   db.updateHabit(widget.habit);
               // }
@@ -257,6 +329,7 @@ class _HabitTileState extends State<HabitTile> {
               // }
             });
           },
+          checkColor: Colors.black,
         ),
       ),
     );

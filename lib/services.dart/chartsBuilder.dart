@@ -59,7 +59,7 @@ class _ChartBuilderState extends State<ChartBuilder> {
     ];
     return Scaffold(
       appBar: _buildHeader(),
-      backgroundColor: Colors.amber[100],
+      backgroundColor: Colors.grey[900],
       body: Center(
         child: Container(
           child: SfCircularChart(
@@ -78,7 +78,10 @@ class _ChartBuilderState extends State<ChartBuilder> {
                   //pointRenderMode: PointRenderMode.segment,
                   radius: '100%')
             ],
-            legend: Legend(isVisible: true),
+            legend: Legend(
+                isVisible: true,
+                textStyle: const TextStyle(color: Colors.white54, fontSize: 14),
+                width: '150%'),
           ),
         ),
       ),

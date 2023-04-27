@@ -80,6 +80,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                 decoration: const InputDecoration(
                   labelText: 'Password',
                 ),
+                obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your password';
