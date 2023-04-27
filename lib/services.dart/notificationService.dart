@@ -106,6 +106,9 @@ static Future<void> onActionReceivedMethod(
         year: Year,
         hour: Hour,
         minute: Minute,
+        timeZone:
+          await AwesomeNotifications().getLocalTimeZoneIdentifier(),
+        preciseAlarm: true,
       ),
       content: NotificationContent(
         id: Random().nextInt(100),
@@ -133,6 +136,9 @@ static Future<void> onActionReceivedMethod(
         hour: Hour,
         minute: Minute,
         repeats: true,
+        timeZone:
+          await AwesomeNotifications().getLocalTimeZoneIdentifier(),
+        preciseAlarm: true,
       ),
       content: NotificationContent(
         id: Random().nextInt(100),
