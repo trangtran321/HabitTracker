@@ -18,43 +18,45 @@ void main() {
       child: const MainApp(),
     ),
   );
-    AwesomeNotifications().initialize(
-      null,
-      [
-        NotificationChannel(
-          channelDescription: 'Notification channel for basic tests',
-          channelGroupKey: 'high_importance_channel',
-          channelKey: 'high_importance_channel',
-          channelName: 'Basic notifications',
-          defaultColor: Color.fromARGB(248, 248, 180, 86),
-          ledColor: const Color.fromARGB(31, 248, 161, 48),
-          importance: NotificationImportance.Max,
-          channelShowBadge: true,
-          onlyAlertOnce: true,
-          playSound: true,
-          criticalAlerts: true,
-        ),
+  AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelDescription: 'Notification channel for basic tests',
+        channelGroupKey: 'high_importance_channel',
+        channelKey: 'high_importance_channel',
+        channelName: 'Basic notifications',
+        defaultColor: Color.fromARGB(248, 248, 180, 86),
+        ledColor: const Color.fromARGB(31, 248, 161, 48),
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        onlyAlertOnce: true,
+        playSound: true,
+        criticalAlerts: false,
+      ),
 
-        NotificationChannel(
-          channelGroupKey: 'reminders',
-          channelKey: 'scheduled_notification',
-          channelName: 'Scheduled Notification',
-          channelDescription: 'Notification channel that triggers notification based on predefined time.',
-          defaultColor: Color.fromARGB(255, 255, 152, 92),
-          ledColor: Colors.black87,
-        ),// NotificationChannel scheduled notification
-      ],
-      channelGroups: [
-        NotificationChannelGroup(
-          channelGroupKey: 'high_importance_channel_group',
-          channelGroupName: 'Group 1',
-        ),
-        NotificationChannelGroup(
-          channelGroupKey: 'reminders',
-          channelGroupName: 'Group 2',),
-      ],
-      debug: true,
-    ); //awesomeNotifications() end
+      NotificationChannel(
+        channelGroupKey: 'reminders',
+        channelKey: 'scheduled_notification',
+        channelName: 'Scheduled Notification',
+        channelDescription:
+            'Notification channel that triggers notification based on predefined time.',
+        defaultColor: Color.fromARGB(255, 255, 152, 92),
+        ledColor: Colors.black87,
+      ), // NotificationChannel scheduled notification
+    ],
+    channelGroups: [
+      NotificationChannelGroup(
+        channelGroupKey: 'high_importance_channel_group',
+        channelGroupName: 'Group 1',
+      ),
+      NotificationChannelGroup(
+        channelGroupKey: 'reminders',
+        channelGroupName: 'Group 2',
+      ),
+    ],
+    debug: true,
+  ); //awesomeNotifications() end
 }
 
 final routes = {
@@ -74,19 +76,22 @@ class _MainAppState extends State<MainApp> {
   bool isLoggedIn = false;
   int currentIndex = 0;
 
-
   void login() {
     setState(() {
       isLoggedIn = true;
     });
   }
 
+  @override
   void initState() {
     AwesomeNotifications().setListeners(
       onActionReceivedMethod: NotificationService.onActionReceivedMethod,
-      onNotificationCreatedMethod: NotificationService.onNotificationCreatedMethod,
-      onNotificationDisplayedMethod: NotificationService.onNotificationDisplayedMethod,
-      onDismissActionReceivedMethod: NotificationService.onDismissActionReceivedMethod,
+      onNotificationCreatedMethod:
+          NotificationService.onNotificationCreatedMethod,
+      onNotificationDisplayedMethod:
+          NotificationService.onNotificationDisplayedMethod,
+      onDismissActionReceivedMethod:
+          NotificationService.onDismissActionReceivedMethod,
     );
     super.initState();
   }

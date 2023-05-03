@@ -45,15 +45,8 @@ class _RegisterPageState extends State<RegisterPage>
   Widget build(BuildContext context) {
     _ctx = context;
     return Scaffold(
-      backgroundColor: Colors.amber[100],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[900],
-        title: const Text('Registration Page',
-            style: TextStyle(
-              color: Colors.amber,
-              fontSize: 25,
-            )),
-      ),
+      backgroundColor: Colors.grey[900],
+      appBar: _buildHeader(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -63,7 +56,17 @@ class _RegisterPageState extends State<RegisterPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.white54),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white54),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white54),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your email';
@@ -74,8 +77,18 @@ class _RegisterPageState extends State<RegisterPage>
               ),
               const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  labelStyle: TextStyle(color: Colors.white54),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white54),
+                  ),
+                ),
                 obscureText: true,
+                style: const TextStyle(color: Colors.white54),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your password';
@@ -129,94 +142,18 @@ class _RegisterPageState extends State<RegisterPage>
     await db.saveUser(user);
     Navigator.of(context).pushNamed("/login");
   }
+
+  AppBar _buildHeader() {
+    return AppBar(
+      backgroundColor: Colors.grey[900],
+      centerTitle: true,
+      title: const Text(
+        'Registration',
+        style: TextStyle(
+          color: Colors.amber,
+          fontSize: 25,
+        ),
+      ),
+    );
+  }
 }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   _ctx = context;
-  //   var registerBtn = new CupertinoButton(
-  //       child: new Text("Register"),
-  //       onPressed: _submit,
-  //       color: Color.fromRGBO(0, 122, 253, 1));
-  //   var loginBtn = new CupertinoButton(
-  //       child: new Text("Login"),
-  //       onPressed: () {
-  //         Navigator.of(context).pushNamed("/login");
-  //       });
-  //   // ignore: unnecessary_new
-  //   var loginForm = new Column(
-  //     crossAxisAlignment: CrossAxisAlignment.center,
-  //     children: <Widget>[
-  //       new Text(
-  //         "Kindly provide your username and password this data can be used later to log in.",
-  //         textScaleFactor: 1,
-  //       ),
-  //       // ignore: unnecessary_new
-  //       new Form(
-  //         key: formKey,
-  //         // ignore: unnecessary_new
-  //         child: new Column(
-  //           children: <Widget>[
-  //             // ignore: unnecessary_new
-  //             new Padding(
-  //               padding: const EdgeInsets.all(10.0),
-  //               // ignore: unnecessary_new
-  //               child: new TextFormField(
-  //                 onSaved: (val) => _username = val!,
-  //                 decoration: new InputDecoration(labelText: "Any Username"),
-  //               ),
-  //             ),
-  //             new Padding(
-  //               padding: const EdgeInsets.all(10.0),
-  //               child: new TextFormField(
-  //                 onSaved: (val) => _password = val!,
-  //                 decoration: new InputDecoration(labelText: "Any Password"),
-  //               ),
-  //             )
-  //           ],
-  //         ),
-  //       ),
-  //       registerBtn,
-  //       loginBtn,
-  //     ],
-  //   );
-
-  //   return new Scaffold(
-  //     appBar: new AppBar(
-  //       title: new Text("Register Page"),
-  //     ),
-  //     key: scaffoldKey,
-  //     body: new Container(
-  //       child: new Center(
-  //         child: loginForm,
-  //       ),
-  //     ),
-  //   );
-  // }
-
-//   @override
-//   void onRegisterError(String error) {
-//     // TODO: implement onRegisterError
-//     // _showSnackBar(error);
-//     setState(() {
-//       _isLoading = false;
-//     });
-//     ScaffoldMessenger.of(context).showSnackBar(
-//           const SnackBar(
-//             content: Text('An error occurred. Please try again later.'),
-//             backgroundColor: Colors.red,
-//     ),);
-//   }
-
-//   @override
-//   void onRegisterSuccess(User user) async {
-//     // TODO: implement onLoginSuccess
-//     // _showSnackBar(user.toString());
-//     setState(() {
-//       _isLoading = false;
-//     });
-//     var db = new DatabaseHelper();
-//     await db.saveUser(user);
-//     Navigator.of(context).pushNamed("/login");
-//   }
-// }

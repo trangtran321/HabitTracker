@@ -4,46 +4,45 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/pages/home_page.dart';
 
-class NotificationService{
-  static Future<void> notificationAllowed() async{
-
+class NotificationService {
+  static Future<void> notificationAllowed() async {
     await AwesomeNotifications().isNotificationAllowed().then(
       (isAllowed) async {
-        if (!isAllowed){
+        if (!isAllowed) {
           await AwesomeNotifications().requestPermissionToSendNotifications();
         }
       },
     );
-
   }
 
   //method to detect when a new notification or schedule is created
-static Future<void> onNotificationCreatedMethod(
-  ReceivedNotification receivedNotification) async {
+  static Future<void> onNotificationCreatedMethod(
+      ReceivedNotification receivedNotification) async {
     debugPrint('onNotificationCreatedMethod');
-}
+  }
 
 //method to detect every time a new notification  is displayed
-static Future<void> onNotificationDisplayedMethod(
-  ReceivedNotification receivedNotification) async {
+  static Future<void> onNotificationDisplayedMethod(
+      ReceivedNotification receivedNotification) async {
     debugPrint('onNotificationDisplayedMethod');
   }
 
 //Method to detect if user dismissed notification
-static Future<void> onDismissActionReceivedMethod(
-  ReceivedAction receivedAction) async {
+  static Future<void> onDismissActionReceivedMethod(
+      ReceivedAction receivedAction) async {
     debugPrint('onDismissActionsReceivedMethod');
   }
 
 //method to detect when user taps on a notification or action button
-static Future<void> onActionReceivedMethod(
-  ReceivedAction receivedAction) async {
+  static Future<void> onActionReceivedMethod(
+      ReceivedAction receivedAction) async {
     debugPrint('onActionReceiveMethod');
     final payload = receivedAction.payload ?? {};
-    if (payload["navigate"] == true){
+    if (payload["navigate"] == true) {
       MainApp.navigatorKey.currentState?.push(
-        MaterialPageRoute(builder: (_) => const HomePage(),
-      ),
+        MaterialPageRoute(
+          builder: (_) => const HomePage(),
+        ),
       );
     }
   }
@@ -77,15 +76,17 @@ static Future<void> onActionReceivedMethod(
         category: category,
         payload: payload,
         bigPicture: bigPicture,
+        backgroundColor: Colors.amber,
       ),
       actionButtons: actionButtons,
-      schedule: scheduled ? NotificationInterval(
-        interval: interval,
-        timeZone:
-          await AwesomeNotifications().getLocalTimeZoneIdentifier(),
-        preciseAlarm: true,
-      )
-      : null,
+      schedule: scheduled
+          ? NotificationInterval(
+              interval: interval,
+              timeZone:
+                  await AwesomeNotifications().getLocalTimeZoneIdentifier(),
+              preciseAlarm: true,
+            )
+          : null,
     );
   }
 
@@ -97,62 +98,61 @@ static Future<void> onActionReceivedMethod(
     required final int Month,
     required final int Year,
     required final int Hour,
-    required final int Minute,}) async{
+    required final int Minute,
+  }) async {
     final AwesomeNotifications awesomeNotifications = AwesomeNotifications();
     return await awesomeNotifications.createNotification(
-      schedule: NotificationCalendar(
-        day: Day,
-        month: Month,
-        year: Year,
-        hour: Hour,
-        minute: Minute,
-      ),
-      content: NotificationContent(
-        id: Random().nextInt(100),
-        title: "Scheduled Notification",
-        body: "This notification goes off at 4 pm on Apr 26, 2023",
-        channelKey: 'scheduled_notification',
-        wakeUpScreen: true,
-        autoDismissible: false,
-        notificationLayout: NotificationLayout.Default,
-        category: NotificationCategory.Reminder,
-      )
-    );
+        schedule: NotificationCalendar(
+          day: Day,
+          month: Month,
+          year: Year,
+          hour: Hour,
+          minute: Minute,
+          repeats: true,
+        ),
+        content: NotificationContent(
+          id: Random().nextInt(100),
+          title: title,
+          body: body,
+          channelKey: 'scheduled_notification',
+          wakeUpScreen: true,
+          autoDismissible: false,
+          notificationLayout: NotificationLayout.Default,
+          category: NotificationCategory.Reminder,
+          backgroundColor: Colors.amber,
+        ));
   }
 
   //this method will repeat notifications everyday at a specific time in the day
-   static Future<bool> dailyNotification({
+  static Future<bool> dailyNotification({
     required final String title,
     required final String body,
     required final int Hour,
     required final int Minute,
-  }) async{
+  }) async {
     final AwesomeNotifications awesomeNotifications = AwesomeNotifications();
     return await awesomeNotifications.createNotification(
-      schedule: NotificationCalendar(
-        hour: Hour,
-        minute: Minute,
-        repeats: true,
-      ),
-      content: NotificationContent(
-        id: Random().nextInt(100),
-        title: "Scheduled Notification",
-        body: "This notification goes off at 4 pm on Apr 26, 2023",
-        channelKey: 'scheduled_notification',
-        wakeUpScreen: true,
-        autoDismissible: false,
-        notificationLayout: NotificationLayout.Default,
-        category: NotificationCategory.Reminder,
-      )
-    );
+        schedule: NotificationCalendar(
+          hour: Hour,
+          minute: Minute,
+          repeats: true,
+        ),
+        content: NotificationContent(
+          id: Random().nextInt(100),
+          title: "Scheduled Notification",
+          body: "This notification goes off at 4 pm on Apr 26, 2023",
+          channelKey: 'scheduled_notification',
+          wakeUpScreen: true,
+          autoDismissible: false,
+          notificationLayout: NotificationLayout.Default,
+          category: NotificationCategory.Reminder,
+        ));
   }
 
   static Future<void> retrieveScheduledNotifications() async {
     final AwesomeNotifications awesomeNotifications = AwesomeNotifications();
     List<NotificationModel> scheduledNotifications =
-      await awesomeNotifications.listScheduledNotifications();
+        await awesomeNotifications.listScheduledNotifications();
     print(scheduledNotifications);
   }
 }
-
-

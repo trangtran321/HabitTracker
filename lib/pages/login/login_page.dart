@@ -45,16 +45,8 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
   Widget build(BuildContext context) {
     _ctx = context;
     return Scaffold(
-      backgroundColor: Colors.amber[100],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[900],
-        centerTitle: true,
-        title: const Text('Login Page',
-            style: TextStyle(
-              color: Colors.amber,
-              fontSize: 25,
-            )),
-      ),
+      backgroundColor: Colors.grey[900],
+      appBar: _buildHeader(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -66,7 +58,15 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.white54),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white54),
+                  ),
                 ),
+                style: const TextStyle(color: Colors.white54),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your email';
@@ -79,7 +79,15 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Password',
+                  labelStyle: TextStyle(color: Colors.white54),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white54),
+                  ),
                 ),
+                style: const TextStyle(color: Colors.white54),
                 obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -94,7 +102,9 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                 onPressed: () {
                   _submit();
                 },
-                child: const Text('Login'),
+                child: const Text(
+                  'Login',
+                ),
               ),
               const SizedBox(height: 16),
               TextButton(
@@ -123,14 +133,6 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
         content: Text('Invalid email or password. Please try again.'),
         backgroundColor: Colors.red,
       ),
-      //else show::
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //       const SnackBar(
-      //         content: Text(
-      //             'An error occurred while logging in. Please try again later.'),
-      //         backgroundColor: Colors.red,
-      //       ),
-      //     );
     );
   } //end onLoginError
 
@@ -145,103 +147,18 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
     //Navigator.of(context).pushNamed("/home");
     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   } //end onLoginSuccess
+
+  AppBar _buildHeader() {
+    return AppBar(
+      backgroundColor: Colors.grey[900],
+      centerTitle: true,
+      title: const Text(
+        'Login Page',
+        style: TextStyle(
+          color: Colors.amber,
+          fontSize: 25,
+        ),
+      ),
+    );
+  }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     _ctx = context;
-
-//     var loginBtn = new CupertinoButton(
-//         child: new Text("Login"),
-//         onPressed: () {
-//           _submit();
-//           print('login button pressed');
-//         },
-//         color: Color.fromRGBO(0, 122, 253, 1));
-//     var registerBtn = new CupertinoButton(
-//         child: new Text("Register"),
-//         onPressed: () {
-//           Navigator.of(context).pushNamed('/register');
-//         });
-//     var loginForm = Column(
-//       crossAxisAlignment: CrossAxisAlignment.center,
-//       children: <Widget>[
-//         new Text(
-//           "If you don't know your username and password you can always register",
-//           textScaleFactor: 1.0,
-//         ),
-//         new Form(
-//           key: formKey,
-//           child: new Column(
-//             children: <Widget>[
-//               new Padding(
-//                 padding: const EdgeInsets.all(10.0),
-//                 child: new TextFormField(
-//                   onSaved: (val) => _username = val!,
-//                   decoration: new InputDecoration(labelText: "Username"),
-//                 ),
-//               ),
-//               new Padding(
-//                 padding: const EdgeInsets.all(10.0),
-//                 child: new TextFormField(
-//                   onSaved: (val) => _password = val!,
-//                   decoration: new InputDecoration(labelText: "Password"),
-//                 ),
-//               )
-//             ],
-//           ),
-//         ),
-//         loginBtn,
-//         registerBtn
-//       ],
-//     );
-
-//     return new Scaffold(
-//       appBar: new AppBar(
-//         title: const Text("Login Page"),
-//       ),
-//       key: scaffoldKey,
-//       body: Container(
-//         child: Center(
-//           child: loginForm,
-//         ),
-//       ),
-//     );
-//   }
-
-//   @override
-//   void onLoginError(String error) {
-//     // TODO: implement onLoginError
-//     //_showSnackBar(error);
-//     setState(() {
-//       _isLoading = false;
-//     });
-//     //need an if statement to check if user exists, if not show this message:
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       const SnackBar(
-//         content: Text('Invalid email or password. Please try again.'),
-//         backgroundColor: Colors.red,
-//       ),
-//     //else show::
-//     // ScaffoldMessenger.of(context).showSnackBar(
-//     //       const SnackBar(
-//     //         content: Text(
-//     //             'An error occurred while logging in. Please try again later.'),
-//     //         backgroundColor: Colors.red,
-//     //       ),
-//     //     );
-//   );
-//   }
-
-//   @override
-//   void onLoginSuccess(User user) async {
-//     // TODO: implement onLoginSuccess
-//     //_showSnackBar(user.toString());
-//     setState(() {
-//       _isLoading = false;
-//       Provider.of<UserProvider>(_ctx, listen: false).setCurrentUser(user);
-//     });
-//     //Navigator.of(context).pushNamed("/home");
-//     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-//   }
-// }

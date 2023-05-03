@@ -59,8 +59,8 @@ class _ProgressPageState extends State<ProgressPage> {
                     ),
                     Expanded(
                       child: GridView.count(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.5,
+                        crossAxisCount: 1,
+                        childAspectRatio: 1.75,
                         shrinkWrap: true,
                         children: awards,
                       ),
@@ -81,12 +81,6 @@ class _ProgressPageState extends State<ProgressPage> {
       awards.add(Image.asset(
         'images/crown.png',
         height: 10,
-      ));
-    }
-    if (habit.doneToday == 1) {
-      awards.add(const Icon(
-        Icons.check_circle,
-        color: Colors.amber,
       ));
     }
     return awards;
