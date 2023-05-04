@@ -11,6 +11,8 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  int selectedHour = 0;
+  int selectedMin = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,14 +24,18 @@ class _CalendarPageState extends State<CalendarPage> {
           style: TextStyle(fontSize: 32),
         ),
         onPressed: () async {
-          // pulls up a date picking widget but it doesnt do anything right now
-          DatePicker.showDateTimePicker(context);
-          //sets hard coded notifcation alert if possible we should update so that the user can specify when they get the notifications
-          NotificationService.dailyNotification(
-              title: "CULTIVATE",
-              body: "Remember to login and check your habits!",
-              Hour: 8,
-              Minute: 30);
+          // pulls up a date picking widget
+          DatePicker.showDateTimePicker(context, showTitleActions: true,
+              onConfirm: (date) {
+            selectedHour = date.hour;
+            selectedMin = date.minute;
+            //sets notifcation alert based on time chosen in the datetime picker
+            NotificationService.dailyNotification(
+                title: "CULTIVATE",
+                body: "Remember to login and check your habits!",
+                Hour: selectedHour,
+                Minute: selectedMin);
+          });
         },
       ),
       body: SfCalendar(
