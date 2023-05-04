@@ -59,6 +59,7 @@ class _HabitTileState extends State<HabitTile> {
                     },
                     controller:
                         _habitTitleController, //allows use of user text input
+                    maxLength: 20,
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
                         labelText: 'Enter Habit',

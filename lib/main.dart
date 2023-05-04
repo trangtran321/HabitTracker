@@ -26,7 +26,7 @@ void main() {
         channelGroupKey: 'high_importance_channel',
         channelKey: 'high_importance_channel',
         channelName: 'Basic notifications',
-        defaultColor: Color.fromARGB(248, 248, 180, 86),
+        defaultColor: const Color.fromARGB(248, 248, 180, 86),
         ledColor: const Color.fromARGB(31, 248, 161, 48),
         importance: NotificationImportance.Max,
         channelShowBadge: true,
@@ -41,7 +41,7 @@ void main() {
         channelName: 'Scheduled Notification',
         channelDescription:
             'Notification channel that triggers notification based on predefined time.',
-        defaultColor: Color.fromARGB(255, 255, 152, 92),
+        defaultColor: const Color.fromARGB(255, 255, 152, 92),
         ledColor: Colors.black87,
       ), // NotificationChannel scheduled notification
     ],

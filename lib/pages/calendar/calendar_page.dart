@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '/services.dart/notificationService.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -22,15 +22,14 @@ class _CalendarPageState extends State<CalendarPage> {
           style: TextStyle(fontSize: 32),
         ),
         onPressed: () async {
+          // pulls up a date picking widget but it doesnt do anything right now
+          DatePicker.showDateTimePicker(context);
           //sets hard coded notifcation alert if possible we should update so that the user can specify when they get the notifications
-          await NotificationService.scheduleNotification(
+          NotificationService.dailyNotification(
               title: "CULTIVATE",
               body: "Remember to login and check your habits!",
-              Day: 3,
-              Month: 5,
-              Year: 2023,
-              Hour: 15,
-              Minute: 15);
+              Hour: 8,
+              Minute: 30);
         },
       ),
       body: SfCalendar(

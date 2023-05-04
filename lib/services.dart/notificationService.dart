@@ -139,8 +139,8 @@ class NotificationService {
         ),
         content: NotificationContent(
           id: Random().nextInt(100),
-          title: "Scheduled Notification",
-          body: "This notification goes off at 4 pm on Apr 26, 2023",
+          title: title,
+          body: body,
           channelKey: 'scheduled_notification',
           wakeUpScreen: true,
           autoDismissible: false,
