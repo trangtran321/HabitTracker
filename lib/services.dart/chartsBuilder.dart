@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:habit_tracker/services.dart/user_provider.dart';
 import 'package:provider/provider.dart';
-//import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:habit_tracker/models/habit.dart';
 import '../models/user.dart';
@@ -38,21 +37,6 @@ class _ChartBuilderState extends State<ChartBuilder> {
     int currUserId = currUser?.id ?? 0;
     _loadHabitList(currUserId);
 
-    // final weekdayList = [
-    //   'Sun',
-    //   'Mon',
-    //   'Tues',
-    //   'Wed',
-    //   'Thur',
-    //   'Fri',
-    //   'Sat',
-    // ];
-
-    // final chartData = [
-    //   for (Habit habit in _habitList)
-    //     {weekdayList.map((day) => ChartData(day, habit.streakCount))}
-    // ];
-
     final List<ChartData> chartData = [
       for (Habit habit in _habitList)
         ChartData(habit.habitName, habit.streakCount),
@@ -63,11 +47,9 @@ class _ChartBuilderState extends State<ChartBuilder> {
       body: Center(
         child: Container(
           child: SfCircularChart(
-            //primaryXAxis: CategoryAxis(),
             series: <CircularSeries>[
               RadialBarSeries<ChartData, String>(
                   dataSource: chartData,
-                  //pointColorMapper: (ChartData data, _) => data.pointColor,
                   xValueMapper: (ChartData data, _) => data.x,
                   yValueMapper: (ChartData data, _) => data.y,
                   dataLabelMapper: (ChartData data, _) => data.y.toString(),
@@ -75,7 +57,6 @@ class _ChartBuilderState extends State<ChartBuilder> {
                       isVisible: true,
                       textStyle: TextStyle(color: Colors.black)),
                   trackColor: Colors.amber,
-                  //pointRenderMode: PointRenderMode.segment,
                   radius: '100%')
             ],
             legend: Legend(
@@ -85,36 +66,6 @@ class _ChartBuilderState extends State<ChartBuilder> {
           ),
         ),
       ),
-      // body: Stack(children: [
-      //   Container(
-      //     child: Column(
-      //       children: [
-      //         Expanded(
-      //           child: ListView.builder(
-      //               itemCount: _habitList.length,
-      //               itemBuilder: (context, index) {
-      //                 Habit habit = _habitList[index];
-      //                 List<ChartData> chartData = [];
-      //                 for (String day in weekdayList) {
-      //                   chartData.add(ChartData(day, habit.streakCount));
-      //                 }
-      //                 return SfCartesianChart(
-      //                   title: ChartTitle(text: habit.habitName),
-      //                   primaryXAxis: CategoryAxis(),
-      //                   series: <ChartSeries>[
-      //                     LineSeries<ChartData, String>(
-      //                       dataSource: chartData,
-      //                       xValueMapper: (data, _) => data.x,
-      //                       yValueMapper: (data, _) => data.y,
-      //                     )
-      //                   ],
-      //                 );
-      //               }),
-      //         )
-      //       ],
-      //     ),
-      //   )
-      // ]),
     );
   }
 
@@ -137,9 +88,7 @@ class ChartData {
   ChartData(
     this.x,
     this.y,
-    //this.pointColor,
   );
   final String x;
   final int y;
-  //final Color? pointColor;
 }
