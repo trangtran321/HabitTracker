@@ -247,8 +247,27 @@ class DatabaseHelper {
   //insertion of milestones into db
   Future<int> saveMilestone(Milestones milestone) async {
     var dbClient = await db;
-    int res = await dbClient.insert("Milestone", milestone.toMap());
-    return res;
+    if (await milestoneExists(milestone)){
+      print('Milestone Already Exists!');
+      return -1;
+    }
+    else {
+      int res = await dbClient.insert("Milestone", milestone.toMap());
+      return res;}
+
+  }
+
+    Future<Milestones> getMilestone(String habitName) async {
+    var dbClient = await db;
+    List<Map<String, dynamic>> res = await dbClient.query(
+      "Milestone",
+      where: '"habitName" = ?',
+      whereArgs: [habitName],
+    );
+    for (var row in res) {
+      return Future<Milestones>.value(Milestones.map(row));
+    }
+    throw 'Something went wrong in getHabit() in db_helper.';
   }
 
   //update milestones
@@ -260,6 +279,7 @@ class DatabaseHelper {
       where: '"id" = ?',
       whereArgs: [milestone.id],
     );
+    print("\n\n\n----made it through & updated!------\n\n\n");
     return res;
   }
 

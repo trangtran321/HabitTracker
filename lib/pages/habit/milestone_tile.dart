@@ -58,7 +58,7 @@ class _MilestoneOverlayState extends State<MilestoneOverlay> with
     OverlayEntry _createOverlay() {
       RenderBox renderBox = context.findRenderObject() as RenderBox;//defaults to empty string
       var size = renderBox.size;
-      Milestones milestone = Milestones(getHabitName(), 0);
+      Milestones milestone = Milestones(getHabitName(), 0, 0, 0, 0);
 
       return OverlayEntry(
         builder: (context) => Positioned(

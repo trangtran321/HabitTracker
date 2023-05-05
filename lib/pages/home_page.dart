@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:provider/provider.dart';
+import '../models/milestones.dart';
 import '../models/user.dart';
 import '../services.dart/user_provider.dart';
 import 'habit/habit_tile4.dart';
@@ -108,7 +109,12 @@ class _HomePageState extends State<HomePage> {
                     print("Current UserName: " + currentUserId.toString());
                     Habit habit =
                         Habit(_habitController.text, 0, currentUserId);
+
                     await db.saveHabit(habit);
+                    // Milestones milestone =
+                    //     Milestones(habit.habitName, 0);
+                    // await db.saveMilestone(milestone);
+
                     setState(() {
                       _habits.add(habit);
                     });

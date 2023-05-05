@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
  import 'package:provider/provider.dart';
  import '../../models/user.dart';
  import '../../services.dart/habit_provider.dart';
+import '../../services.dart/milestone_provider.dart';
 import '../../services.dart/user_provider.dart';
  import 'milestone_tile.dart';
 
@@ -51,54 +52,15 @@ class _HabitTileState extends State<HabitTile> {
     await db.updateMilestone(milestone);
   }
 
-  @override
-  Widget build(BuildContext context){
-    return IndexedStack(
+  void _showOverlay(){
+    //ChangeNotifierProvider(create: (context) => MilestoneProvider());
+
+    IndexedStack(
       alignment: Alignment.center,
       index: _currentIndex,
       children:<Widget>[
-        Padding( //index 0
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        Positioned(
           child: Container(
-            height: 100,
-            margin: const EdgeInsets.only(
-            top: 8,
-            bottom: 8),
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 35),
-              shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(35)),
-              tileColor: Colors.amber[300],
-              title: Text(
-                widget.habit.habitName),
-              subtitle: const Text('Tap to Edit'),
-              onTap: () => {
-                setState((){
-                  _currentIndex = 1;
-                })
-              },
-              trailing: Checkbox(
-                value: _isDone,
-                onChanged: (value){
-                  setState((){
-                    _isDone = value!;
-                    if (_isDone == true){
-                      widget.habit.streakCount++;
-                      db.updateHabit(widget.habit);
-                    }
-                    if (_isDone == false){
-                      widget.habit.streakCount--;
-                      db.updateHabit(widget.habit);
-                    }
-                  });
-                },//end onChanged in Checkbox
-              ),//end Checkbox for streaks
-            ),//end ListTile - the tile that appears on homePage
-          ),//end container that holds listTile
-        ),//end padding
-        Container(
           padding: EdgeInsets.only( bottom: MediaQuery.of(context).viewInsets.bottom),
           width: 400,
           height: 200,
@@ -140,7 +102,7 @@ class _HabitTileState extends State<HabitTile> {
                       ),),
                       onPressed: (){
                         setState(() {
-                          _currentIndex = 2;});//go to index2
+                          _currentIndex = 1;});//go to index2
                       },)
                   )),
                 Expanded(
@@ -165,7 +127,7 @@ class _HabitTileState extends State<HabitTile> {
                             // clears the text field for entering a habit name
                             _habitTitleController.clear();
                             //on submission, this takes you back to original habit tile - not overlay
-                            _currentIndex = 0;
+                            //_currentIndex = 0;
 
                             Milestones milestone = Milestones(widget.habit.habitName, _totalMilestones, ms1, ms2, ms3);
                             updateMilestone(milestone);
@@ -176,8 +138,8 @@ class _HabitTileState extends State<HabitTile> {
                             style: TextStyle(color: Colors.white),
                           ),
                 ),)),
-              ],)),
-        Center(  //this is container to edit milestone totals. Index = 2
+              ],)),),
+        Positioned(  //this is container to edit milestone totals. Index = 1
           child: Container(
             margin: const EdgeInsets.all(10),
             width: 200,
@@ -208,7 +170,7 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         setState(() {
                           _totalMilestones = 0;
-                          _currentIndex = 1;});
+                          _currentIndex = 0;});
                       }),
                     TextButton(
                       style: ButtonStyle(
@@ -224,7 +186,7 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         setState(() {
                           _totalMilestones = 1;
-                          _currentIndex = 3;
+                          _currentIndex = 2;
                          });
                       }),
                     TextButton(
@@ -241,7 +203,7 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         setState(() {
                           _totalMilestones = 2;
-                          _currentIndex = 4;});
+                          _currentIndex = 3;});
                       }),
                     TextButton(
                       style: ButtonStyle(
@@ -257,15 +219,15 @@ class _HabitTileState extends State<HabitTile> {
                       onPressed: () {
                         setState(() {
                           _totalMilestones = 3;
-                          _currentIndex = 5;});
+                          _currentIndex = 4;});
                       }),
                   ],
                 )),
               ],//children of Column index 2
             ),//Column
           ),//Container
-        ),//Center // index 2 - how many milestones page
-        Center(//index 3 - 1 milestone
+        ),//Positioned // index 1 - how many milestones page
+        Positioned(//index 2 - 1 milestone
           child: Container(
             margin: const EdgeInsets.all(10),
             width: 200,
@@ -310,9 +272,9 @@ class _HabitTileState extends State<HabitTile> {
                           ms1 = int.parse(_ms1Edit.text);
                           print("-----------------\n MS1: " + ms1.toString() + "\n----------------");
                           print("totalMilestones: " + _totalMilestones.toString() + "\n----------------------");
-                          _currentIndex = 1;}
+                          _currentIndex = 0;}
                           catch(e){
-                            _currentIndex = 1;
+                            _currentIndex = 0;
                             ms1 = 0;
                             throw new FormatException("Invalid number");
                           }});
@@ -322,176 +284,90 @@ class _HabitTileState extends State<HabitTile> {
                         print("\n\nMilestone Name: " + milestone.habitName + "\n");
                         },),
                   )),
-        ]),)), //end of index3 - 1 milestone edit
-      Center(//index 4 - 2 milestones
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            width: 200,
-            height: 200,
-            color: Colors.amber[200],
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("How many consecutive days of completion would represent \n a milestone to you?"),
-                const Text("Each milestone can be represented by different lengths of time. It's up to you!"),
-                Expanded(child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  onChanged: (value){
-                    setState((){
-                      ms1 = int.parse(value);});
-                  },
-                  controller: _ms1Edit,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Days for First Milestone',
-                  ),
-                  ),),
-                  Expanded(child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  onChanged: (value){
-                    setState((){
-                      ms2 = int.parse(value);});
-                  },
-                  controller: _ms2Edit,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Days for Second Milestone',
-                  ),
-                  ),),
-                  Expanded(child:Align(
-                    alignment: Alignment.bottomCenter,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                          const MaterialStatePropertyAll<Color>(
-                            Color.fromARGB(255, 201, 124, 0)),
-                        minimumSize:
-                          MaterialStateProperty.all(const Size(100, 30))),
-                      child: const Text(
-                        "Submit",
-                        style: TextStyle(
-                          color: Colors.amber,
-                          fontSize: 20,)),
-                      onPressed: () async{
-                        //return to main habit tile edit
-                        setState((){
-                          try{
-                          ms1 = int.parse(_ms1Edit.text);
-                          ms2 = int.parse(_ms2Edit.text);
-                          print("-----------------\n MS1: " + ms1.toString() + "\n----------------");
-                          print("totalMilestones: " + _totalMilestones.toString() + "\n----------------------");
-                          _currentIndex = 1;}
-                          catch(e){
-                            _currentIndex = 1;
-                            ms1 = 0;
-                            ms2 = 0;
-                            throw new FormatException("Invalid number");
-                          }});
-
-                        milestone = Milestones(widget.habit.habitName, _totalMilestones, ms1, ms2, ms3);
-                        await db.saveMilestone(milestone);
-                        print("\n\nMilestone Name: " + milestone.habitName + "\n");
-                        },),
-                  )),
-        ]),)), //end of index4 -- 2 milestones
-      Center(//index 4 - 2 milestones
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            width: 200,
-            height: 200,
-            color: Colors.amber[200],
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("How many consecutive days of completion would represent \n a milestone to you?"),
-                const Text("Each milestone can be represented by different lengths of time. It's up to you!"),
-                Expanded(child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  onChanged: (value){
-                    setState((){
-                      ms1 = int.parse(value);});
-                  },
-                  controller: _ms1Edit,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Days for First Milestone',
-                  ),
-                  ),),
-                  Expanded(child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  onChanged: (value){
-                    setState((){
-                      ms2 = int.parse(value);});
-                  },
-                  controller: _ms2Edit,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Days for Second Milestone',
-                  ),
-                  ),),
-                   Expanded(child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  onChanged: (value){
-                    setState((){
-                      ms3 = int.parse(value);});
-                  },
-                  controller: _ms3Edit,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Days for Third Milestone',
-                  ),
-                  ),),
-                  Expanded(child:Align(
-                    alignment: Alignment.bottomCenter,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                          const MaterialStatePropertyAll<Color>(
-                            Color.fromARGB(255, 201, 124, 0)),
-                        minimumSize:
-                          MaterialStateProperty.all(const Size(100, 30))),
-                      child: const Text(
-                        "Submit",
-                        style: TextStyle(
-                          color: Colors.amber,
-                          fontSize: 20,)),
-                      onPressed: () async{
-                        //return to main habit tile edit
-                        setState((){
-                          try{
-                          ms1 = int.parse(_ms1Edit.text);
-                          ms2 = int.parse(_ms2Edit.text);
-                          ms3 = int.parse(_ms3Edit.text);
-                          print("-----------------\n MS1: " + ms1.toString() + "\n----------------");
-                          print("totalMilestones: " + _totalMilestones.toString() + "\n----------------------");
-                          _currentIndex = 1;}
-                          catch(e){
-                            _currentIndex = 1;
-                            ms1 = 0;
-                            ms2 = 0;
-                            ms3 = 0;
-                            throw new FormatException("Invalid number");
-                          }});
-
-                        milestone = Milestones(widget.habit.habitName, _totalMilestones, ms1, ms2, ms3);
-                        await db.saveMilestone(milestone);
-                        print("\n\nMilestone Name: " + milestone.habitName + "\n");
-                        },),
-                  )),
-        ]),)), //end of index5 -- 3 milestones
-      ] //indexedList children
+        ]),)),//end of index2 - 1 milestone edit
+      ]
     );
   }
 
-}//end habitTileState
+  @override
+  Widget build(BuildContext context) {
+    //Creates the box for the individual Habit
+    return Container(
+      height: 150,
+      margin: const EdgeInsets.only(
+          top: 8, bottom: 8), //adds padding to the top and bottom
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical:
+                35), //adds padding horizontally and vertically to align things inside the tile
+        shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(35)), //rounds the border of the tile
+        tileColor: Colors.grey[850],
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                //allows the text being input by the user to be saved and used
+                widget.habit.habitName,
+                style: const TextStyle(color: Colors.white54, fontSize: 18),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 15, 8, 15),
+              child: Center(
+                child: Image.asset(
+                  streakImage,
+                  height: 50,
+                ),
+              ),
+            ),
+            Text(
+              widget.habit.streakCount.toString(),
+              style: const TextStyle(color: Colors.amberAccent, fontSize: 18),
+            ),
+          ],
+        ),
+        subtitle: const Text(
+          'Tap to Edit',
+          style: TextStyle(color: Colors.white30),
+        ),
+        onTap:
+            _showOverlay, //opens the overlay box to input the new habit tite, description, etc..
+        trailing: Checkbox(
+          /// creates the checkbox on the right side of the tile and flips whatever state it is in.
+          fillColor: const MaterialStatePropertyAll<Color>(Colors.amberAccent),
+          value: _isDone,
+          onChanged: (value) {
+             setState(() {
+            //   _isDone = value!;
+            //   if (_isDone == true) {
+            //     widget.habit.doneToday = 1;
+            //     widget.habit.streakCount++;
+            //     db.updateHabit(widget.habit);
+            //   }
+            //   if (_isDone == false) {
+            //     widget.habit.doneToday = 0;
+            //     widget.habit.streakCount--;
+            //     db.updateHabit(widget.habit);
+            //   }
+              // if ((isMidnight(DateTime.now())) && (_isDone == true)) {
+              //  widget.habit.doneToday = 0;
+              //   widget.habit.streakCount++;
+              //   db.updateHabit(widget.habit);
+              // }
+              // if (isMidnight(DateTime.now()) && (_isDone == false)) {
+              //   widget.habit.streakCount = 0;
+              //   db.updateHabit(widget.habit);
+              // }
+            });
+          },
+          checkColor: Colors.black,
+        ),
+      ),
+    );
+  }
+}
 

@@ -11,15 +11,9 @@ class Milestones {
   //Initializer for the habit that maps to the milestones
   //each potential milestone's day-timeline is defaulted to 0 until user chooses
   //otherwise
-  Milestones(this._habitName, this._total,
-      {int id = 0, int ms1 = 0, int ms2 = 0, int ms3 = 0,
-      int ms4 = 0, int ms5 = 0})
-      : _id = id,
-        _ms1 = ms1,
-        _ms2 = ms2,
-        _ms3 = ms3,
-        _ms4 = ms4,
-        _ms5 = ms5;
+  Milestones(this._habitName, this._total, this._ms1, this._ms2, this._ms3,
+      {int id = 0})
+      : _id = id;
 
   Milestones.map(dynamic obj) {
     this._habitName = obj['habitName'];
