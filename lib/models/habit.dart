@@ -39,6 +39,12 @@ class Habit {
     _streakCount = streak;
   }
 
+  set doneToday(int doneToday){
+    //allows us to determine whether or not user finished task or not.
+    //if not, this triggers our ability to reset the streakCount
+    _doneToday = doneToday;
+  }
+
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map["habitName"] = _habitName;

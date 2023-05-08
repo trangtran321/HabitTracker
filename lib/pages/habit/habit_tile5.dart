@@ -52,10 +52,10 @@ class _HabitTileState extends State<HabitTile> {
     await db.updateMilestone(milestone);
   }
 
-  void _showOverlay(){
+  IndexedStack _showOverlay(){
+    print("GOT INTO OVERLAYYYYYY");
     //ChangeNotifierProvider(create: (context) => MilestoneProvider());
-
-    IndexedStack(
+  return IndexedStack(
       alignment: Alignment.center,
       index: _currentIndex,
       children:<Widget>[
@@ -315,15 +315,15 @@ class _HabitTileState extends State<HabitTile> {
                 style: const TextStyle(color: Colors.white54, fontSize: 18),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(15, 15, 8, 15),
-              child: Center(
-                child: Image.asset(
-                  streakImage,
-                  height: 50,
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(15, 15, 8, 15),
+            //   child: Center(
+            //     child: Image.asset(
+            //       streakImage,
+            //       height: 50,
+            //     ),
+            //   ),
+            // ),
             Text(
               widget.habit.streakCount.toString(),
               style: const TextStyle(color: Colors.amberAccent, fontSize: 18),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/database/db_helper.dart';
 import 'package:habit_tracker/models/milestones.dart';
-import 'package:habit_tracker/pages/habit/habit_tile4.dart';
+import 'package:habit_tracker/pages/habit/habit_tile5.dart';
 import 'package:provider/provider.dart';
 import '../../models/habit.dart';
 import '../../models/user.dart';

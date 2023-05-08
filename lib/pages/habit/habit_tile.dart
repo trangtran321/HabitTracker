@@ -265,8 +265,7 @@ class _HabitTileState extends State<HabitTile> {
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
-            vertical:
-                35), //adds padding horizontally and vertically to align things inside the tile
+            vertical: 35), //adds padding horizontally and vertically to align things inside the tile
         shape: RoundedRectangleBorder(
             borderRadius:
                 BorderRadius.circular(35)), //rounds the border of the tile

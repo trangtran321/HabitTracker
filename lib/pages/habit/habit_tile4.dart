@@ -53,42 +53,68 @@ class _HabitTileState extends State<HabitTile> {
 
   @override
   Widget build(BuildContext context){
-    return IndexedStack(
+    return SingleChildScrollView(child:IndexedStack(
       alignment: Alignment.center,
       index: _currentIndex,
       children:<Widget>[
-        Padding( //index 0
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Container(
-            height: 100,
+        Container( //index 0
+            height: 150,
             margin: const EdgeInsets.only(
-            top: 8,
-            bottom: 8),
+              top: 8,
+              bottom: 8),
             child: ListTile(
               contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 35),
+                horizontal: 16,
+                vertical: 35),
               shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(35)),
-              tileColor: Colors.amber[300],
-              title: Text(
-                widget.habit.habitName),
-              subtitle: const Text('Tap to Edit'),
+                borderRadius: BorderRadius.circular(35)),
+              tileColor: Colors.grey[850],
+              title: Row(
+                children: [
+                  Padding(padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                    //allows the text being input by the user to be saved and used
+                    widget.habit.habitName,
+                    style: const TextStyle(color: Colors.white54, fontSize: 18),
+                    ),
+                  ),
+            //    Padding(
+            //      padding: const EdgeInsets.fromLTRB(15, 15, 8, 15),
+            //      child: Center(
+            //        child: Image.asset(
+            //          streakImage,
+            //          height: 50,
+            //        ),
+            //       ),
+            //    ),
+                  Text(
+                    widget.habit.streakCount.toString(),
+                    style: const TextStyle(color: Colors.amberAccent, fontSize: 18),
+                  ),
+                ],
+              ),
+              subtitle: const Text(
+                'Tap to Edit',
+                style: TextStyle(color: Colors.white30)),
               onTap: () => {
                 setState((){
                   _currentIndex = 1;
                 })
               },
               trailing: Checkbox(
+                fillColor: const MaterialStatePropertyAll<Color>(Colors.amberAccent),
                 value: _isDone,
+                checkColor: Colors.black,
                 onChanged: (value){
                   setState((){
                     _isDone = value!;
                     if (_isDone == true){
+                      widget.habit.doneToday = 1;
                       widget.habit.streakCount++;
                       db.updateHabit(widget.habit);
                     }
                     if (_isDone == false){
+                      widget.habit.doneToday = 1;
                       widget.habit.streakCount--;
                       db.updateHabit(widget.habit);
                     }
@@ -97,15 +123,22 @@ class _HabitTileState extends State<HabitTile> {
               ),//end Checkbox for streaks
             ),//end ListTile - the tile that appears on homePage
           ),//end container that holds listTile
-        ),//end padding
-        Container(
+        Container( //index 1: edit habit name & milestones
           padding: EdgeInsets.only( bottom: MediaQuery.of(context).viewInsets.bottom),
-          width: 400,
-          height: 200,
+          width: 420,
+          height: 150,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: const [BoxShadow(
+              color: Color(0xFF000000),
+              offset: Offset.zero,
+              blurRadius: 0.0,
+              spreadRadius: 0.0),],
+            color: Colors.grey[800]
+            ),
           alignment: Alignment.center,
-          color: Colors.grey[800],
           margin: const EdgeInsets.all(10),
-            child: Column(
+          child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [ //Listview builder change
                 Expanded(
@@ -115,82 +148,125 @@ class _HabitTileState extends State<HabitTile> {
                     },
                     controller: _habitTitleController,
                     maxLength: 20,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white54),
                     decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(8.0),
                       labelText: 'Enter Habit',
                       labelStyle: TextStyle(color: Colors.white54)
                     ),
                 )),
+                Expanded( child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: TextButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                const MaterialStatePropertyAll<Color>(
+                                Color.fromARGB(255, 255, 174, 60)),
+                              minimumSize:
+                                MaterialStateProperty.all(const Size(100, 30))), //button style
+                            onPressed: () {
+                              //insertion to database here!!
+                              var db = DatabaseHelper();
+
+                              ///changes the name/title of the habit only if User has updated value
+                              if (widget.habit.habitName !=
+                                  _habitTitleController.text) {
+                                widget.habit.habitName =
+                                    _habitTitleController.text;
+                              }
+                              //resets streak to 0 since you are changing the habit
+                              widget.habit.streakCount = 0;
+                              //updates habit in the habit table with the new name and resets the streakCount
+                              db.updateHabit(widget.habit);
+                              // clears the text field for entering a habit name
+                              _habitTitleController.clear();
+                              //on submission, this takes you back to original habit tile - not overlay
+                              _currentIndex = 0;
+
+                              Milestones milestone = Milestones(widget.habit.habitName, _totalMilestones, ms1, ms2, ms3);
+                              updateMilestone(milestone);
+                              FocusScope.of(context).unfocus();
+                            },
+                          child: const Text(
+                            "Submit",
+                            style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                          ),
+                ),),),
                 Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 10,
-                      right: 20,),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber[250],
-                        minimumSize: const Size(20, 20),
-                        elevation: 10,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: const MaterialStatePropertyAll<Color>(
+                          Color.fromARGB(255, 255, 174, 60)),
+                        minimumSize: MaterialStateProperty.all(
+                          const Size(100, 30)),
                         ),
-                      child: Text(
+                      child: const Text(
                         'Edit Milestones',
                         style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.grey[600],
+                          color: Color.fromARGB(255,0, 0, 0),
                       ),),
                       onPressed: (){
                         setState(() {
                           _currentIndex = 2;});//go to index2
                       },)
-                  )),
-                Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: TextButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                            const MaterialStatePropertyAll<Color>(
-                             Color.fromARGB(255, 201, 124, 0)),
-                          minimumSize:
-                            MaterialStateProperty.all(const Size(100, 30))), //button style
-                          onPressed: () {
-                            //insertion to database here!!
-                            var db = DatabaseHelper();
-                            ///changes the name/title of the habit
-                            widget.habit.habitName = _habitTitleController.text;
-                            //resets streak to 0 since you are changing the habit
-                            widget.habit.streakCount = 0;
-                            //updates habit in the habit table with the new name and resets the streakCount
-                            db.updateHabit(widget.habit);
-                            // clears the text field for entering a habit name
-                            _habitTitleController.clear();
-                            //on submission, this takes you back to original habit tile - not overlay
-                            _currentIndex = 0;
-
-                            Milestones milestone = Milestones(widget.habit.habitName, _totalMilestones, ms1, ms2, ms3);
-                            updateMilestone(milestone);
-                            FocusScope.of(context).unfocus();
+                  ),),
+                ////Deletes a habit from the list and database
+                  Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: TextButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    const MaterialStatePropertyAll<Color>(
+                                        Color.fromARGB(255, 255, 174, 60)),
+                                minimumSize: MaterialStateProperty.all(
+                                    const Size(100, 30))),
+                            onPressed: () {
+                              //insertion to database here!!
+                              var db = DatabaseHelper();
+                              db.deleteHabit(widget.habit.id);
                             },
-                          child: const Text(
-                            "Submit",
-                            style: TextStyle(color: Colors.white),
+                            child: const Text(
+                              "Delete",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                            ),
                           ),
-                ),)),
+                        ),
+                  ),],),),
               ],)),
         Center(  //this is container to edit milestone totals. Index = 2
           child: Container(
             margin: const EdgeInsets.all(10),
-            width: 200,
-            height: 200,
-            color: Colors.amber[200],
+            width: 400,
+            height: 300,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              boxShadow: const [BoxShadow(
+                color: Color(0xFF000000),
+                offset: Offset.zero,
+                blurRadius: 0.0,
+                spreadRadius: 0.0),],
+              color: Colors.grey[800]
+            ),
+            alignment: Alignment.center,
             child: Column(
               children: [
-                Expanded(child: Text(
+                const Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
                         'Choose how many milestones you would like',
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.grey[600],
-                      ),),),
+                          color: Colors.white54,
+                ),),),),
                 Expanded(child:Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -204,7 +280,7 @@ class _HabitTileState extends State<HabitTile> {
                         "0",
                         style: TextStyle(
                           color: Colors.amber,
-                          fontSize: 20,)),
+                          fontSize: 15,)),
                       onPressed: () {
                         setState(() {
                           _totalMilestones = 0;
@@ -220,7 +296,7 @@ class _HabitTileState extends State<HabitTile> {
                         "1",
                         style: TextStyle(
                           color: Colors.amber,
-                          fontSize: 20,)),
+                          fontSize: 15,)),
                       onPressed: () {
                         setState(() {
                           _totalMilestones = 1;
@@ -237,7 +313,7 @@ class _HabitTileState extends State<HabitTile> {
                         "2",
                         style: TextStyle(
                           color: Colors.amber,
-                          fontSize: 20,)),
+                          fontSize: 15,)),
                       onPressed: () {
                         setState(() {
                           _totalMilestones = 2;
@@ -253,7 +329,7 @@ class _HabitTileState extends State<HabitTile> {
                         "3",
                         style: TextStyle(
                           color: Colors.amber,
-                          fontSize: 20,)),
+                          fontSize: 15,)),
                       onPressed: () {
                         setState(() {
                           _totalMilestones = 3;
@@ -268,14 +344,29 @@ class _HabitTileState extends State<HabitTile> {
         Center(//index 3 - 1 milestone
           child: Container(
             margin: const EdgeInsets.all(10),
-            width: 200,
-            height: 200,
-            color: Colors.amber[200],
+            width: 400,
+            height: 300,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              boxShadow: const [BoxShadow(
+                color: Color(0xFF000000),
+                offset: Offset.zero,
+                blurRadius: 0.0,
+                spreadRadius: 0.0),],
+              color: Colors.grey[800]
+            ),
+            alignment: Alignment.center,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text("How many consecutive days of completion would represent \n an accomplishment to you?"),
-                Expanded(child: TextField(
+                const Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                  "How many consecutive days of completion would represent an accomplishment to you?",
+                  style: TextStyle(color: Colors.white54)),),
+                Expanded(child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -286,10 +377,14 @@ class _HabitTileState extends State<HabitTile> {
                   },
                   controller: _ms1Edit,
                   decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(8.0),
                     labelText: 'Enter Days',
+                    labelStyle: TextStyle(color: Colors.white54),
                   ),
-                  ),),
-                  Expanded(child:Align(
+                  ),),),
+                  Expanded(child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child:Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton(
                       style: ButtonStyle(
@@ -301,7 +396,7 @@ class _HabitTileState extends State<HabitTile> {
                       child: const Text(
                         "Submit",
                         style: TextStyle(
-                          color: Colors.amber,
+                          color: Color.fromARGB(255, 0, 0, 0),
                           fontSize: 20,)),
                       onPressed: () async{
                         //return to main habit tile edit
@@ -321,19 +416,31 @@ class _HabitTileState extends State<HabitTile> {
                         await db.saveMilestone(milestone);
                         print("\n\nMilestone Name: " + milestone.habitName + "\n");
                         },),
-                  )),
+                  )),),
         ]),)), //end of index3 - 1 milestone edit
       Center(//index 4 - 2 milestones
           child: Container(
             margin: const EdgeInsets.all(10),
-            width: 200,
-            height: 200,
-            color: Colors.amber[200],
+            width: 400,
+            height: 300,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              boxShadow: const [BoxShadow(
+                color: Color(0xFF000000),
+                offset: Offset.zero,
+                blurRadius: 0.0,
+                spreadRadius: 0.0),],
+              color: Colors.grey[800]
+              ),
+            alignment: Alignment.center,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text("How many consecutive days of completion would represent \n a milestone to you?"),
-                const Text("Each milestone can be represented by different lengths of time. It's up to you!"),
+                const Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                  "How many consecutive days of completion would represent a milestone to you? Each milestone can be represented by different lengths of time. It's up to you!",
+                  style: TextStyle(color: Colors.white54)),),
                 Expanded(child: TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
@@ -345,7 +452,9 @@ class _HabitTileState extends State<HabitTile> {
                   },
                   controller: _ms1Edit,
                   decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(8.0),
                     labelText: 'Enter Days for First Milestone',
+                    labelStyle: TextStyle(color: Colors.white54)
                   ),
                   ),),
                   Expanded(child: TextField(
@@ -359,7 +468,9 @@ class _HabitTileState extends State<HabitTile> {
                   },
                   controller: _ms2Edit,
                   decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(8.0),
                     labelText: 'Enter Days for Second Milestone',
+                    labelStyle: TextStyle(color: Colors.white54)
                   ),
                   ),),
                   Expanded(child:Align(
@@ -368,14 +479,14 @@ class _HabitTileState extends State<HabitTile> {
                       style: ButtonStyle(
                         backgroundColor:
                           const MaterialStatePropertyAll<Color>(
-                            Color.fromARGB(255, 201, 124, 0)),
+                            Color.fromARGB(255, 255, 174, 60)),
                         minimumSize:
                           MaterialStateProperty.all(const Size(100, 30))),
                       child: const Text(
                         "Submit",
                         style: TextStyle(
-                          color: Colors.amber,
-                          fontSize: 20,)),
+                          color:Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 15,)),
                       onPressed: () async{
                         //return to main habit tile edit
                         setState((){
@@ -401,14 +512,27 @@ class _HabitTileState extends State<HabitTile> {
       Center(//index 4 - 2 milestones
           child: Container(
             margin: const EdgeInsets.all(10),
-            width: 200,
-            height: 200,
-            color: Colors.amber[200],
+            width: 400,
+            height: 300,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              boxShadow: const [BoxShadow(
+                color: Color(0xFF000000),
+                offset: Offset.zero,
+                blurRadius: 0.0,
+                spreadRadius: 0.0),],
+              color: Colors.grey[800]
+            ),
+            alignment: Alignment.center,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text("How many consecutive days of completion would represent \n a milestone to you?"),
-                const Text("Each milestone can be represented by different lengths of time. It's up to you!"),
+                const Padding(
+                    padding: EdgeInsets.all(13.0),
+                    child: Text(
+                  "How many consecutive days of completion would represent a milestone to you? Each milestone can be represented by different lengths of time. It's up to you!",
+                  style: TextStyle(color: Colors.white30),
+                  ),),
                 Expanded(child: TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
@@ -420,7 +544,9 @@ class _HabitTileState extends State<HabitTile> {
                   },
                   controller: _ms1Edit,
                   decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(8.0),
                     labelText: 'Enter Days for First Milestone',
+                    labelStyle: TextStyle(color: Colors.white30),
                   ),
                   ),),
                   Expanded(child: TextField(
@@ -434,7 +560,9 @@ class _HabitTileState extends State<HabitTile> {
                   },
                   controller: _ms2Edit,
                   decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(8.0),
                     labelText: 'Enter Days for Second Milestone',
+                    labelStyle: TextStyle(color: Colors.white30)
                   ),
                   ),),
                    Expanded(child: TextField(
@@ -448,7 +576,9 @@ class _HabitTileState extends State<HabitTile> {
                   },
                   controller: _ms3Edit,
                   decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(8.0),
                     labelText: 'Enter Days for Third Milestone',
+                    labelStyle: TextStyle(color: Colors.white30)
                   ),
                   ),),
                   Expanded(child:Align(
@@ -463,7 +593,7 @@ class _HabitTileState extends State<HabitTile> {
                       child: const Text(
                         "Submit",
                         style: TextStyle(
-                          color: Colors.amber,
+                          color:  Colors.white30,
                           fontSize: 20,)),
                       onPressed: () async{
                         //return to main habit tile edit
@@ -490,7 +620,7 @@ class _HabitTileState extends State<HabitTile> {
                   )),
         ]),)), //end of index5 -- 3 milestones
       ] //indexedList children
-    );
+    ),);
   }
 
 }//end habitTileState
