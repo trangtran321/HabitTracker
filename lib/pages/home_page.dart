@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/user.dart';
 import '../services.dart/notificationService.dart';
 import '../services.dart/user_provider.dart';
-import 'habit/habit_tile.dart';
+import 'habit/habit_tile4.dart';
 import 'package:habit_tracker/models/habit.dart';
 
 class HomePage extends StatefulWidget {
@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.grey[900],
       appBar: _buildHeader(),
       floatingActionButton: FloatingActionButton(
+          heroTag: "plus button",
           //creates the button to add a habittile to the list and database
           backgroundColor: Colors.amber,
           child: const Text(

@@ -138,8 +138,7 @@ class _HabitTileState extends State<HabitTile> {
           child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [ //Listview builder change
-                Expanded(
-                  child: TextField(
+                  TextField(
                     onChanged: (value){
                       setState((){ _testHabit = value;});
                     },
@@ -151,8 +150,8 @@ class _HabitTileState extends State<HabitTile> {
                       labelText: 'Enter Habit',
                       labelStyle: TextStyle(color: Colors.white54)
                     ),
-                )),
-                Expanded( child: Row(
+                ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
@@ -193,28 +192,28 @@ class _HabitTileState extends State<HabitTile> {
                             style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                           ),
                 ),),),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: const MaterialStatePropertyAll<Color>(
-                          Color.fromARGB(255, 255, 174, 60)),
-                        minimumSize: MaterialStateProperty.all(
-                          const Size(100, 30)),
-                        ),
-                      child: const Text(
-                        'Edit Milestones',
-                        style: TextStyle(
-                          color: Color.fromARGB(255,0, 0, 0),
-                      ),),
-                      onPressed: (){
-                        setState(() {
-                          _currentIndex = 2;});//go to index2
-                      },)
-                  ),),
-                ////Deletes a habit from the list and database
-                  Expanded(
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: const MaterialStatePropertyAll<Color>(
+                            Color.fromARGB(255, 255, 174, 60)),
+                            minimumSize: MaterialStateProperty.all(
+                              const Size(100, 30)),
+                          ),
+                          child: const Text(
+                            'Edit Milestones',
+                            style: TextStyle(
+                              color: Color.fromARGB(255,0, 0, 0),
+                          ),),
+                          onPressed: (){
+                            setState(() {
+                              _currentIndex = 2;});//go to index2
+                          },)
+                        ),),
+                    ////Deletes a habit from the list and database
+                    Expanded(
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: TextButton(
@@ -236,8 +235,8 @@ class _HabitTileState extends State<HabitTile> {
                             ),
                           ),
                         ),
-                  ),],),),
-              ],)),
+                  ),],),
+              ],),),
         Center(  //this is container to edit milestone totals. Index = 2
           child: Container(
             margin: const EdgeInsets.all(10),
@@ -255,16 +254,15 @@ class _HabitTileState extends State<HabitTile> {
             alignment: Alignment.center,
             child: Column(
               children: [
-                const Expanded(
-                  child: Padding(
+                const Padding(
                     padding: EdgeInsets.all(15.0),
                     child: Text(
                         'Choose how many milestones you would like',
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.white54,
-                ),),),),
-                Expanded(child:Row(
+                ),),),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
@@ -333,7 +331,7 @@ class _HabitTileState extends State<HabitTile> {
                           _currentIndex = 5;});
                       }),
                   ],
-                )),
+                ),
               ],//children of Column index 2
             ),//Column
           ),//Container
@@ -361,7 +359,7 @@ class _HabitTileState extends State<HabitTile> {
                     child: Text(
                   "How many consecutive days of completion would represent an accomplishment to you?",
                   style: TextStyle(color: Colors.white54)),),
-                Expanded(child: Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: TextField(
                   keyboardType: TextInputType.number,
@@ -378,8 +376,8 @@ class _HabitTileState extends State<HabitTile> {
                     labelText: 'Enter Days',
                     labelStyle: TextStyle(color: Colors.white54),
                   ),
-                  ),),),
-                  Expanded(child: Padding(
+                  ),),
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child:Align(
                     alignment: Alignment.bottomCenter,
@@ -413,7 +411,7 @@ class _HabitTileState extends State<HabitTile> {
                         await db.saveMilestone(milestone);
                         print("\n\nMilestone Name: " + milestone.habitName + "\n");
                         },),
-                  )),),
+                  )),
         ]),)), //end of index3 - 1 milestone edit
       Center(//index 4 - 2 milestones
           child: Container(
@@ -438,7 +436,7 @@ class _HabitTileState extends State<HabitTile> {
                     child: Text(
                   "How many consecutive days of completion would represent a milestone to you? Each milestone can be represented by different lengths of time. It's up to you!",
                   style: TextStyle(color: Colors.white54)),),
-                Expanded(child: TextField(
+                TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -453,8 +451,8 @@ class _HabitTileState extends State<HabitTile> {
                     labelText: 'Enter Days for First Milestone',
                     labelStyle: TextStyle(color: Colors.white54)
                   ),
-                  ),),
-                  Expanded(child: TextField(
+                  ),
+                  TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -469,8 +467,8 @@ class _HabitTileState extends State<HabitTile> {
                     labelText: 'Enter Days for Second Milestone',
                     labelStyle: TextStyle(color: Colors.white54)
                   ),
-                  ),),
-                  Expanded(child:Align(
+                  ),
+                  Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton(
                       style: ButtonStyle(
@@ -504,7 +502,7 @@ class _HabitTileState extends State<HabitTile> {
                         await db.saveMilestone(milestone);
                         print("\n\nMilestone Name: " + milestone.habitName + "\n");
                         },),
-                  )),
+                  ),
         ]),)), //end of index4 -- 2 milestones
       Center(//index 4 - 2 milestones
           child: Container(
@@ -530,7 +528,7 @@ class _HabitTileState extends State<HabitTile> {
                   "How many consecutive days of completion would represent a milestone to you? Each milestone can be represented by different lengths of time. It's up to you!",
                   style: TextStyle(color: Colors.white30),
                   ),),
-                Expanded(child: TextField(
+                TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -545,8 +543,8 @@ class _HabitTileState extends State<HabitTile> {
                     labelText: 'Enter Days for First Milestone',
                     labelStyle: TextStyle(color: Colors.white30),
                   ),
-                  ),),
-                  Expanded(child: TextField(
+                  ),
+                  TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -561,8 +559,8 @@ class _HabitTileState extends State<HabitTile> {
                     labelText: 'Enter Days for Second Milestone',
                     labelStyle: TextStyle(color: Colors.white30)
                   ),
-                  ),),
-                   Expanded(child: TextField(
+                  ),
+                  TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -577,8 +575,8 @@ class _HabitTileState extends State<HabitTile> {
                     labelText: 'Enter Days for Third Milestone',
                     labelStyle: TextStyle(color: Colors.white30)
                   ),
-                  ),),
-                  Expanded(child:Align(
+                  ),
+                  Align(
                     alignment: Alignment.bottomCenter,
                     child: TextButton(
                       style: ButtonStyle(
@@ -614,7 +612,7 @@ class _HabitTileState extends State<HabitTile> {
                         await db.saveMilestone(milestone);
                         print("\n\nMilestone Name: " + milestone.habitName + "\n");
                         },),
-                  )),
+                  ),
         ]),)), //end of index5 -- 3 milestones
       ] //indexedList children
     ),);
