@@ -5,6 +5,8 @@ import 'package:habit_tracker/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:habit_tracker/services.dart/user_provider.dart';
 
+import '../../models/milestones.dart';
+
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
 
@@ -75,11 +77,35 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  List<Widget> _getAwardsforHabit(Habit habit) {
+  Milestones milestone = Milestones("", 0,0,0,0);
+
+  void _getMilestone (Habit habit) async{
+    Milestones currentMilestone = await db.getMilestone(habit.habitName);
+    setState((){
+      milestone = currentMilestone;
+    });
+  }
+
+  List<Widget> _getAwardsforHabit (Habit habit){
     final awards = <Widget>[];
-    if (habit.streakCount >= 3) {
+
+    _getMilestone(habit) ;
+
+    if (habit.streakCount >= milestone.ms1) {
       awards.add(Image.asset(
-        'images/crown.png',
+        'images/shield.png',
+        height: 10,
+      ));
+    }
+    else if (habit.streakCount >= milestone.ms2){
+      awards.add(Image.asset(
+        'images/gem.png',
+        height: 10,
+      ));
+    }
+    else if (habit.streakCount >= milestone.ms3){
+      awards.add(Image.asset(
+        "images/crown.png",
         height: 10,
       ));
     }

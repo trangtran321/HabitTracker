@@ -146,7 +146,28 @@ class _HabitTileState extends State<HabitTile> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  //Listview builder change
+                   Align(
+                    alignment: Alignment.topRight,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                          const MaterialStatePropertyAll<Color>(
+                        Color.fromARGB(255, 255, 174, 60)),
+                        minimumSize: MaterialStateProperty.all(
+                          const Size(5, 5)),
+                      ),
+                      child: const Text(
+                        'x',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _currentIndex = 0;
+                        }); //go to index0
+                      },
+                  )),
                   TextField(
                     onChanged: (value) {
                       setState(() {
