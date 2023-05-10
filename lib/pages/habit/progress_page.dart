@@ -78,6 +78,8 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 
   Milestones milestone = Milestones("", 0,0,0,0);
+  bool _ms1Done = false;
+  bool _ms2Done = false;
 
   void _getMilestone (Habit habit) async{
     Milestones currentMilestone = await db.getMilestone(habit.habitName);
@@ -91,17 +93,19 @@ class _ProgressPageState extends State<ProgressPage> {
 
     _getMilestone(habit) ;
 
-    if (habit.streakCount >= milestone.ms1) {
+    if (habit.streakCount >= milestone.ms1 && !_ms1Done) {
       awards.add(Image.asset(
         'images/shield.png',
         height: 10,
       ));
+      _ms1Done = true;
     }
-    else if (habit.streakCount >= milestone.ms2){
+    else if (habit.streakCount >= milestone.ms2 && !_ms2Done){
       awards.add(Image.asset(
         'images/gem.png',
         height: 10,
       ));
+      _ms2Done = true;
     }
     else if (habit.streakCount >= milestone.ms3){
       awards.add(Image.asset(

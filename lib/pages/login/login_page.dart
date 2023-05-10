@@ -71,6 +71,9 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                   if (value!.isEmpty) {
                     return 'Please enter your email';
                   }
+                  if (!value.contains('@')){
+                    return 'Invalid email';
+                  }
                   return null;
                 },
                 onSaved: (value) => _username = value!,

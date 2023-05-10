@@ -71,6 +71,9 @@ class _RegisterPageState extends State<RegisterPage>
                   if (value!.isEmpty) {
                     return 'Please enter your email';
                   }
+                  if (!value.contains('@')){
+                    return 'Invalid email';
+                  }
                   return null;
                 },
                 onSaved: (value) => _username = value!,
