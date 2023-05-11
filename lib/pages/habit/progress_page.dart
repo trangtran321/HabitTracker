@@ -116,7 +116,7 @@ class _ProgressPageState extends State<ProgressPage> {
     return awards;
   }
 
-  AppBar _buildHeader() {ß
+  AppBar _buildHeader() {
     return AppBar(
       backgroundColor: Colors.grey[900],
       centerTitle: true,
