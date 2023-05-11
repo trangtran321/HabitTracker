@@ -594,13 +594,7 @@ class _HabitTileState extends State<HabitTile> {
                       setState(() {
                         try {
                           ms1 = int.parse(_ms1Edit.text);
-                          ms2 = int.parse(_ms2Edit.text);
-                          print("-----------------\n MS1: " +
-                              ms1.toString() +
-                              "\n----------------");
-                          print("totalMilestones: " +
-                              _totalMilestones.toString() +
-                              "\n----------------------");
+                          ms2 = int.parse(_ms2Edit.text) + ms1;
                           _currentIndex = 1;
                         } catch (e) {
                           _currentIndex = 1;
@@ -762,29 +756,22 @@ class _HabitTileState extends State<HabitTile> {
                       setState(() {
                         try {
                           ms1 = int.parse(_ms1Edit.text);
-                          ms2 = int.parse(_ms2Edit.text);
-                          ms3 = int.parse(_ms3Edit.text);
-                          print("-----------------\n MS1: " +
-                              ms1.toString() +
-                              "\n----------------");
-                          print("totalMilestones: " +
-                              _totalMilestones.toString() +
-                              "\n----------------------");
+                          ms2 = int.parse(_ms2Edit.text) + ms1;
+                          ms3 = int.parse(_ms3Edit.text) + ms2;
+                          //indexed stack reverts back to edit habit screen
                           _currentIndex = 1;
                         } catch (e) {
                           _currentIndex = 1;
                           ms1 = 0;
                           ms2 = 0;
                           ms3 = 0;
-                          throw new FormatException("Invalid number");
+                          throw const FormatException("Invalid number");
                         }
                       });
-
+                      //creates milestone & saves it to db
                       milestone = Milestones(widget.habit.habitName,
                           _totalMilestones, ms1, ms2, ms3);
                       await db.saveMilestone(milestone);
-                      print(
-                          "\n\nMilestone Name: " + milestone.habitName + "\n");
                     },
                   ),
                 ),
