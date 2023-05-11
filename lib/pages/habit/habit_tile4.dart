@@ -459,26 +459,20 @@ class _HabitTileState extends State<HabitTile> {
                           setState(() {
                             try {
                               ms1 = int.parse(_ms1Edit.text);
-                              print("-----------------\n MS1: " +
-                                  ms1.toString() +
-                                  "\n----------------");
-                              print("totalMilestones: " +
-                                  _totalMilestones.toString() +
-                                  "\n----------------------");
                               _currentIndex = 1;
                             } catch (e) {
                               _currentIndex = 1;
                               ms1 = 0;
-                              throw new FormatException("Invalid number");
+                              throw const FormatException("Invalid number");
                             }
                           });
 
-                          milestone = Milestones(widget.habit.habitName,
+                          milestone = Milestones(_testHabit,
                               _totalMilestones, ms1, ms2, ms3);
-                          await db.saveMilestone(milestone);
-                          print("\n\nMilestone Name: " +
-                              milestone.habitName +
-                              "\n");
+                          if (await db.milestoneExists(milestone)){
+                                updateMilestone(milestone);
+                          }
+                          else{await db.saveMilestone(milestone);};
                         },
                       ),
                     )),
@@ -594,21 +588,23 @@ class _HabitTileState extends State<HabitTile> {
                       setState(() {
                         try {
                           ms1 = int.parse(_ms1Edit.text);
-                          ms2 = int.parse(_ms2Edit.text) + ms1;
+                          ms2 = int.parse(_ms2Edit.text);
+                          ms2 = ms2 + ms1;
                           _currentIndex = 1;
                         } catch (e) {
                           _currentIndex = 1;
                           ms1 = 0;
                           ms2 = 0;
-                          throw new FormatException("Invalid number");
+                          throw const FormatException("Invalid number");
                         }
                       });
 
-                      milestone = Milestones(widget.habit.habitName,
+                      milestone = Milestones(_testHabit,
                           _totalMilestones, ms1, ms2, ms3);
-                      await db.saveMilestone(milestone);
-                      print(
-                          "\n\nMilestone Name: " + milestone.habitName + "\n");
+                      if (await db.milestoneExists(milestone)){
+                        updateMilestone(milestone);
+                      }
+                      else {await db.saveMilestone(milestone);};
                     },
                   ),
                 ),
@@ -756,8 +752,10 @@ class _HabitTileState extends State<HabitTile> {
                       setState(() {
                         try {
                           ms1 = int.parse(_ms1Edit.text);
-                          ms2 = int.parse(_ms2Edit.text) + ms1;
-                          ms3 = int.parse(_ms3Edit.text) + ms2;
+                          ms2 = int.parse(_ms2Edit.text);
+                          ms2 = ms2 + ms1;
+                          ms3 = int.parse(_ms3Edit.text);
+                          ms3 = ms3 + ms2;
                           //indexed stack reverts back to edit habit screen
                           _currentIndex = 1;
                         } catch (e) {
@@ -769,9 +767,12 @@ class _HabitTileState extends State<HabitTile> {
                         }
                       });
                       //creates milestone & saves it to db
-                      milestone = Milestones(widget.habit.habitName,
+                      milestone = Milestones(_testHabit,
                           _totalMilestones, ms1, ms2, ms3);
-                      await db.saveMilestone(milestone);
+                      if (await db.milestoneExists(milestone)){
+                        updateMilestone(milestone);
+                      }
+                      else {await db.saveMilestone(milestone);};
                     },
                   ),
                 ),
