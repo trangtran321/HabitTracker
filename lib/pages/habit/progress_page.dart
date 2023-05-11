@@ -93,21 +93,21 @@ class _ProgressPageState extends State<ProgressPage> {
 
     _getMilestone(habit) ;
 
-    if (habit.streakCount >= milestone.ms1 && !_ms1Done) {
+    if (habit.streakCount >= milestone.ms1 && habit.streakCount > 0 && !_ms1Done) {
       awards.add(Image.asset(
         'images/shield.png',
         height: 10,
       ));
       _ms1Done = true;
     }
-    else if (habit.streakCount >= milestone.ms2 && !_ms2Done){
+    else if (habit.streakCount >= milestone.ms2 && !_ms2Done && habit.streakCount > 0){
       awards.add(Image.asset(
         'images/gem.png',
         height: 10,
       ));
       _ms2Done = true;
     }
-    else if (habit.streakCount >= milestone.ms3){
+    else if (habit.streakCount >= milestone.ms3 && habit.streakCount > 0){
       awards.add(Image.asset(
         "images/crown.png",
         height: 10,
@@ -116,7 +116,7 @@ class _ProgressPageState extends State<ProgressPage> {
     return awards;
   }
 
-  AppBar _buildHeader() {
+  AppBar _buildHeader() {ß
     return AppBar(
       backgroundColor: Colors.grey[900],
       centerTitle: true,
