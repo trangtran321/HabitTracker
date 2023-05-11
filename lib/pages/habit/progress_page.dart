@@ -77,35 +77,37 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  Milestones milestone = Milestones("", 0,0,0,0);
+  Milestones milestone = Milestones("", 0, 0, 0, 0);
 
-  void _getMilestone (Habit habit) async{
+  void _getMilestone(Habit habit) async {
     Milestones currentMilestone = await db.getMilestone(habit.habitName);
-    setState((){
+    setState(() {
       milestone = currentMilestone;
     });
   }
 
-  List<Widget> _getAwardsforHabit (Habit habit){
+  List<Widget> _getAwardsforHabit(Habit habit) {
     final awards = <Widget>[];
 
-    _getMilestone(habit) ;
+    _getMilestone(habit);
 
-    if ((habit.streakCount >= milestone.ms1) && (habit.streakCount > 0) && (habit.streakCount < milestone.ms2)
-        && (milestone.ms1 != 0)) {
+    if ((habit.streakCount >= milestone.ms1) &&
+        (habit.streakCount > 0) &&
+        (habit.streakCount < milestone.ms2) &&
+        (milestone.ms1 != 0)) {
       awards.add(Image.asset(
         'images/shield.png',
         height: 10,
       ));
-    }
-    else if ((habit.streakCount >= milestone.ms2) && (habit.streakCount < milestone.ms3) && (habit.streakCount > 0)
-            && (milestone.ms2 != 0)){
+    } else if ((habit.streakCount >= milestone.ms2) &&
+        (habit.streakCount < milestone.ms3) &&
+        (habit.streakCount > 0) &&
+        (milestone.ms2 != 0)) {
       awards.add(Image.asset(
         'images/gem.png',
         height: 10,
       ));
-    }
-    else if (habit.streakCount >= milestone.ms3 && milestone.ms3 != 0){
+    } else if (habit.streakCount >= milestone.ms3 && milestone.ms3 != 0) {
       awards.add(Image.asset(
         "images/crown.png",
         height: 10,

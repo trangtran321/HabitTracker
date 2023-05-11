@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/user.dart';
 import 'package:habit_tracker/pages/login/login_presenter.dart';
-import 'package:habit_tracker/pages/registration/registration_page.dart';
 import 'package:provider/provider.dart';
 import '../../services.dart/user_provider.dart';
 
@@ -71,7 +70,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
                   if (value!.isEmpty) {
                     return 'Please enter your email';
                   }
-                  if (!value.contains('@')){
+                  if (!value.contains('@')) {
                     return 'Invalid email';
                   }
                   return null;
@@ -125,8 +124,6 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
   @override
   void onLoginError(String error) {
-    //TODO implement onLoginError
-    //_showSnackBar(error);
     setState(() {
       _isLoading = false;
     });
@@ -141,13 +138,10 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
   @override
   void onLoginSuccess(User user) async {
-    // TODO implement onLoginSuccess
-    //_showSnackBar(user.toString());
     setState(() {
       _isLoading = false;
       Provider.of<UserProvider>(_ctx, listen: false).setCurrentUser(user);
     });
-    //Navigator.of(context).pushNamed("/home");
     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   } //end onLoginSuccess
 

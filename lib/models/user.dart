@@ -1,9 +1,6 @@
 class User {
   String _userName = "";
   String _passWord = "";
-  // String full_name;
-  // Habit[] habits;
-  // Awards[] awards;
   int _id = 0;
 
   User(this._userName, this._passWord, this._id);
