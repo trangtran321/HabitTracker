@@ -8,8 +8,8 @@
 1.  Promoting a healthy habit - its main objectives are to promote healthy habits and behaviours like regular exercises, healthy eating, consistent sleeping habits
 2.  Developing self awareness - helps the user become more aware of their habits by allowing them to track and analyze progress over time.
 3. Encourage consistency - sending reminders and providing feedback of the daily progress over time, it encourages the user to be consistent and could lead to long term behavior changes.
-4. provididng insights and feedback -
-5. creating accountability - by sending reminders to users and allowing them toshare their progress with friends
+4. Provididng insights and feedback -
+5. Creating accountability - by sending reminders to users 
 
 # Features and Functionality of the App
 1. Create new customizable habits
