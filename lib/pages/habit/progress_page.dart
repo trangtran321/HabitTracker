@@ -46,8 +46,9 @@ class _ProgressPageState extends State<ProgressPage> {
       appBar: _buildHeader(),
       body: _habits.isNotEmpty
           ? GridView.builder(
+              padding: const EdgeInsets.all(12),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, childAspectRatio: 1),
+                  crossAxisCount: 2, childAspectRatio: 1.25),
               itemCount: _habits.length,
               itemBuilder: (context, index) {
                 final habit = _habits[index];
@@ -60,11 +61,21 @@ class _ProgressPageState extends State<ProgressPage> {
                       style: const TextStyle(color: Colors.amber, fontSize: 18),
                     ),
                     Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 1,
-                        childAspectRatio: 1.75,
-                        shrinkWrap: true,
-                        children: awards,
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          border: Border.all(
+                            color: Colors.amber, // Border color
+                            width: 1.0, // Border width
+                          ),
+                        ),
+                        child: GridView.count(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1,
+                          shrinkWrap: true,
+                          children: awards,
+                        ),
                       ),
                     ),
                   ],
@@ -91,17 +102,19 @@ class _ProgressPageState extends State<ProgressPage> {
 
     _getMilestone(habit);
 
-    if ((habit.streakCount >= milestone.ms1) &&
-        (habit.streakCount < milestone.ms2) &&
-        (milestone.ms1 > 0)) {
+    if ((habit.streakCount >= milestone.ms1)) {
+      //&&
+      //(habit.streakCount < milestone.ms2) &&
+      //(milestone.ms1 > 0)) {
       awards.add(Image.asset(
         'images/shield.png',
         height: 10,
       ));
     }
-    if ((habit.streakCount >= milestone.ms2) &&
-        (habit.streakCount < milestone.ms3) &&
-        (milestone.ms2 > 0)) {
+    if ((habit.streakCount >= milestone.ms2)) {
+      //&&
+      //(habit.streakCount < milestone.ms3) &&
+      // (milestone.ms2 > 0)) {
       awards.add(Image.asset(
         'images/gem.png',
         height: 10,
